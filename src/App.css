@@ -140,35 +140,31 @@
   color: var(--line-strong);
 }
 
-.crumb__here {
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  text-transform: lowercase;
-}
-
-.crumb__select-wrap {
+.crumb__menu {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
 
-.crumb__select {
-  appearance: none;
+.crumb__menu-trigger {
+  position: relative;
   padding: 2px 18px 2px 0;
   border: 0;
   background: transparent;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 13px;
+  line-height: 1.2;
   text-transform: lowercase;
   cursor: pointer;
   text-shadow:
     0 1px 5px rgba(255, 255, 255, 0.95),
     0 0 16px rgba(255, 255, 255, 0.75);
+  transition: color var(--micro) var(--ease-out),
+    transform var(--micro) var(--ease-out);
 }
 
-.crumb__select-wrap::after {
+.crumb__menu-trigger::after {
   content: 'v';
   position: absolute;
   right: 0;
@@ -180,10 +176,79 @@
   pointer-events: none;
 }
 
-.crumb__select:hover,
-.crumb__select:focus-visible {
+.crumb__menu-trigger:hover,
+.crumb__menu-trigger:focus-visible,
+.crumb__menu-trigger[aria-expanded='true'] {
   color: var(--ink);
+  transform: translateY(-1px);
   outline: none;
+}
+
+.crumb__menu-list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: -4px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  max-height: 190px;
+  padding: 2px 0 8px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 112, 61, 0.55) transparent;
+  animation: crumbMenuIn 180ms var(--ease-out) both;
+}
+
+.crumb__menu-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.crumb__menu-list::-webkit-scrollbar-thumb {
+  background: rgba(168, 112, 61, 0.5);
+  border-radius: 999px;
+}
+
+.crumb__menu-item {
+  transform-origin: left center;
+  padding: 3px 8px 3px 4px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: left;
+  text-transform: lowercase;
+  cursor: pointer;
+  text-shadow:
+    0 1px 5px rgba(255, 255, 255, 0.95),
+    0 0 14px rgba(255, 255, 255, 0.68);
+  transition: color var(--micro) var(--ease-out),
+    transform 220ms var(--ease-out);
+}
+
+.crumb__menu-item:hover,
+.crumb__menu-item:focus-visible {
+  color: var(--ink);
+  transform: translateX(5px) scale(1.18);
+  outline: none;
+}
+
+.crumb__menu-item.is-current {
+  color: var(--copper);
+}
+
+@keyframes crumbMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .sr-only {

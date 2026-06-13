@@ -12,7 +12,7 @@ const HOME_ARM_TARGETS = [
   { side: 'right', pose: 'contact' },
 ]
 
-// x ∈ [-1,1] left→right, y ∈ [-1,1] bottom→top (per the robot API)
+// x in [-1,1] left to right, y in [-1,1] bottom to top.
 export default function Home({ navigate }) {
   const robotRef = useRef(null)
   const activeArm = useRef(null)
@@ -21,7 +21,6 @@ export default function Home({ navigate }) {
   const [exiting, setExiting] = useState(false)
   const navigating = useRef(false)
 
-  // choose the arm nearest the hovered chip (screen-left chip → left arm)
   const aim = (i) => () => {
     setHovered(i)
     const target = HOME_ARM_TARGETS[i]
@@ -41,7 +40,7 @@ export default function Home({ navigate }) {
     }
   }
 
-  const go = (path, i) => (e) => {
+  const go = (path, i) => () => {
     if (navigating.current) return
     navigating.current = true
     const target = HOME_ARM_TARGETS[i]
@@ -67,7 +66,7 @@ export default function Home({ navigate }) {
     <section className={exiting ? 'home home--exiting' : 'home'}>
       <div className="home__intro">
         <p className="home__eyebrow rise" style={{ animationDelay: '60ms' }}>
-          [ robotics · chips · ai ]
+          [ {profile.line3} ]
         </p>
         <h1 className="home__name rise" style={{ animationDelay: '140ms' }}>
           Pranav
@@ -76,8 +75,6 @@ export default function Home({ navigate }) {
         </h1>
         <p className="home__meta rise" style={{ animationDelay: '240ms' }}>
           {profile.line2}
-          <br />
-          <span className="home__meta-accent">{profile.line3}</span>
         </p>
       </div>
 

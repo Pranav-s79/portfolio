@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { profile, sections } from '../data/portfolio.js'
 import { toHref } from '../routing.js'
 
@@ -6,6 +7,25 @@ const SECTION_OPTIONS = Object.entries(sections)
 // Persistent nav: monogram + name return home; section after the slash.
 // Hidden on the landing page.
 export default function Breadcrumb({ path, navigate }) {
+  const [open, setOpen] = useState(false)
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    if (!open) return
+    const close = (e) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    const closeFromPointer = (e) => {
+      if (!menuRef.current?.contains(e.target)) setOpen(false)
+    }
+    window.addEventListener('keydown', close)
+    window.addEventListener('pointerdown', closeFromPointer)
+    return () => {
+      window.removeEventListener('keydown', close)
+      window.removeEventListener('pointerdown', closeFromPointer)
+    }
+  }, [open])
+
   if (path === '/') return null
   const here = sections[path]
 
@@ -25,21 +45,36 @@ export default function Breadcrumb({ path, navigate }) {
       {here && (
         <>
           <span className="crumb__sep">/</span>
-          <label className="crumb__select-wrap">
-            <span className="sr-only">Jump to section</span>
-            <select
-              className="crumb__select"
-              value={path}
-              onChange={(e) => navigate(e.target.value)}
+          <div className="crumb__menu" ref={menuRef}>
+            <button
+              type="button"
+              className="crumb__menu-trigger"
               aria-label="Jump to section"
+              aria-expanded={open}
+              aria-haspopup="menu"
+              onClick={() => setOpen((next) => !next)}
             >
-              {SECTION_OPTIONS.map(([sectionPath, label]) => (
-                <option key={sectionPath} value={sectionPath}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </label>
+              {here}
+            </button>
+            {open && (
+              <div className="crumb__menu-list" role="menu">
+                {SECTION_OPTIONS.map(([sectionPath, label]) => (
+                  <button
+                    key={sectionPath}
+                    type="button"
+                    className={sectionPath === path ? 'crumb__menu-item is-current' : 'crumb__menu-item'}
+                    role="menuitem"
+                    onClick={() => {
+                      setOpen(false)
+                      navigate(sectionPath)
+                    }}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </>
       )}
     </nav>
