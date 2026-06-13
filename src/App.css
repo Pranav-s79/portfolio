@@ -1448,11 +1448,58 @@
   color: var(--accent);
 }
 
-.contact-fallback {
-  margin-top: 26px;
-  font-size: 14px;
-  line-height: 1.8;
+.send-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+  border-color: var(--line);
   color: var(--muted);
+  transform: none;
+}
+
+/* honeypot — hidden from sight and assistive tech, still in the DOM for bots */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* direct contact: linked icons (GitHub · LinkedIn · Email) */
+.contact-socials {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: color var(--micro) var(--ease-out),
+    border-color var(--micro) var(--ease-out),
+    transform var(--micro) var(--ease-out);
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  color: var(--copper);
+  border-color: var(--copper);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.social-link:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 2px;
 }
 
 .contact-robot {
