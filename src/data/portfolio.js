@@ -177,7 +177,7 @@ export const skillEdges = [
 export const resume = {
   downloads: [
     { label: 'download resume-hardware.pdf', href: 'resumes/resume-hardware.pdf' },
-    { label: 'download resume-software.pdf', href: 'resumes/resume-software.pdf' },
+    { label: 'download resume-software.tex', href: 'resumes/resume-software.tex' },
   ],
   education: [
     {

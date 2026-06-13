@@ -1,0 +1,201 @@
+%-------------------------
+% Resume in Latex
+%------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.1in}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\normalsize
+}{}{0em}{}[\titlerule \vspace{-4pt}]
+
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{\item\small{#1}}
+
+\newcommand{\resumeSubheading}[4]{
+  \item
+  \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & #2 \\
+    \textit{\small #3} & \textit{\small #4} \\
+  \end{tabular*}\vspace{-3pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.13in, label={}, itemsep=2pt]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=*, itemsep=1pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-4pt}}
+
+%-------------------------
+
+\begin{document}
+\begin{center}
+  \textbf{\Huge \scshape Pranav Senthilkumar} \\ \vspace{1pt}
+  \href{mailto:pranav.senthilkumar79@gmail.com}{pranav.senthilkumar79@gmail.com} $|$
+  \href{tel:5127043562}{512-704-3562} $|$
+  \href{https://pranav-s79.github.io/portfolio/}{pranav-s79.github.io/portfolio} $|$
+  \href{https://linkedin.com/in/pranavsen}{linkedin.com/in/pranavsen}
+\end{center}
+
+
+
+
+%-------------------------
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Texas A\&M University}{College Station, TX}
+    {Bachelor of Engineering, Engineering Honors}{Aug. 2025 -- May 2029}
+\resumeSubHeadingListEnd
+
+%-------------------------
+\section{Experience}
+\resumeSubHeadingListStart
+
+% \resumeSubheading
+% {Undergraduate Researcher -- Lake Surveying System}{December 2025 -- Present}
+% {Texas A\&M University, Dr. Stacey Lyle}{College Station, TX}
+% \resumeItemListStart
+%   \resumeItem{Designing a robotic lake surveying system to monitor subsurface creek rerouting infrastructure beneath Aggie Park Lake}
+%   \resumeItem{Planning sonar-based data acquisition using echo sounder and side-scan sonar mounted on a custom-built autonomous survey boat}
+%   \resumeItem{Developing a scalable processing pipeline for geospatial, sonar, and imagery data with parallel computation for large-area mapping}
+% \resumeItemListEnd
+ \resumeSubheading
+    {Student Researcher}{December 2025-Present}
+    {Texas A\&M University}{College Station, TX}
+    \resumeItemListStart
+  \resumeItem{Architecting a sonar-based sensing system for subsurface evaluation of bridge foundation stability (TxDOT collaboration), focusing on signal acquisition, processing, and geospatial integration}
+  \resumeItem{Developing a scalable pipeline for processing echo sounder and side-scan sonar data, including signal conditioning, feature extraction, and visualization of underwater terrain}
+  \resumeItem{Exploring machine learning methods for anomaly detection in sonar signals to identify subsurface movement and geotechnical instability}
+\resumeItemListEnd
+
+\resumeSubheading
+{Researcher Team Lead}{June 2024 -- October 2024}
+{Algoverse AI Research}{Remote}
+\resumeItemListStart
+  \resumeItem{Conducted applied research on calibration and alignment of large language models in ambiguous real-world decision contexts}
+  \resumeItem{Fine-tuned transformer models (Llama-3, Mistral-7B, Zephyr-7B) using QLoRA, achieving up to 31\% improvement in Dirichlet loss}
+  \resumeItem{Designed evaluation pipelines using ethical reasoning datasets to benchmark probabilistic alignment and model behavior under uncertainty}
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-------------------------
+
+\section{Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+\small{\item{
+\textbf{Programming Languages:} Python, C++, Java \\
+\textbf{Scientific / Data Libraries:} NumPy, Pandas, OpenCV, MediaPipe \\
+\textbf{AI / ML:} TensorFlow, PyTorch, Keras, SciKit Learn \\
+\textbf{Systems \& Tools:} GitHub, Firebase, Arduino, KiCad (learning), Microsoft Flight Simulator \\
+\textbf{Productivity Tools:} Microsoft Office, LaTeX
+}}
+\end{itemize}
+%-------------------------
+\section{Projects}
+\resumeSubHeadingListStart
+% \resumeSubheading
+%     {MCU Data Logger PCB}{December 2025 -- January 2026}
+%     {KiCad, Git}{}
+%     \resumeItemListStart
+%       \resumeItem{Designed a 4-layer MCU-based data logger PCB using an ATmega328P-AU, I\textsuperscript{2}C RTC (DS1337), and 512~Kb external EEPROM to support persistent, timestamped data storage}
+%       \resumeItem{Engineered a I\textsuperscript{2}C and power architecture with dedicated ground/power planes, proper decoupling, pull-ups, and timing-critical crystal/RTC layout}
+%       \resumeItem{Managed the complete hardware design lifecycle in KiCad using Git for version control, producing DRC/ERC-clean schematics, PCB layout, BOM, and fabrication-ready outputs}
+%     \resumeItemListEnd
+\resumeSubheading
+    {Haptic Portal}{January 2026 -- Present}
+    {Python, DepthAI, OpenCV, MediaPipe, UDP, KICAD}{}
+    \resumeItemListStart
+      \resumeItem{Developing a real-time vision-to-haptics system that converts hand tracking and Oak-D-Lite camera stereo depth sensing into tactile control signals for interactive haptic devices}
+      \resumeItem{Implemented a depth-processing module that converts stereo depth maps into a compact 5$\times$5 feature matrix, reducing high-resolution depth data into 25 normalized channels for real-time control}
+      \resumeItem{Added temporal filtering and median smoothing to stabilize hand-depth measurements across frames, improving reliability of the real-time haptic signal}
+      \resumeItem{Designing a PCB integrating a Raspberry Pi Pico and PCA9685 drivers, with a structured layout and managed power routing for reliable operation}
+    \resumeItemListEnd
+    
+ \resumeSubheading
+    {AI-Based Push-Up Form Feedback System}{June 2025 -- July 2025}
+    {Python, OpenCV, MediaPipe, NumPy}{}
+    \resumeItemListStart
+      \resumeItem{Engineered a custom push-up detection algorithm using MediaPipe pose landmarks, calculating joint angles and filtering noise for accurate rep counting and posture analysis}
+      \resumeItem{Built a back angle classification system with vector math between scapular, hip, and knee keypoints to assess form accuracy and give corrective feedback}
+      \resumeItem{Implemented orientation correction logic to adapt pose estimation across varied camera angles, improving model generalization}
+      \resumeItem{Designed a real-time visual feedback overlay using OpenCV to display posture ratings and guide proper technique}
+    \resumeItemListEnd
+    %  \resumeSubheading
+    % {Real-Time Sign Language Detection with Deep Learning}{February 2024 -- March 2024}
+    % {Python, TensorFlow, Keras, OpenCV, MediaPipe, NumPy}{}
+    % \resumeItemListStart
+    %   \resumeItem{Built a real-time sign language recognition system using MediaPipe Holistic to extract face, hand, and pose landmarks across video frames}
+    %   \resumeItem{Designed and trained an LSTM-based neural network to classify dynamic gestures ("Hello", "Thanks", "I Love You") using sequences of extracted keypoints}
+    %   \resumeItemListEnd
+% \resumeSubheading
+%     {Breadboard Power Supply PCB}{December 2025}
+%     {KiCad}{}
+%     \resumeItemListStart
+%       \resumeItem{Designed dual-rail breadboard-compatible power supply with DC input, onboard regulators, and indicator LEDs for prototyping}
+%       \resumeItem{Developed the complete hardware stack in KiCad, including schematic capture, footprint assignment, DRC-clean PCB layout, and fabrication outputs}
+%       \resumeItem{Implemented onboard voltage regulation, power indication LEDs, and selectable output headers, enabling safe and repeatable power delivery to external circuits}
+%     \resumeItemListEnd
+
+% \resumeSubheading
+% {Autonomous Push-Up Form Analysis System}{June 2025 -- July 2025}
+% {Python, OpenCV, MediaPipe, NumPy}{}
+% \resumeItemListStart
+%   \resumeItem{Built a real-time human motion analysis system using pose landmarks to detect repetitions and evaluate exercise form}
+%   \resumeItem{Computed joint angles and body alignment using vector geometry to assess posture correctness and detect form breakdown}
+%   \resumeItem{Implemented camera-orientation normalization to improve robustness across varied viewpoints and recording setups}
+% \resumeItemListEnd
+
+
+
+
+% \resumeSubheading
+% {Real-Time Sign Language Recognition System}{February 2024 -- March 2024}
+% {Python, TensorFlow, OpenCV, MediaPipe}{}
+% \resumeItemListStart
+%   \resumeItem{Engineered a real-time gesture recognition pipeline using multimodal pose and hand landmark extraction}
+%   \resumeItem{Trained an LSTM-based sequence model to classify dynamic gestures from temporal keypoint data}
+%   \resumeItem{Integrated live inference and visualization for real-time system feedback}
+% \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+
+%-------------------------
+\section{Publications}
+\begin{itemize}
+  \item Pranav Senthilkumar, et al. \textit{Fine-Tuning Language Models for Ethical Ambiguity: A Comparative Study of Alignment with Human Responses}. Accepted at NeurIPS 2024, SoLaR Workshop. arXiv:2410.07826
+\end{itemize}
+
+%-------------------------
+
+
+\end{document}
