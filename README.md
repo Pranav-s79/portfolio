@@ -58,7 +58,25 @@ handled with the standard SPA fallback (`pathSegmentsToKeep = 1` keeps the
 - An inline decoder in [`index.html`](index.html) restores the real path before
   React mounts, so the router resolves the route normally.
 
-No server-side functionality is used; the site is fully static.
+The frontend is static on GitHub Pages. The contact form can call a separate
+serverless endpoint when `VITE_CONTACT_API_URL` is configured; without that
+value it falls back to a `mailto:` draft.
+
+### Contact form backend
+
+[`api/contact.js`](api/contact.js) is a serverless handler that sends a formatted
+email through Resend. Deploy it to a host that supports Node serverless
+functions, then set these environment variables there:
+
+```bash
+RESEND_API_KEY=re_...
+CONTACT_TO_EMAIL=pranav.senthilkumar79@gmail.com
+CONTACT_FROM_EMAIL="Portfolio Contact <contact@yourdomain.com>"
+CONTACT_ALLOWED_ORIGIN=https://pranav-s79.github.io
+```
+
+Set `VITE_CONTACT_API_URL` for the frontend build to the deployed endpoint, for
+example `https://your-api-host.com/api/contact`. See [`.env.example`](.env.example).
 
 ### Project visuals
 

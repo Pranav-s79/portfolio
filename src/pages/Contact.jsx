@@ -2,13 +2,10 @@ import { useRef, useState } from 'react'
 import { profile } from '../data/portfolio.js'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-// Input caps — keep the generated mailto URL bounded and stop oversized payloads.
 const MAX = { name: 80, email: 120, company: 100, message: 2000 }
-// Minimum gap between sends; blocks rapid-fire / automated resubmission.
 const COOLDOWN_MS = 8000
+const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || ''
 
-// Minimal monochrome line icons — decorative, labelled by their parent link.
 function IconGitHub() {
   return (
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true" focusable="false">
@@ -52,56 +49,79 @@ const EMPTY_FORM = { name: '', email: '', company: '', message: '' }
 export default function Contact() {
   const [form, setForm] = useState(EMPTY_FORM)
   const [invalid, setInvalid] = useState({})
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState('idle')
   const [cooling, setCooling] = useState(false)
-  // honeypot — a hidden field real users never see; bots tend to fill it.
   const honeypot = useRef('')
   const lastSent = useRef(0)
 
   const set = (k) => (e) => {
     setForm((f) => ({ ...f, [k]: e.target.value.slice(0, MAX[k]) }))
     if (invalid[k]) setInvalid((v) => ({ ...v, [k]: false }))
-    setSent(false)
+    setStatus('idle')
   }
 
-  const submit = (e) => {
-    e.preventDefault()
-
-    // Silently drop bot submissions (honeypot filled) — look successful, do nothing.
-    if (honeypot.current) {
-      setSent(true)
-      setForm(EMPTY_FORM)
-      return
-    }
-
-    // Rate-limit: ignore submits inside the cooldown window.
-    const now = Date.now()
-    if (cooling || now - lastSent.current < COOLDOWN_MS) return
-
-    const name = form.name.trim()
-    const company = form.company.trim()
-    const message = form.message.trim()
-    const next = {
-      name: name === '',
-      email: !EMAIL_RE.test(form.email),
-      message: message === '',
-    }
-    setInvalid(next)
-    if (next.name || next.email || next.message) return
-
+  const openMailto = ({ name, company, message }) => {
     const signoff = company ? `- ${name}\n- ${company}` : `- ${name}`
     const body = encodeURIComponent(`${message}\n\n${signoff}`)
     const href = `mailto:${profile.email}?subject=${encodeURIComponent(
       `Portfolio message from ${name}`,
     )}&body=${body}`
-
     window.location.href = href
-    lastSent.current = now
-    setSent(true)
-    setForm(EMPTY_FORM)
+  }
 
-    // brief cooldown so the button can't be hammered
+  const submit = async (e) => {
+    e.preventDefault()
+
+    if (honeypot.current) {
+      setStatus('sent')
+      setForm(EMPTY_FORM)
+      return
+    }
+
+    const now = Date.now()
+    if (cooling || now - lastSent.current < COOLDOWN_MS) return
+
+    const name = form.name.trim()
+    const email = form.email.trim()
+    const company = form.company.trim()
+    const message = form.message.trim()
+    const next = {
+      name: name === '',
+      email: !EMAIL_RE.test(email),
+      message: message === '',
+    }
+    setInvalid(next)
+    if (next.name || next.email || next.message) return
+
     setCooling(true)
+    setStatus('sending')
+
+    if (CONTACT_API_URL) {
+      try {
+        const response = await fetch(CONTACT_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            company,
+            message,
+            website: honeypot.current,
+          }),
+        })
+        if (!response.ok) throw new Error('Contact send failed')
+      } catch {
+        setStatus('error')
+        setCooling(false)
+        return
+      }
+    } else {
+      openMailto({ name, company, message })
+    }
+
+    lastSent.current = now
+    setStatus('sent')
+    setForm(EMPTY_FORM)
     window.setTimeout(() => setCooling(false), COOLDOWN_MS)
   }
 
@@ -151,7 +171,9 @@ export default function Contact() {
             />
           </div>
           <div className={fieldCls('company')}>
-            <label htmlFor="c-company">company <span className="field__optional">(optional)</span></label>
+            <label htmlFor="c-company">
+              company <span className="field__optional">(optional)</span>
+            </label>
             <input
               id="c-company"
               type="text"
@@ -172,7 +194,6 @@ export default function Contact() {
             />
           </div>
 
-          {/* honeypot: visually hidden + off the tab order; ignored by humans */}
           <div className="hp-field" aria-hidden="true">
             <label htmlFor="c-website">website</label>
             <input
@@ -188,9 +209,10 @@ export default function Contact() {
 
           <div className="contact-actions">
             <button type="submit" className="send-btn" disabled={cooling}>
-              {cooling ? 'sent ✓' : 'send →'}
+              {status === 'sending' ? 'sending...' : cooling ? 'sent' : 'send ->'}
             </button>
-            {sent && <span className="send-status">Sent.</span>}
+            {status === 'sent' && <span className="send-status">Sent.</span>}
+            {status === 'error' && <span className="send-status">Could not send.</span>}
           </div>
 
           <div className="contact-socials">
