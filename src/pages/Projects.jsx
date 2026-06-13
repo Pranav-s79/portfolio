@@ -20,9 +20,15 @@ export default function Projects() {
   const matches = (p) => filter === 'All' || p.categories.includes(filter)
   const visible = indexed.filter(matches)
   const open = indexed.find((p) => p.slug === openSlug) || null
+  const openVisibleIndex = open ? visible.findIndex((p) => p.slug === open.slug) : -1
 
   const onOpen = (slug) => setOpenSlug(slug)
   const close = () => setOpenSlug(null)
+  const stepProject = (step) => {
+    if (openVisibleIndex < 0 || visible.length < 2) return
+    const next = visible[(openVisibleIndex + step + visible.length) % visible.length]
+    setOpenSlug(next.slug)
+  }
 
   return (
     <div className="page projects-page fade-in">
@@ -94,7 +100,16 @@ export default function Projects() {
         </div>
       </div>
 
-      {open && <ProjectModal project={open} index={open._index} onClose={close} />}
+      {open && (
+        <ProjectModal
+          project={open}
+          index={open._index}
+          onClose={close}
+          onPrev={() => stepProject(-1)}
+          onNext={() => stepProject(1)}
+          hasNavigation={visible.length > 1}
+        />
+      )}
     </div>
   )
 }

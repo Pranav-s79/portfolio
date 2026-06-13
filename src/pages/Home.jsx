@@ -77,7 +77,7 @@ export default function Home({ navigate }) {
         <p className="home__meta rise" style={{ animationDelay: '240ms' }}>
           {profile.line2}
           <br />
-          {profile.line3}
+          <span className="home__meta-accent">{profile.line3}</span>
         </p>
       </div>
 

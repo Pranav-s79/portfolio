@@ -4,7 +4,7 @@ import { profile } from '../data/portfolio.js'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 // Input caps — keep the generated mailto URL bounded and stop oversized payloads.
-const MAX = { name: 80, email: 120, message: 2000 }
+const MAX = { name: 80, email: 120, company: 100, message: 2000 }
 // Minimum gap between sends; blocks rapid-fire / automated resubmission.
 const COOLDOWN_MS = 8000
 
@@ -47,8 +47,10 @@ function IconEmail() {
   )
 }
 
+const EMPTY_FORM = { name: '', email: '', company: '', message: '' }
+
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [form, setForm] = useState(EMPTY_FORM)
   const [invalid, setInvalid] = useState({})
   const [sent, setSent] = useState(false)
   const [cooling, setCooling] = useState(false)
@@ -68,7 +70,7 @@ export default function Contact() {
     // Silently drop bot submissions (honeypot filled) — look successful, do nothing.
     if (honeypot.current) {
       setSent(true)
-      setForm({ name: '', email: '', message: '' })
+      setForm(EMPTY_FORM)
       return
     }
 
@@ -77,6 +79,7 @@ export default function Contact() {
     if (cooling || now - lastSent.current < COOLDOWN_MS) return
 
     const name = form.name.trim()
+    const company = form.company.trim()
     const message = form.message.trim()
     const next = {
       name: name === '',
@@ -86,7 +89,8 @@ export default function Contact() {
     setInvalid(next)
     if (next.name || next.email || next.message) return
 
-    const body = encodeURIComponent(`${message}\n\n- ${name}`)
+    const signoff = company ? `- ${name}\n- ${company}` : `- ${name}`
+    const body = encodeURIComponent(`${message}\n\n${signoff}`)
     const href = `mailto:${profile.email}?subject=${encodeURIComponent(
       `Portfolio message from ${name}`,
     )}&body=${body}`
@@ -94,7 +98,7 @@ export default function Contact() {
     window.location.href = href
     lastSent.current = now
     setSent(true)
-    setForm({ name: '', email: '', message: '' })
+    setForm(EMPTY_FORM)
 
     // brief cooldown so the button can't be hammered
     setCooling(true)
@@ -146,6 +150,17 @@ export default function Contact() {
               onChange={set('email')}
             />
           </div>
+          <div className={fieldCls('company')}>
+            <label htmlFor="c-company">company <span className="field__optional">(optional)</span></label>
+            <input
+              id="c-company"
+              type="text"
+              autoComplete="organization"
+              maxLength={MAX.company}
+              value={form.company}
+              onChange={set('company')}
+            />
+          </div>
           <div className={fieldCls('message')}>
             <label htmlFor="c-message">message</label>
             <textarea
@@ -159,9 +174,9 @@ export default function Contact() {
 
           {/* honeypot: visually hidden + off the tab order; ignored by humans */}
           <div className="hp-field" aria-hidden="true">
-            <label htmlFor="c-company">company</label>
+            <label htmlFor="c-website">website</label>
             <input
-              id="c-company"
+              id="c-website"
               type="text"
               tabIndex={-1}
               autoComplete="off"

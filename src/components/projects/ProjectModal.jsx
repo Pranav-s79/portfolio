@@ -9,7 +9,7 @@
 import { useEffect, useRef } from 'react'
 import ExpandedPreview from './ExpandedPreview.jsx'
 
-export default function ProjectModal({ project, index, onClose }) {
+export default function ProjectModal({ project, index, onClose, onPrev, onNext, hasNavigation = false }) {
   const p = project
   const cardRef = useRef(null)
   const closeRef = useRef(null)
@@ -26,6 +26,14 @@ export default function ProjectModal({ project, index, onClose }) {
       if (e.key === 'Escape') {
         e.stopPropagation()
         onClose()
+      }
+      if (hasNavigation && e.key === 'ArrowLeft') {
+        e.preventDefault()
+        onPrev?.()
+      }
+      if (hasNavigation && e.key === 'ArrowRight') {
+        e.preventDefault()
+        onNext?.()
       }
       if (e.key === 'Tab') {
         // keep focus within the card
@@ -51,7 +59,7 @@ export default function ProjectModal({ project, index, onClose }) {
       document.body.style.overflow = prevOverflow
       if (opener instanceof HTMLElement) opener.focus()
     }
-  }, [onClose])
+  }, [hasNavigation, onClose, onNext, onPrev])
 
   return (
     <div
@@ -68,6 +76,26 @@ export default function ProjectModal({ project, index, onClose }) {
         aria-labelledby="project-modal-title"
         ref={cardRef}
       >
+        {hasNavigation && (
+          <button
+            type="button"
+            className="project-modal__nav project-modal__nav--prev"
+            aria-label="Previous project"
+            onClick={onPrev}
+          >
+            &larr;
+          </button>
+        )}
+        {hasNavigation && (
+          <button
+            type="button"
+            className="project-modal__nav project-modal__nav--next"
+            aria-label="Next project"
+            onClick={onNext}
+          >
+            &rarr;
+          </button>
+        )}
         <div className="module__expanded-head">
           <div className="module__expanded-titles">
             <h2 id="project-modal-title" className="module__title module__title--expanded">
