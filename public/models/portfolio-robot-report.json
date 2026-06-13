@@ -1,0 +1,120 @@
+{
+  "source": "assets/source/low-poly-humanoid-robot/low_poly_humanoid_robot.glb",
+  "output": "public/models/portfolio-robot.glb",
+  "exportDate": "2026-06-12T10:16:30.521Z",
+  "model": "Low Poly Humanoid Robot",
+  "author": "Denys Almaral",
+  "sourceUrl": "https://sketchfab.com/3d-models/low-poly-humanoid-robot-bad584b9fbe04c85bc57438842969270",
+  "license": "SKETCHFAB Standard (https://sketchfab.com/licenses)",
+  "generator": "Sketchfab-15.49.0",
+  "availableFormats": [
+    "glb"
+  ],
+  "armature": true,
+  "skinned": true,
+  "boneCount": 38,
+  "bones": [
+    "_rootJoint",
+    "lpBip_01",
+    "lpBip Pelvis_02",
+    "lpBip Spine_03",
+    "lpBip Spine1_04",
+    "lpBip Neck_05",
+    "lpBip Head_06",
+    "lpBip HeadNub_07",
+    "lpBip L Clavicle_08",
+    "lpBip L UpperArm_09",
+    "lpBip L Forearm_010",
+    "lpBip L Hand_011",
+    "lpBip L Finger0_012",
+    "lpBip L Finger01_013",
+    "lpBip L Finger0Nub_014",
+    "lpBip L Finger1_015",
+    "lpBip L Finger11_016",
+    "lpBip L Finger1Nub_017",
+    "lpBip R Clavicle_018",
+    "lpBip R UpperArm_019",
+    "lpBip R Forearm_020",
+    "lpBip R Hand_021",
+    "lpBip R Finger0_022",
+    "lpBip R Finger01_023",
+    "lpBip R Finger0Nub_00",
+    "lpBip R Finger1_024",
+    "lpBip R Finger11_025",
+    "lpBip R Finger1Nub_026",
+    "lpBip L Thigh_027",
+    "lpBip L Calf_028",
+    "lpBip L Foot_029",
+    "lpBip L Toe0_030",
+    "lpBip L Toe0Nub_031",
+    "lpBip R Thigh_032",
+    "lpBip R Calf_033",
+    "lpBip R Foot_034",
+    "lpBip R Toe0_035",
+    "lpBip R Toe0Nub_036"
+  ],
+  "animations": [
+    {
+      "name": "walk",
+      "channels": 112
+    },
+    {
+      "name": "tpose",
+      "channels": 109
+    },
+    {
+      "name": "Idle",
+      "channels": 4
+    },
+    {
+      "name": "Throw",
+      "channels": 3
+    }
+  ],
+  "meshes": [
+    "robot_lp_lpRobot_0"
+  ],
+  "materials": [
+    "lpRobot"
+  ],
+  "textures": [
+    {
+      "index": 0,
+      "mimeType": "image/png",
+      "bytes": 3007
+    },
+    {
+      "index": 1,
+      "mimeType": "image/png",
+      "bytes": 181
+    }
+  ],
+  "boundingBox": {
+    "min": [
+      -83.77030944824219,
+      0.010109074413776398,
+      -12.37999153137207
+    ],
+    "max": [
+      83.77030944824219,
+      174.84591674804688,
+      20.896894454956055
+    ]
+  },
+  "dimensions": {
+    "x": 167.54061889648438,
+    "y": 174.8358076736331,
+    "z": 33.276885986328125
+  },
+  "orientation": "Source orientation preserved; runtime camera frames waist-up.",
+  "pose": "Source includes a tpose clip; rest pose is humanoid rig compatible.",
+  "triangleCount": 2552,
+  "blenderImport": "Not verified on this machine.",
+  "materialPlan": "Runtime material remap converts saturated accents to graphite and bright shell areas to warm off-white.",
+  "problemsAndAssumptions": [
+    "Blender was not required for this environment; the script injects lightweight GLTF Idle and Throw clips without altering the original source asset.",
+    "The original walk and tpose clips are preserved.",
+    "The runtime still includes fallback clip authoring if an older GLB without Idle or Throw is loaded.",
+    "Material recolor is runtime-based to avoid destructive source edits."
+  ]
+}
