@@ -16,6 +16,13 @@ export default function ExpandedPreview({ project }) {
           <p className="preview__line">{p.skills.join(' - ')}</p>
         </div>
 
+        {p.awards?.length > 0 && (
+          <div className="preview__group preview__group--awards">
+            <p className="preview__label mono">Awards</p>
+            <p className="preview__line">{p.awards.join(' - ')}</p>
+          </div>
+        )}
+
         <div className="preview__group">
           <p className="preview__label mono">Tech stack</p>
           <p className="preview__line mono">{p.stack.join(' - ')}</p>

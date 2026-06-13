@@ -137,7 +137,7 @@ export default function Contact() {
           Contact
         </h1>
         <p className="page__lead rise" style={{ animationDelay: '180ms' }}>
-          Open to Summer 2026 internships.
+          Open to opportunities.
         </p>
       </header>
 

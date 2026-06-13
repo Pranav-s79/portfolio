@@ -1261,7 +1261,7 @@
 .preview__body {
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 14px;
 }
 
 .preview__overview {
@@ -1274,7 +1274,11 @@
 .preview__group {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 5px;
+}
+
+.preview__group--awards {
+  padding-top: 2px;
 }
 
 .preview__label {

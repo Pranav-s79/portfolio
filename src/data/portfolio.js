@@ -68,6 +68,7 @@ export const projects = [
     media: 'project-media/haptic-portal.jpg',
     oneLine: 'A haptic telepresence system that turns depth into touch.',
     skills: ['Depth sensing', 'Hand tracking', 'Embedded output'],
+    awards: ['Best Presentation @ Aggies Create 2025, 2026'],
     stack: ['Python', 'C++', 'DepthAI', 'MediaPipe', 'RPi Pico', 'Servo array'],
     what:
       'Designed software that maps camera depth and hand tracking into motor commands for a wearable haptic array, helping users feel nearby 3D space through touch.',
