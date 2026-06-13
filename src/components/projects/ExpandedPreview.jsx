@@ -1,10 +1,3 @@
-// ============================================================
-// Inline expanded state for a selected project. Clean two-column layout:
-// left = one real project visual; right = summary, main skills, tech stack,
-// and links. No metadata dashboard, no decorative graphics, no repeated
-// project number — the title/category/year live in the module header above.
-// ============================================================
-
 import ProjectMedia from './ProjectMedia.jsx'
 
 export default function ExpandedPreview({ project }) {
@@ -20,12 +13,12 @@ export default function ExpandedPreview({ project }) {
 
         <div className="preview__group">
           <p className="preview__label mono">Main skills</p>
-          <p className="preview__line">{p.skills.join(' · ')}</p>
+          <p className="preview__line">{p.skills.join(' - ')}</p>
         </div>
 
         <div className="preview__group">
           <p className="preview__label mono">Tech stack</p>
-          <p className="preview__line mono">{p.stack.join(' · ')}</p>
+          <p className="preview__line mono">{p.stack.join(' - ')}</p>
         </div>
 
         <div className="preview__actions">
@@ -35,7 +28,7 @@ export default function ExpandedPreview({ project }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            GitHub ↗
+            GitHub -&gt;
           </a>
           {p.demo && (
             <a
@@ -44,7 +37,7 @@ export default function ExpandedPreview({ project }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              View case study ↗
+              {p.demoLabel || 'Website'} -&gt;
             </a>
           )}
         </div>

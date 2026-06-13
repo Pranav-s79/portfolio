@@ -1,12 +1,3 @@
-// ============================================================
-// A single collapsed project module. Shows every essential detail without
-// interaction: number, title, category + year, one-line purpose, main
-// technologies, and a View Project action. Clicking opens the centered
-// project card (a modal overlay) — the module itself never expands inline.
-//
-// The whole surface is one semantic button (keyboard-operable).
-// ============================================================
-
 import { useState } from 'react'
 
 const SIZE_CLASS = { lg: 'module--lg', tall: 'module--tall', wide: 'module--wide' }
@@ -35,13 +26,13 @@ export default function ProjectModule({ project, index, dimmed, onOpen, style })
         type="button"
         className="module__trigger"
         aria-haspopup="dialog"
-        aria-label={`${p.title} — open project`}
+        aria-label={`${p.title} - open project`}
         onClick={() => onOpen(p.slug)}
       >
         <span className="module__top">
           <span className="module__index mono">{num}</span>
           <span className="module__cat mono">
-            {p.category} · {p.year}
+            {p.category} - {p.year}
           </span>
         </span>
 
@@ -53,7 +44,7 @@ export default function ProjectModule({ project, index, dimmed, onOpen, style })
         <span className="module__foot">
           <span className="module__stack mono">{p.stack.join(' / ')}</span>
           <span className="module__view mono">
-            View project <span className="module__arrow">↗</span>
+            View project <span className="module__arrow">-&gt;</span>
           </span>
         </span>
       </button>

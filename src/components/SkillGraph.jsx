@@ -1,21 +1,17 @@
 import { useEffect, useRef } from 'react'
-import { skillNodes, skillEdges } from '../data/portfolio.js'
-
-// Canvas netlist. Nodes grouped by domain in four clusters, gently
-// drifting. When a domain is active, its nodes brighten and spread,
-// their edges thicken, and everything else dims and freezes.
-// The graph encodes relationship, not self-assessed rank.
+import { skillEdges, skillNodes } from '../data/portfolio.js'
 
 const CLUSTERS = {
-  Silicon: { x: 0.27, y: 0.3 },
+  Hardware: { x: 0.27, y: 0.3 },
   Embedded: { x: 0.73, y: 0.3 },
   Robotics: { x: 0.73, y: 0.72 },
-  'ML / Software': { x: 0.27, y: 0.72 },
+  'Software / ML': { x: 0.27, y: 0.72 },
 }
 
 const INK = '#1c1c1e'
 const LINE = '#cfcdc4'
 const ACCENT = '#4a7fa5'
+const COPPER = '#a8703d'
 const MUTED = '#6f6e68'
 
 export default function SkillGraph({ activeDomain = null }) {
@@ -35,7 +31,6 @@ export default function SkillGraph({ activeDomain = null }) {
     let h = 0
     let dpr = Math.min(window.devicePixelRatio || 1, 2)
 
-    // group nodes by domain and lay them out in a ring per cluster
     const byDomain = {}
     skillNodes.forEach((n) => {
       ;(byDomain[n.domain] ||= []).push(n)
@@ -77,9 +72,9 @@ export default function SkillGraph({ activeDomain = null }) {
       const active = activeRef.current
       const ringR = Math.min(w, h) * 0.16
 
-      // position nodes
       Object.values(nodes).forEach((n) => {
         const c = CLUSTERS[n.domain]
+        if (!c) return
         const cx = c.x * w
         const cy = c.y * h
         const isActive = !active || n.domain === active
@@ -99,7 +94,6 @@ export default function SkillGraph({ activeDomain = null }) {
 
       ctx.clearRect(0, 0, w, h)
 
-      // edges
       skillEdges.forEach(([a, b]) => {
         const na = nodes[a]
         const nb = nodes[b]
@@ -110,7 +104,7 @@ export default function SkillGraph({ activeDomain = null }) {
         ctx.lineTo(nb.x, nb.y)
         if (bothActive) {
           ctx.strokeStyle = ACCENT
-          ctx.globalAlpha = 0.5
+          ctx.globalAlpha = 0.48
           ctx.lineWidth = 1.4
         } else if (active) {
           ctx.strokeStyle = LINE
@@ -118,31 +112,40 @@ export default function SkillGraph({ activeDomain = null }) {
           ctx.lineWidth = 1
         } else {
           ctx.strokeStyle = LINE
-          ctx.globalAlpha = 0.5
+          ctx.globalAlpha = 0.46
           ctx.lineWidth = 1
         }
         ctx.stroke()
       })
       ctx.globalAlpha = 1
 
-      // nodes + labels
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
       ctx.font = '12px "JetBrains Mono", monospace'
       Object.values(nodes).forEach((n) => {
         const dim = active && !n._active
         const highlight = active && n._active
+        const isLearning = n.level === 'learning'
+        const nodeColor = isLearning ? COPPER : INK
 
         ctx.globalAlpha = dim ? 0.1 : 1
         ctx.beginPath()
-        ctx.arc(n.x, n.y, highlight ? 4.5 : 3.5, 0, Math.PI * 2)
-        ctx.fillStyle = highlight ? ACCENT : INK
+        ctx.arc(n.x, n.y, highlight ? 5 : 4, 0, Math.PI * 2)
+        ctx.fillStyle = highlight ? ACCENT : nodeColor
         ctx.fill()
 
-        // label
+        if (isLearning) {
+          ctx.beginPath()
+          ctx.arc(n.x, n.y, highlight ? 8 : 7, 0, Math.PI * 2)
+          ctx.strokeStyle = COPPER
+          ctx.globalAlpha = dim ? 0.08 : 0.58
+          ctx.lineWidth = 1
+          ctx.stroke()
+        }
+
         ctx.fillStyle = highlight ? INK : MUTED
-        ctx.globalAlpha = dim ? 0.1 : highlight ? 1 : 0.75
-        ctx.fillText(n.label, n.x, n.y - 13)
+        ctx.globalAlpha = dim ? 0.1 : highlight ? 1 : 0.78
+        ctx.fillText(n.label, n.x, n.y - 14)
       })
       ctx.globalAlpha = 1
     }

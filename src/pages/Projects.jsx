@@ -6,15 +6,11 @@ import ProjectModal from '../components/projects/ProjectModal.jsx'
 
 const FILTERS = ['All', ...projectCategories]
 
-// keep the page recognizable: same 02 — PROJECTS eyebrow + heading, same
-// background atmosphere, same three projects — presented as an asymmetric
-// editorial set of modules. Clicking a module opens a centered project card.
 export default function Projects() {
   const [filter, setFilter] = useState('All')
-  const [openSlug, setOpenSlug] = useState(null) // project shown in the modal
-  const [hoverNum, setHoverNum] = useState(null) // for the index rail
+  const [openSlug, setOpenSlug] = useState(null)
+  const [hoverNum, setHoverNum] = useState(null)
 
-  // stable index per project (P01..P03) regardless of filtering
   const indexed = useMemo(() => projects.map((p, i) => ({ ...p, _index: i })), [])
 
   const matches = (p) => filter === 'All' || p.categories.includes(filter)
@@ -26,21 +22,21 @@ export default function Projects() {
   const close = () => setOpenSlug(null)
   const stepProject = (step) => {
     if (openVisibleIndex < 0 || visible.length < 2) return
-    const next = visible[(openVisibleIndex + step + visible.length) % visible.length]
-    setOpenSlug(next.slug)
+    const next = visible[openVisibleIndex + step]
+    if (next) setOpenSlug(next.slug)
   }
 
   return (
     <div className="page projects-page fade-in">
       <header className="page-head">
         <p className="eyebrow rise" style={{ animationDelay: '40ms' }}>
-          02 — projects
+          02 - projects
         </p>
         <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
           Projects
         </h1>
         <p className="page__lead rise" style={{ animationDelay: '180ms' }}>
-          Three builds, one signal path: sense, process, act.
+          Hardware and software builds with clear inputs, logic, and output.
         </p>
       </header>
 
@@ -54,7 +50,6 @@ export default function Projects() {
       </div>
 
       <div className="projects-stage">
-        {/* compact vertical index rail — secondary, hidden on small screens */}
         <nav className="index-rail" aria-label="Project index">
           {indexed.map((p) => {
             const shown = matches(p)
@@ -91,7 +86,6 @@ export default function Projects() {
                 onOpen={onOpen}
                 style={{
                   animationDelay: `${300 + i * 90}ms`,
-                  // filtered-out modules collapse out of flow
                   display: shown ? undefined : 'none',
                 }}
               />
@@ -107,7 +101,8 @@ export default function Projects() {
           onClose={close}
           onPrev={() => stepProject(-1)}
           onNext={() => stepProject(1)}
-          hasNavigation={visible.length > 1}
+          hasPrev={openVisibleIndex > 0}
+          hasNext={openVisibleIndex >= 0 && openVisibleIndex < visible.length - 1}
         />
       )}
     </div>

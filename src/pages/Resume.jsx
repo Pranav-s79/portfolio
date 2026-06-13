@@ -6,12 +6,10 @@ function Section({ name, open, onToggle, children }) {
   return (
     <section className="ds-section">
       <button className="ds-section__head" onClick={onToggle} aria-expanded={open}>
-        <span className="ds-section__toggle">{open ? '[−]' : '[+]'}</span>
+        <span className="ds-section__toggle">{open ? '[-]' : '[+]'}</span>
         <span className="ds-section__name">{name}</span>
       </button>
-      <div
-        className={open ? 'ds-section__body' : 'ds-section__body ds-section__body--closed'}
-      >
+      <div className={open ? 'ds-section__body' : 'ds-section__body ds-section__body--closed'}>
         <div className="ds-section__inner">{children}</div>
       </div>
     </section>
@@ -40,10 +38,16 @@ function Entry({ head, org, when, note, tags }) {
   )
 }
 
+const resumeHref = (href) => {
+  if (/^https?:\/\//.test(href)) return href
+  return toHref(`/${href.replace(/^\/+/, '')}`)
+}
+
 export default function Resume({ navigate }) {
   const [open, setOpen] = useState({
     education: true,
     experience: true,
+    awards: true,
     projects: true,
     skills: true,
   })
@@ -58,7 +62,7 @@ export default function Resume({ navigate }) {
     <div className="page fade-in">
       <header className="page-head">
         <p className="eyebrow rise" style={{ animationDelay: '40ms' }}>
-          04 — resume
+          04 - resume
         </p>
         <div className="datasheet__top rise" style={{ animationDelay: '110ms' }}>
           <h1 className="page__title">Resume</h1>
@@ -67,7 +71,7 @@ export default function Resume({ navigate }) {
               <a
                 key={d.label}
                 className="download"
-                href={d.href}
+                href={resumeHref(d.href)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -94,11 +98,17 @@ export default function Resume({ navigate }) {
           ))}
         </Section>
 
+        <Section name="Awards" open={open.awards} onToggle={() => toggle('awards')}>
+          {resume.awards.map((e) => (
+            <Entry key={`${e.head}-${e.when}`} {...e} />
+          ))}
+        </Section>
+
         <Section name="Projects" open={open.projects} onToggle={() => toggle('projects')}>
           <div className="ds-entry">
             <p className="ds-entry__note">
-              Haptic Portal, a 2DOF gimbal stabilizer, and a webcam push-up form
-              analyzer. Full write-ups on the{' '}
+              Haptic Portal, a 2DOF gimbal stabilizer, and a webcam push-up form analyzer. Full
+              write-ups on the{' '}
               <a className="ds-inline-link" href={toHref('/projects')} onClick={(e) => goto(e, '/projects')}>
                 projects page
               </a>
@@ -110,7 +120,8 @@ export default function Resume({ navigate }) {
         <Section name="Skills" open={open.skills} onToggle={() => toggle('skills')}>
           <div className="ds-entry">
             <p className="ds-entry__note">
-              Silicon, embedded, robotics, and ML/software. The full graph is on the{' '}
+              Embedded control, robotics, hardware design tools, and ML software. The focused graph
+              is on the{' '}
               <a className="ds-inline-link" href={toHref('/skills')} onClick={(e) => goto(e, '/skills')}>
                 skills page
               </a>

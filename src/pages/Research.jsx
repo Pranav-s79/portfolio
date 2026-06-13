@@ -5,13 +5,13 @@ export default function Research() {
     <div className="page fade-in">
       <header className="page-head">
         <p className="eyebrow rise" style={{ animationDelay: '40ms' }}>
-          01 — research
+          01 - research
         </p>
         <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
           Research
         </h1>
         <p className="page__lead rise" style={{ animationDelay: '180ms' }}>
-          What was done, where, when, and what it produced.
+          Applied work in model alignment, signal processing, and embedded sensing.
         </p>
       </header>
 
@@ -30,7 +30,7 @@ export default function Research() {
                 <div className="pane__top">
                   <span className="pane__index">R0{i + 1}</span>
                   <span className="trace__year">
-                    {item.year} · {item.when}
+                    {item.year} - {item.when}
                   </span>
                 </div>
                 <h2 className="trace__title">{item.title}</h2>
@@ -55,7 +55,7 @@ export default function Research() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {item.linkLabel} ↗
+                    {item.linkLabel} -&gt;
                   </a>
                 )}
               </div>

@@ -1,15 +1,7 @@
-// ============================================================
-// Centered project card shown when a module is clicked. A modal dialog over
-// a dimmed backdrop holding the same expanded content (visual, summary, main
-// skills, tech stack, links) plus the title/category/year header and an X to
-// close back to the grid. Closes on X, backdrop click, or Escape; locks body
-// scroll, traps focus lightly, and restores focus to the opener on close.
-// ============================================================
-
 import { useEffect, useRef } from 'react'
 import ExpandedPreview from './ExpandedPreview.jsx'
 
-export default function ProjectModal({ project, index, onClose, onPrev, onNext, hasNavigation = false }) {
+export default function ProjectModal({ project, index, onClose, onPrev, onNext, hasPrev = false, hasNext = false }) {
   const p = project
   const cardRef = useRef(null)
   const closeRef = useRef(null)
@@ -27,16 +19,15 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
         e.stopPropagation()
         onClose()
       }
-      if (hasNavigation && e.key === 'ArrowLeft') {
+      if (hasPrev && e.key === 'ArrowLeft') {
         e.preventDefault()
         onPrev?.()
       }
-      if (hasNavigation && e.key === 'ArrowRight') {
+      if (hasNext && e.key === 'ArrowRight') {
         e.preventDefault()
         onNext?.()
       }
       if (e.key === 'Tab') {
-        // keep focus within the card
         const f = cardRef.current?.querySelectorAll(
           'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
         )
@@ -59,7 +50,7 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
       document.body.style.overflow = prevOverflow
       if (opener instanceof HTMLElement) opener.focus()
     }
-  }, [hasNavigation, onClose, onNext, onPrev])
+  }, [hasNext, hasPrev, onClose, onNext, onPrev])
 
   return (
     <div
@@ -76,7 +67,7 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
         aria-labelledby="project-modal-title"
         ref={cardRef}
       >
-        {hasNavigation && (
+        {hasPrev && (
           <button
             type="button"
             className="project-modal__nav project-modal__nav--prev"
@@ -86,7 +77,7 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
             &larr;
           </button>
         )}
-        {hasNavigation && (
+        {hasNext && (
           <button
             type="button"
             className="project-modal__nav project-modal__nav--next"
@@ -102,7 +93,7 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
               {p.title}
             </h2>
             <span className="module__cat mono">
-              <span className="module__index mono">{num}</span> · {p.category} · {p.year}
+              <span className="module__index mono">{num}</span> - {p.category} - {p.year}
             </span>
           </div>
           <button
@@ -112,7 +103,7 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
             onClick={onClose}
             ref={closeRef}
           >
-            ✕
+            x
           </button>
         </div>
 
