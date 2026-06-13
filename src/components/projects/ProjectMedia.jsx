@@ -11,7 +11,7 @@ export default function ProjectMedia({ project }) {
     return (
       <figure className="media media--gallery">
         <img
-          className="media__img"
+          className={activeItem.fit === 'contain' ? 'media__img media__img--contain' : 'media__img'}
           src={import.meta.env.BASE_URL + activeItem.src}
           alt={`${project.title} - ${activeItem.label}`}
           loading="lazy"

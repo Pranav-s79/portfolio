@@ -77,6 +77,7 @@ export const projects = [
       {
         src: 'project-media/haptic-portal/pipeline.png',
         label: 'Depth pipeline',
+        fit: 'contain',
       },
     ],
     oneLine: 'A haptic telepresence system that turns depth into touch.',

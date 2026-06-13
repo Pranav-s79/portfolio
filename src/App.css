@@ -1229,6 +1229,11 @@
   aspect-ratio: 16 / 10;
 }
 
+.media--gallery .media__img--contain {
+  object-fit: contain;
+  background: rgba(27, 27, 30, 0.035);
+}
+
 .media__caption {
   margin-top: 8px;
   font-size: 10px;
