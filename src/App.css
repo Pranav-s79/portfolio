@@ -193,9 +193,16 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
+  max-height: 190px;
   padding: 2px 0 8px;
-  overflow: visible;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   animation: crumbMenuIn 180ms var(--ease-out) both;
+}
+
+.crumb__menu-list::-webkit-scrollbar {
+  display: none;
 }
 
 .crumb__menu-item {
