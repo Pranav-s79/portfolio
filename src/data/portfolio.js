@@ -138,6 +138,22 @@ export const projects = [
     repo: 'https://github.com/Pranav-s79/RISCV-ALU',
     demo: null,
   },
+  {
+    slug: 'logic-gate-simulator',
+    title: 'Logic Gate Simulator',
+    category: 'Software',
+    categories: ['Software'],
+    year: '2025',
+    size: 'tall',
+    media: null,
+    oneLine: 'An event-driven C++ simulator for gate timing and signal traces.',
+    skills: ['C++', 'OOP', 'Event scheduling'],
+    stack: ['C++', 'OOP', 'Priority queue', 'CSV trace export'],
+    what:
+      'Built an event-driven simulator for AND, OR, and multi-input gates with configurable delays, using a priority queue scheduler to model propagation and export waveform traces for timing analysis.',
+    repo: null,
+    demo: null,
+  },
 ]
 
 export const skillDomains = ['Hardware', 'Embedded', 'Robotics', 'Software / ML']

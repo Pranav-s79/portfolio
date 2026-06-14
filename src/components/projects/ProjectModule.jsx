@@ -1,6 +1,11 @@
 import { useState } from 'react'
 
-const SIZE_CLASS = { lg: 'module--lg', tall: 'module--tall', wide: 'module--wide' }
+const SIZE_CLASS = {
+  full: 'module--full',
+  lg: 'module--lg',
+  tall: 'module--tall',
+  wide: 'module--wide',
+}
 
 export default function ProjectModule({ project, index, dimmed, onOpen, style }) {
   const p = project
@@ -12,7 +17,7 @@ export default function ProjectModule({ project, index, dimmed, onOpen, style })
       className={[
         'module',
         'rise',
-        SIZE_CLASS[p.size],
+        SIZE_CLASS[p.layoutSize || p.size],
         hovered ? 'is-hovered' : '',
         dimmed ? 'is-dimmed' : '',
       ]

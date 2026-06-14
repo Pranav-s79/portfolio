@@ -5,6 +5,20 @@ import ProjectModule from '../components/projects/ProjectModule.jsx'
 import ProjectModal from '../components/projects/ProjectModal.jsx'
 
 const FILTERS = ['All', ...projectCategories]
+const LAYOUTS = {
+  1: ['full'],
+  2: ['lg', 'tall'],
+  3: ['lg', 'tall', 'full'],
+  4: ['lg', 'tall', 'wide', 'wide'],
+  5: ['lg', 'tall', 'wide', 'wide', 'full'],
+}
+
+function layoutSizeFor(count, index, preferred) {
+  const preset = LAYOUTS[count]
+  if (preset) return preset[index]
+  const repeating = ['lg', 'tall', 'wide', 'wide', 'tall', 'lg']
+  return repeating[index % repeating.length] || preferred || 'wide'
+}
 
 export default function Projects() {
   const [filter, setFilter] = useState('All')
@@ -75,18 +89,16 @@ export default function Projects() {
         </nav>
 
         <div className="modules" data-count={visible.length}>
-          {indexed.map((p, i) => {
-            const shown = matches(p)
+          {visible.map((p, i) => {
             return (
               <ProjectModule
                 key={p.slug}
-                project={p}
+                project={{ ...p, layoutSize: layoutSizeFor(visible.length, i, p.size) }}
                 index={p._index}
                 dimmed={false}
                 onOpen={onOpen}
                 style={{
                   animationDelay: `${300 + i * 90}ms`,
-                  display: shown ? undefined : 'none',
                 }}
               />
             )
