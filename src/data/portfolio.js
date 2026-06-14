@@ -122,6 +122,22 @@ export const projects = [
     repo: 'https://github.com/Pranav-s79/Pushup_Form_Checker',
     demo: null,
   },
+  {
+    slug: 'riscv-alu',
+    title: 'Verified RISC-V ALU',
+    category: 'Software',
+    categories: ['Software'],
+    year: '2026',
+    size: 'wide',
+    media: null,
+    oneLine: 'A verified RV32I-style ALU with directed and randomized tests.',
+    skills: ['Verilog', 'RISC-V', 'Python'],
+    stack: ['Verilog', 'Python', 'Icarus Verilog', 'GTKWave'],
+    what:
+      'Built a 32-bit combinational ALU and branch comparator for core RV32I operations, then verified edge cases with self-checking Verilog tests and Python-generated randomized reference vectors.',
+    repo: 'https://github.com/Pranav-s79/RISCV-ALU',
+    demo: null,
+  },
 ]
 
 export const skillDomains = ['Hardware', 'Embedded', 'Robotics', 'Software / ML']
