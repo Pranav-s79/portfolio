@@ -55,7 +55,7 @@ export const research = [
   },
 ]
 
-export const projectCategories = ['Vision', 'Embedded', 'Hardware', 'Software']
+export const projectCategories = ['Vision', 'Embedded', 'Hardware', 'Software', 'AI/ML']
 
 export const projects = [
   {
@@ -91,6 +91,22 @@ export const projects = [
     demoLabel: 'Website',
   },
   {
+    slug: 'thermguard',
+    title: 'ThermGuard',
+    category: 'Hardware + AI/ML',
+    categories: ['Hardware', 'AI/ML'],
+    year: '2026 - Present',
+    media: null,
+    oneLine:
+      'A research project exploring calibrated ML-based thermal scheduling for many-core processors.',
+    skills: ['Python', 'Machine Learning', 'Computer Architecture', 'Thermal Modeling'],
+    stack: ['Python', 'scikit-learn', 'NumPy', 'Pandas', 'Matplotlib'],
+    what:
+      'Currently building a simulation framework that models heat propagation in multicore chips and trains machine learning models to predict future thermal risk from sparse sensor observations. The system compares traditional schedulers against calibrated uncertainty-aware scheduling policies under both normal and distribution-shifted workloads.',
+    repo: 'https://github.com/Pranav-s79/HeadRoom',
+    demo: null,
+  },
+  {
     slug: 'gimbal-stabilizer',
     title: '2DOF Gimbal Stabilizer',
     category: 'Embedded - Hardware',
@@ -107,22 +123,6 @@ export const projects = [
     demo: null,
   },
   {
-    slug: 'pushup-analyzer',
-    title: 'Push-up Form Analyzer',
-    category: 'Vision - Software',
-    categories: ['Vision', 'Software'],
-    year: '2025',
-    size: 'wide',
-    media: null,
-    oneLine: 'Live webcam feedback for rep counting and form checks.',
-    skills: ['Pose estimation', 'Joint-angle logic', 'Real-time feedback'],
-    stack: ['Python', 'MediaPipe', 'OpenCV', 'NumPy'],
-    what:
-      'Tracks body landmarks from a webcam, converts them into elbow and torso angles, counts reps, and flags depth or alignment issues during each push-up.',
-    repo: 'https://github.com/Pranav-s79/Pushup_Form_Checker',
-    demo: null,
-  },
-  {
     slug: 'riscv-alu',
     title: 'Verified RISC-V ALU',
     category: 'Software',
@@ -136,6 +136,22 @@ export const projects = [
     what:
       'Built a 32-bit combinational ALU and branch comparator for core RV32I operations, then verified edge cases with self-checking Verilog tests and Python-generated randomized reference vectors.',
     repo: 'https://github.com/Pranav-s79/RISCV-ALU',
+    demo: null,
+  },
+  {
+    slug: 'pushup-analyzer',
+    title: 'Push-up Form Analyzer',
+    category: 'Vision - Software',
+    categories: ['Vision', 'Software'],
+    year: '2025',
+    size: 'wide',
+    media: null,
+    oneLine: 'Live webcam feedback for rep counting and form checks.',
+    skills: ['Pose estimation', 'Joint-angle logic', 'Real-time feedback'],
+    stack: ['Python', 'MediaPipe', 'OpenCV', 'NumPy'],
+    what:
+      'Tracks body landmarks from a webcam, converts them into elbow and torso angles, counts reps, and flags depth or alignment issues during each push-up.',
+    repo: 'https://github.com/Pranav-s79/Pushup_Form_Checker',
     demo: null,
   },
   {
@@ -209,7 +225,7 @@ export const skillEdges = [
 export const resume = {
   downloads: [
     { label: 'download resume-hardware.pdf', href: 'resumes/resume-hardware.pdf' },
-    { label: 'download resume-software.tex', href: 'resumes/resume-software.tex' },
+    { label: 'download Software_Resume.pdf', href: 'resumes/Software_Resume.pdf' },
   ],
   education: [
     {

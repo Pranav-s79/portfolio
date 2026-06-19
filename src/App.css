@@ -889,33 +889,45 @@
   border-radius: 3px;
 }
 
-/* ---- Module grid (asymmetric editorial, dynamic project count) ---- */
+/* ---- Justified project rows (dynamic project count) ---- */
 .modules {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  grid-auto-flow: dense;
-  grid-auto-rows: minmax(280px, auto);
+  display: flex;
+  flex-direction: column;
   gap: 18px;
 }
 
-.module--lg {
-  grid-column: span 4;
-  min-height: 320px;
+.modules__row {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  gap: 18px;
 }
 
-.module--tall {
-  grid-column: span 2;
-  min-height: 320px;
+.module {
+  flex: var(--module-flex, 1) 1 0;
+  min-width: min(100%, 210px);
+}
+
+.module--featured,
+.module--lg {
+  min-height: 340px;
 }
 
 .module--wide {
-  grid-column: span 3;
+  min-height: 320px;
+}
+
+.module--normal {
+  min-height: 300px;
+}
+
+.module--compact,
+.module--tall {
   min-height: 280px;
 }
 
 .module--full {
-  grid-column: span 6;
-  min-height: 260px;
+  min-height: 280px;
 }
 
 /* ---- Module surface ---- */
@@ -1034,6 +1046,7 @@
   transform: translateX(3px);
 }
 
+.module--compact .module__title,
 .module--tall .module__title {
   font-size: clamp(20px, 2.1vw, 26px);
 }
@@ -1908,7 +1921,7 @@
     grid-template-rows: 1fr; /* always expanded on touch */
   }
 
-  /* Projects: stack full-width modules; drop the index rail + decorative grid */
+  /* Projects: simplify the stage; rows stay justified by viewport-specific rules below */
   .projects-stage {
     grid-template-columns: 1fr;
   }
@@ -1918,16 +1931,15 @@
   .index-rail {
     display: none;
   }
-  .modules {
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-  }
+  .module,
+  .module--featured,
   .module--lg,
+  .module--normal,
+  .module--compact,
   .module--tall,
   .module--wide,
   .module--full {
-    grid-column: auto;
-    min-height: 0;
+    flex: 1 1 auto;
   }
   /* full-bleed modal card on small screens */
   .project-modal {
@@ -2008,16 +2020,38 @@
   }
 }
 
-/* ---- Tablet: featured module above two smaller ones ---- */
+/* ---- Tablet: two-card lines that still stretch to full width ---- */
 @media (min-width: 641px) and (max-width: 900px) {
-  .modules {
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: auto;
+  .modules__row {
+    flex-wrap: wrap;
+  }
+  .module {
+    flex: 1 1 calc(50% - 9px);
+    min-width: min(100%, 260px);
   }
   .module--full,
+  .module--featured,
   .module--lg { min-height: 240px; }
+  .module--normal,
+  .module--compact,
   .module--tall,
   .module--wide { min-height: 200px; }
+}
+
+@media (max-width: 640px) {
+  .modules__row {
+    flex-direction: column;
+  }
+  .module,
+  .module--featured,
+  .module--lg,
+  .module--normal,
+  .module--compact,
+  .module--tall,
+  .module--wide,
+  .module--full {
+    min-height: 0;
+  }
 }
 
 /* ---- Reduced motion: opacity-only, near-instant transitions ---- */

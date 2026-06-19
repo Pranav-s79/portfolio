@@ -107,8 +107,8 @@ export default function Resume({ navigate }) {
         <Section name="Projects" open={open.projects} onToggle={() => toggle('projects')}>
           <div className="ds-entry">
             <p className="ds-entry__note">
-              Haptic Portal, a 2DOF gimbal stabilizer, and a webcam push-up form analyzer. Full
-              write-ups on the{' '}
+              Haptic Portal, ThermGuard, a 2DOF gimbal stabilizer, and a webcam push-up form
+              analyzer. Full write-ups on the{' '}
               <a className="ds-inline-link" href={toHref('/projects')} onClick={(e) => goto(e, '/projects')}>
                 projects page
               </a>

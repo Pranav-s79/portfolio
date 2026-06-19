@@ -2,7 +2,10 @@ import { useState } from 'react'
 
 const SIZE_CLASS = {
   full: 'module--full',
+  featured: 'module--featured',
   lg: 'module--lg',
+  normal: 'module--normal',
+  compact: 'module--compact',
   tall: 'module--tall',
   wide: 'module--wide',
 }

@@ -3,22 +3,9 @@ import { projects, projectCategories } from '../data/portfolio.js'
 import ProjectFilters from '../components/projects/ProjectFilters.jsx'
 import ProjectModule from '../components/projects/ProjectModule.jsx'
 import ProjectModal from '../components/projects/ProjectModal.jsx'
+import { layoutRowsFor } from '../projectLayout.js'
 
 const FILTERS = ['All', ...projectCategories]
-const LAYOUTS = {
-  1: ['full'],
-  2: ['lg', 'tall'],
-  3: ['lg', 'tall', 'full'],
-  4: ['lg', 'tall', 'wide', 'wide'],
-  5: ['lg', 'tall', 'wide', 'wide', 'full'],
-}
-
-function layoutSizeFor(count, index, preferred) {
-  const preset = LAYOUTS[count]
-  if (preset) return preset[index]
-  const repeating = ['lg', 'tall', 'wide', 'wide', 'tall', 'lg']
-  return repeating[index % repeating.length] || preferred || 'wide'
-}
 
 export default function Projects() {
   const [filter, setFilter] = useState('All')
@@ -29,6 +16,7 @@ export default function Projects() {
 
   const matches = (p) => filter === 'All' || p.categories.includes(filter)
   const visible = indexed.filter(matches)
+  const layoutRows = useMemo(() => layoutRowsFor(visible), [visible])
   const open = indexed.find((p) => p.slug === openSlug) || null
   const openVisibleIndex = open ? visible.findIndex((p) => p.slug === open.slug) : -1
 
@@ -89,20 +77,23 @@ export default function Projects() {
         </nav>
 
         <div className="modules" data-count={visible.length}>
-          {visible.map((p, i) => {
-            return (
-              <ProjectModule
-                key={p.slug}
-                project={{ ...p, layoutSize: layoutSizeFor(visible.length, i, p.size) }}
-                index={p._index}
-                dimmed={false}
-                onOpen={onOpen}
-                style={{
-                  animationDelay: `${300 + i * 90}ms`,
-                }}
-              />
-            )
-          })}
+          {layoutRows.map((row, rowIndex) => (
+            <div className="modules__row" key={row.map((item) => item.project.slug).join('-')}>
+              {row.map((item, itemIndex) => (
+                <ProjectModule
+                  key={item.project.slug}
+                  project={{ ...item.project, layoutSize: item.size }}
+                  index={item.project._index}
+                  dimmed={false}
+                  onOpen={onOpen}
+                  style={{
+                    '--module-flex': item.flex,
+                    animationDelay: `${300 + (rowIndex * 3 + itemIndex) * 90}ms`,
+                  }}
+                />
+              ))}
+            </div>
+          ))}
         </div>
       </div>
 
