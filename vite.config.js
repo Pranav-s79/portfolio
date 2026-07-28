@@ -13,21 +13,15 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(() => {
   const base = process.env.VITE_BASE_PATH || '/'
 
+  // No manualChunks: RobotScene uses raw Three.js (not react-three-fiber), and
+  // splitting three/drei into a shared chunk can duplicate the Three module
+  // instance, which breaks material recoloring and renders the robot flat white.
   return {
     base,
     plugins: [react()],
     build: {
       outDir: 'dist',
       sourcemap: false,
-      // Three.js is large and changes rarely; splitting it keeps the app
-      // chunk small so content edits don't bust the whole cache.
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            three: ['three', '@react-three/fiber', '@react-three/drei'],
-          },
-        },
-      },
     },
   }
 })

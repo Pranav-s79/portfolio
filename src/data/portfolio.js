@@ -47,9 +47,9 @@ export const research = [
     org: 'LIVE Lab, Texas A&M University',
     when: 'Jun 2026-present',
     detail:
-      'Building a 5-model workflow that converts mesoscale weather and terrain data into microscale predictions for high-resolution CFD.',
+      'Converting mesoscale weather and terrain data into microscale predictions for high-resolution CFD.',
     result:
-      'Benchmarking XGBoost and Fourier Neural Operators against TabPFN, Gaussian Processes, and SVGP, plus two hybrid residual pipelines for uncertainty quantification.',
+      'Benchmarking XGBoost and Fourier Neural Operators against Gaussian Process baselines, with hybrid residual pipelines for uncertainty quantification.',
     tags: ['XGBoost', 'Fourier Neural Operators', 'Gaussian Processes', 'TabPFN'],
     link: null,
   },
@@ -81,7 +81,7 @@ export const projects = [
       },
     ],
     oneLine: 'A haptic telepresence system that turns depth into touch.',
-    skills: ['Depth sensing', 'Hand tracking', 'Embedded output'],
+    skills: ['Computer vision', 'Real-time embedded control'],
     awards: ['Best Presentation @ Aggies Create 2025, 2026'],
     stack: ['Python', 'C++', 'DepthAI', 'MediaPipe', 'RPi Pico', 'Servo array'],
     what:
@@ -98,7 +98,7 @@ export const projects = [
     year: '2026 - Present',
     media: null,
     oneLine: 'Turns unfamiliar codebases into an interactive visual map.',
-    skills: ['Graph engine', 'Incremental indexing', 'MCP tooling'],
+    skills: ['Graph algorithms', 'Developer tooling'],
     stack: ['TypeScript', 'Node.js', 'React', 'SQLite', 'MCP', 'Vitest'],
     what:
       'A local-first tool that maps how files, functions, tests, and features connect. Incremental re-indexing with transactional SQLite snapshots refreshes a 250K-line codebase in under 1.3 seconds, and six MCP tools expose the graph to AI coding agents. Validated by 178 tests across 25 files.',
@@ -113,7 +113,7 @@ export const projects = [
     year: '2026',
     media: null,
     oneLine: 'Blocks firmware-breaking register-map changes before merge.',
-    skills: ['Deterministic diffing', 'CI tooling', 'CMSIS-SVD'],
+    skills: ['Firmware tooling', 'CI/CD automation'],
     stack: ['Python', 'CMSIS-SVD', 'Click', 'pytest', 'mypy', 'GitHub Actions'],
     what:
       'A Python CLI and GitHub Action that catches 22 classes of breaking CMSIS-SVD changes, diffing inheritance, arrays, clusters, registers, fields, interrupts, and access semantics. Validated against 330 tests across 15 SVDs from STM32, Nordic, NXP, Atmel, and RP2040, and published to PyPI and the GitHub Marketplace.',
@@ -130,7 +130,7 @@ export const projects = [
     size: 'tall',
     media: null,
     oneLine: 'A two-axis platform that rejects motion with closed-loop control.',
-    skills: ['PID control', 'Sensor fusion', 'Servo actuation'],
+    skills: ['Control systems', 'Sensor fusion'],
     stack: ['C++', 'Arduino Uno', 'GY-87', 'Servo motors'],
     what:
       'Reads GY-87 inertial data, estimates tilt, and drives two servo axes through a PID loop to keep the platform level under disturbance.',
@@ -146,7 +146,7 @@ export const projects = [
     size: 'wide',
     media: null,
     oneLine: 'Live webcam feedback for rep counting and form checks.',
-    skills: ['Pose estimation', 'Joint-angle logic', 'Real-time feedback'],
+    skills: ['Computer vision', 'Pose estimation'],
     stack: ['Python', 'MediaPipe', 'OpenCV', 'NumPy'],
     what:
       'Tracks body landmarks from a webcam, converts them into elbow and torso angles, counts reps, and flags depth or alignment issues in real time.',
@@ -162,7 +162,7 @@ export const projects = [
     size: 'wide',
     media: null,
     oneLine: 'A verified RV32I-style ALU with directed and randomized tests.',
-    skills: ['Verilog', 'RISC-V', 'Python'],
+    skills: ['Digital design', 'Hardware verification'],
     stack: ['Verilog', 'Python', 'Icarus Verilog', 'GTKWave'],
     what:
       'A 32-bit combinational ALU and branch comparator for core RV32I operations, verified against edge cases with self-checking Verilog tests and Python-generated randomized reference vectors.',
@@ -177,7 +177,7 @@ export const projects = [
     year: '2026',
     media: null,
     oneLine: 'Predicts safe thermal limits for multi-core chips.',
-    skills: ['Quantile regression', 'Conformal prediction', 'Thermal modeling'],
+    skills: ['Machine learning', 'Uncertainty quantification'],
     stack: ['Python', 'PyTorch', 'scikit-learn', 'NumPy', 'Pandas'],
     what:
       'Trains quantile regression models and applies conformal calibration to turn raw predictions into guaranteed upper bounds on chip temperature, then schedules tasks to avoid overheating. Hit 95% coverage against a 90% target across 5 seeds, with a multi-seed harness isolating where calibration holds under distribution shift.',
@@ -193,7 +193,7 @@ export const projects = [
     size: 'tall',
     media: null,
     oneLine: 'An event-driven C++ simulator for gate timing and signal traces.',
-    skills: ['C++', 'OOP', 'Event scheduling'],
+    skills: ['C++', 'Discrete-event simulation'],
     stack: ['C++', 'OOP', 'Priority queue', 'CSV trace export'],
     what:
       'An event-driven simulator for AND, OR, and multi-input gates with configurable delays, using a priority queue scheduler to model propagation and export waveform traces for timing analysis.',
