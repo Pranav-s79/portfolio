@@ -446,6 +446,18 @@
   color: var(--copper);
 }
 
+.home__socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.home__socials .social-link {
+  width: 34px;
+  height: 34px;
+}
+
 .home__robot {
   position: absolute;
   inset: 0;

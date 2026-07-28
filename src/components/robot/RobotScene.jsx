@@ -132,11 +132,11 @@ function recolorMaterial(mat) {
 const LOGICAL_BONE_FOR = { left: 'right', right: 'left' }
 
 const HOME_ARM_POSES = {
-  research: { world: [-0.26, 0.4, 0.22], bend: 0.08, clavicle: 0.02, slamY: -0.07 },
-  projects: { world: [-0.13, 0.38, 0.23], bend: 0.08, clavicle: 0.015, slamY: -0.07 },
-  skills: { world: [0, 0.38, 0.23], bend: 0.08, clavicle: 0.012, slamY: -0.07 },
-  resume: { world: [0.13, 0.38, 0.23], bend: 0.08, clavicle: 0.015, slamY: -0.07 },
-  contact: { world: [0.26, 0.4, 0.22], bend: 0.08, clavicle: 0.02, slamY: -0.07 },
+  experience: { world: [-0.26, 0.4, 0.22], bend: 0.08, clavicle: 0.02, slamY: -0.07 },
+  research: { world: [-0.13, 0.38, 0.23], bend: 0.08, clavicle: 0.015, slamY: -0.07 },
+  projects: { world: [0, 0.38, 0.23], bend: 0.08, clavicle: 0.012, slamY: -0.07 },
+  skills: { world: [0.13, 0.38, 0.23], bend: 0.08, clavicle: 0.015, slamY: -0.07 },
+  resume: { world: [0.26, 0.4, 0.22], bend: 0.08, clavicle: 0.02, slamY: -0.07 },
 }
 
 function getHomeArmPose(pose) {

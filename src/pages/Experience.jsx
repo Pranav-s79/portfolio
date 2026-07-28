@@ -1,44 +1,43 @@
-import { research } from '../data/portfolio.js'
+import { resume } from '../data/portfolio.js'
 
-export default function Research() {
+export default function Experience() {
+  const experience = resume.experience.filter((item) => item.category !== 'research')
+
   return (
     <div className="page fade-in">
       <header className="page-head">
         <p className="eyebrow rise" style={{ animationDelay: '40ms' }}>
-          02 - research
+          01 - experience
         </p>
         <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
-          Research
+          Experience
         </h1>
         <p className="page__lead rise" style={{ animationDelay: '180ms' }}>
-          Applied work in model alignment, signal processing, and embedded sensing.
+          Teaching and mentoring outside the classroom.
         </p>
       </header>
 
       <div className="trace">
         <div className="trace__line" aria-hidden="true" />
         <div className="trace__track">
-          {research.map((item, i) => (
+          {experience.map((item, i) => (
             <article
               className="trace__item rise"
               style={{ animationDelay: `${260 + i * 120}ms` }}
-              key={item.title}
+              key={item.head}
               tabIndex={0}
             >
               <span className="trace__tick" aria-hidden="true" />
               <div className="trace__card pane">
                 <div className="pane__top">
-                  <span className="pane__index">R0{i + 1}</span>
-                  <span className="trace__year">
-                    {item.year} - {item.when}
-                  </span>
+                  <span className="pane__index">E0{i + 1}</span>
+                  <span className="trace__year">{item.when}</span>
                 </div>
-                <h2 className="trace__title">{item.title}</h2>
+                <h2 className="trace__title">{item.head}</h2>
                 <p className="trace__org">{item.org}</p>
                 <div className="trace__more">
                   <div className="trace__more-inner">
-                    <p className="trace__detail">{item.detail}</p>
-                    <p className="trace__result">{item.result}</p>
+                    <p className="trace__detail">{item.note}</p>
                   </div>
                 </div>
                 <div className="chips">
@@ -48,16 +47,6 @@ export default function Research() {
                     </span>
                   ))}
                 </div>
-                {item.link && (
-                  <a
-                    className="pane__link"
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {item.linkLabel} -&gt;
-                  </a>
-                )}
               </div>
             </article>
           ))}

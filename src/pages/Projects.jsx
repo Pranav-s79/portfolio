@@ -32,7 +32,7 @@ export default function Projects() {
     <div className="page projects-page fade-in">
       <header className="page-head">
         <p className="eyebrow rise" style={{ animationDelay: '40ms' }}>
-          02 - projects
+          03 - projects
         </p>
         <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
           Projects

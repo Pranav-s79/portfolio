@@ -62,7 +62,7 @@ export default function Resume({ navigate }) {
     <div className="page fade-in">
       <header className="page-head">
         <p className="eyebrow rise" style={{ animationDelay: '40ms' }}>
-          04 - resume
+          05 - resume
         </p>
         <div className="datasheet__top rise" style={{ animationDelay: '110ms' }}>
           <h1 className="page__title">Resume</h1>

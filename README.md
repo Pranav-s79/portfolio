@@ -6,10 +6,15 @@ filterable projects page.
 
 ## Live site
 
-Deployed on **Vercel**, served at the domain root (base path `/`). The router,
-robot model, project media, and SPA fallback all derive from
-`import.meta.env.BASE_URL`, so the app also works under a subpath if
-`VITE_BASE_PATH` is set (see [Deploying elsewhere](#deploying-elsewhere)).
+Deployed on **GitHub Pages**, served at the domain root via a `CNAME` file
+(base path `/`). The router, robot model, project media, and SPA fallback all
+derive from `import.meta.env.BASE_URL`, so the app also works under a subpath
+if `VITE_BASE_PATH` is set (see [Deploying elsewhere](#deploying-elsewhere)).
+
+The contact form and its API (`api/contact.js`) are not currently wired up —
+Pages is static-only and can't run serverless functions. That code is kept in
+the repo for reference; see [Deployment (Vercel)](#deployment-vercel-contact-api-only)
+if reviving it.
 
 ## Develop
 
@@ -24,17 +29,25 @@ npm run preview    # serve the production build locally
 There is no separate lint or type-check step (plain JS, no ESLint/TS config);
 `npm run build` is the type/integration gate.
 
-## Deployment (Vercel)
+## Deployment (GitHub Pages)
 
-The site and its contact API deploy together on Vercel: the Vite build is
-served statically and [`api/contact.js`](api/contact.js) runs as a serverless
-function at `/api/contact`.
+- **Workflow:** [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)
+  builds with `npm run build` and publishes `dist/` on every push to `main`.
+- **CI gate:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs tests
+  and a build on every push and PR, independent of the deploy workflow.
+- **Custom domain:** [`public/CNAME`](public/CNAME) pins the Pages site to
+  `pranavsen.dev`. Enable **Settings → Pages → Enforce HTTPS** in the repo once
+  DNS has propagated, and point the domain's DNS at GitHub Pages (an `ALIAS`/`ANAME`
+  or `A` records for the apex, plus a `CNAME` record for `www`).
+
+### Deployment (Vercel, contact API only)
+
+The contact form's backend (`api/contact.js`) is Vercel-shaped serverless code,
+kept in the repo but not currently deployed. To use it, host it on Vercel
+separately and point the frontend at it via `VITE_CONTACT_API_URL`.
 
 - **Config:** [`vercel.json`](vercel.json) — build settings, SPA rewrite
   (excluding `/api/*`), security headers, and immutable caching for hashed assets.
-- **CI gate:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs tests
-  and a build on every push and PR. Vercel's Git integration handles the deploy
-  itself (preview per PR, production on `main`).
 
 ### One-time setup
 
@@ -84,10 +97,11 @@ email. Verify a domain to receive mail from arbitrary visitors.
 
 ### Deploying elsewhere
 
-For a GitHub Pages *project site* under `/portfolio/`, build with
-`VITE_BASE_PATH=/portfolio/` and set `pathSegmentsToKeep = 1` in
-[`public/404.html`](public/404.html). Pages is static-only, so the contact API
-must be hosted separately and pointed at via `VITE_CONTACT_API_URL`.
+For a GitHub Pages *project site* under `/portfolio/` instead of a custom
+domain, remove `public/CNAME`, build with `VITE_BASE_PATH=/portfolio/`, and set
+`pathSegmentsToKeep = 1` in [`public/404.html`](public/404.html). Pages is
+static-only, so the contact API must be hosted separately and pointed at via
+`VITE_CONTACT_API_URL`.
 
 ### Project visuals
 
@@ -96,8 +110,8 @@ The expanded project card loads a real image from
 neutral placeholder until the file exists. See that folder's README for
 expected filenames.
 
-### Custom domain (optional)
+### Custom domain
 
-Add the domain under **Settings → Domains** in Vercel and point DNS at the
-records it shows. The base path stays `/`. Remember to update
-`CONTACT_ALLOWED_ORIGIN` to the new origin.
+[`public/CNAME`](public/CNAME) already pins Pages to `pranavsen.dev`. Changing
+domains means editing that file and updating DNS to point at GitHub Pages
+instead. The base path stays `/`.

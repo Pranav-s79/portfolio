@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import AmbientBackground from './components/AmbientBackground.jsx'
 import Breadcrumb from './components/Breadcrumb.jsx'
 import Home from './pages/Home.jsx'
+import Experience from './pages/Experience.jsx'
 import Research from './pages/Research.jsx'
 import Projects from './pages/Projects.jsx'
 import Skills from './pages/Skills.jsx'
 import Resume from './pages/Resume.jsx'
-import Contact from './pages/Contact.jsx'
 import { toHref, normalizePath } from './routing.js'
 import './App.css'
 
@@ -55,11 +55,11 @@ export default function App() {
 
   let page
   if (path === '/') page = <Home navigate={navigate} />
+  else if (path === '/experience') page = <Experience />
   else if (path === '/research') page = <Research />
   else if (path === '/projects') page = <Projects />
   else if (path === '/skills') page = <Skills />
   else if (path === '/resume') page = <Resume navigate={navigate} />
-  else if (path === '/contact') page = <Contact />
   else page = <NotFound navigate={navigate} />
 
   const isHome = path === '/'

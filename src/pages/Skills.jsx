@@ -9,7 +9,7 @@ export default function Skills() {
     <div className="page fade-in">
       <header className="page-head">
         <p className="eyebrow rise" style={{ animationDelay: '40ms' }}>
-          03 - skills
+          04 - skills
         </p>
         <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
           Skills

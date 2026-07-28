@@ -4,12 +4,50 @@ import { profile, shelfItems } from '../data/portfolio.js'
 
 const RobotScene = lazy(() => import('../components/robot/RobotScene.jsx'))
 
+function IconGitHub() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true" focusable="false">
+      <path
+        d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function IconLinkedIn() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true" focusable="false">
+      <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function IconEmail() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true" focusable="false">
+      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
+      <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 const HOME_ARM_TARGETS = [
+  { side: 'left', pose: 'experience' },
   { side: 'left', pose: 'research' },
   { side: 'left', pose: 'projects' },
   { side: 'right', pose: 'skills' },
   { side: 'right', pose: 'resume' },
-  { side: 'right', pose: 'contact' },
 ]
 
 // x in [-1,1] left to right, y in [-1,1] bottom to top.
@@ -76,6 +114,36 @@ export default function Home({ navigate }) {
         <p className="home__meta rise" style={{ animationDelay: '240ms' }}>
           {profile.line2}
         </p>
+        <div className="home__socials rise" style={{ animationDelay: '300ms' }}>
+          <a
+            className="social-link"
+            href={profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            title="GitHub"
+          >
+            <IconGitHub />
+          </a>
+          <a
+            className="social-link"
+            href={profile.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            title="LinkedIn"
+          >
+            <IconLinkedIn />
+          </a>
+          <a
+            className="social-link"
+            href={`mailto:${profile.email}`}
+            aria-label={`Email ${profile.email}`}
+            title="Email"
+          >
+            <IconEmail />
+          </a>
+        </div>
       </div>
 
       <div className="home__robot">

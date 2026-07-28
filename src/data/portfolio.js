@@ -12,19 +12,19 @@ export const profile = {
 }
 
 export const shelfItems = [
+  { label: 'Experience', path: '/experience', desc: 'Internships and open-source work' },
   { label: 'Research', path: '/research', desc: 'Published work and active studies' },
   { label: 'Projects', path: '/projects', desc: 'Hardware built end-to-end' },
   { label: 'Skills', path: '/skills', desc: 'Focused technical stack' },
   { label: 'Resume', path: '/resume', desc: 'Role-specific PDFs' },
-  { label: 'Contact', path: '/contact', desc: 'Open to Summer 2026' },
 ]
 
 export const sections = {
+  '/experience': 'Experience',
   '/research': 'Research',
   '/projects': 'Projects',
   '/skills': 'Skills',
   '/resume': 'Resume',
-  '/contact': 'Contact',
 }
 
 export const research = [
@@ -282,20 +282,23 @@ export const resume = {
       when: 'Jun-Oct 2024',
       note: 'Led QLoRA fine-tuning of three open-weight LLMs on moral-reasoning tasks. Post-fine-tune Mistral-7B matched GPT-4o on DILEMMAS and was accepted at NeurIPS 2024 SoLaR.',
       tags: ['QLoRA', 'PyTorch', 'NeurIPS 2024'],
+      category: 'research',
     },
     {
       head: 'Undergraduate Machine Learning Researcher',
       org: 'LIVE Lab, Texas A&M University',
       when: 'Jun 2026-present',
-      note: 'Developing a 5-model atmospheric downscaling workflow that converts mesoscale weather and terrain data into microscale predictions for high-resolution CFD, benchmarking XGBoost and Fourier Neural Operators against TabPFN, Gaussian Processes, and SVGP.',
+      note: 'Converting mesoscale weather and terrain data into microscale predictions for high-resolution CFD.',
       tags: ['XGBoost', 'Fourier Neural Operators', 'Gaussian Processes'],
+      category: 'research',
     },
     {
       head: 'Coding Instructor',
       org: 'iCode',
       when: 'Mar-Jul 2025',
-      note: 'Taught Python, Java, and Lua fundamentals through hands-on projects, and mentored robotics work spanning sensor integration and autonomous control logic.',
-      tags: ['Python', 'Java', 'Robotics mentoring'],
+      note: 'Taught Python, Java, and Lua to K-12 students and mentored a robotics team on sensor integration and autonomous control.',
+      tags: ['Python', 'Java', 'Lua', 'Robotics mentoring', 'Teaching'],
+      category: 'teaching',
     },
   ],
   awards: [
