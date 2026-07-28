@@ -6,11 +6,10 @@ filterable projects page.
 
 ## Live site
 
-**https://pranav-s79.github.io/portfolio/**
-
-(GitHub Pages *project site* — served under `/portfolio/`, so the Vite base
-path is `/portfolio/`. Router, robot model, project media, and the SPA
-fallback all derive from `import.meta.env.BASE_URL`.)
+Deployed on **Vercel**, served at the domain root (base path `/`). The router,
+robot model, project media, and SPA fallback all derive from
+`import.meta.env.BASE_URL`, so the app also works under a subpath if
+`VITE_BASE_PATH` is set (see [Deploying elsewhere](#deploying-elsewhere)).
 
 ## Develop
 
@@ -25,58 +24,70 @@ npm run preview    # serve the production build locally
 There is no separate lint or type-check step (plain JS, no ESLint/TS config);
 `npm run build` is the type/integration gate.
 
-## Deployment (GitHub Pages via GitHub Actions)
+## Deployment (Vercel)
 
-- **Workflow:** [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)
-- **Trigger:** push to `main`, or manual *Run workflow* (workflow_dispatch)
-- **Build command:** `npm run build`
-- **Output folder:** `dist`
-- **Package manager:** npm (uses `package-lock.json` via `npm ci`)
+The site and its contact API deploy together on Vercel: the Vite build is
+served statically and [`api/contact.js`](api/contact.js) runs as a serverless
+function at `/api/contact`.
 
-The workflow installs with `npm ci`, builds, uploads `dist/` as a Pages
-artifact, and deploys with the official `actions/deploy-pages`.
+- **Config:** [`vercel.json`](vercel.json) — build settings, SPA rewrite
+  (excluding `/api/*`), security headers, and immutable caching for hashed assets.
+- **CI gate:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs tests
+  and a build on every push and PR. Vercel's Git integration handles the deploy
+  itself (preview per PR, production on `main`).
 
-### One-time repository setup
+### One-time setup
 
-In the GitHub repository:
+1. Import the repo at [vercel.com/new](https://vercel.com/new). The framework
+   (Vite), build command, and output directory are picked up from `vercel.json`.
+2. Add the environment variables below under **Settings → Environment Variables**.
+3. Redeploy so the new variables take effect.
 
-**Settings → Pages → Build and deployment → Source → GitHub Actions**
+### Contact form
 
-This must be set once, manually — it cannot be enabled from CI. After that,
-every push to `main` deploys automatically.
+The form posts to the same-origin `/api/contact`. Requests pass through five
+defense layers before an email is sent:
 
-### Client-side routing on Pages
+| Layer | Mechanism | Behavior if unconfigured |
+| --- | --- | --- |
+| Origin allowlist | `CONTACT_ALLOWED_ORIGIN` (comma-separated) | Any origin allowed |
+| Honeypot | Hidden `website` field | Always active |
+| Validation | Length, email format, control-char stripping, mail-header-injection guard, spam heuristics | Always active |
+| CAPTCHA | Cloudflare Turnstile | Skipped |
+| Rate limit | Upstash Redis, **3/hour and 10/day per IP** | Skipped (fails open) |
 
-The app uses clean URLs (`/portfolio/projects`, `/portfolio/skills`, …) with a
-small base-aware history router. GitHub Pages has no server to rewrite unknown
-paths, so a refresh or direct hit on `/portfolio/projects` would 404. This is
-handled with the standard SPA fallback (`pathSegmentsToKeep = 1` keeps the
-`/portfolio` base segment):
+Honeypot and spam hits return `200 OK` so bots cannot probe the filter. Rate-limited
+requests return `429` with a `Retry-After` header. The rate limiter fails *open*
+if Redis is unreachable (a real message is never dropped over infrastructure
+trouble); Turnstile fails *closed*, since an unverifiable token is exactly what
+CAPTCHA defends against.
 
-- [`public/404.html`](public/404.html) encodes the requested path into a query
-  string and redirects to the app root.
-- An inline decoder in [`index.html`](index.html) restores the real path before
-  React mounts, so the router resolves the route normally.
-
-The frontend is static on GitHub Pages. The contact form can call a separate
-serverless endpoint when `VITE_CONTACT_API_URL` is configured; without that
-value it falls back to a `mailto:` draft.
-
-### Contact form backend
-
-[`api/contact.js`](api/contact.js) is a serverless handler that sends a formatted
-email through Resend. Deploy it to a host that supports Node serverless
-functions, then set these environment variables there:
+**Required environment variables** (see [`.env.example`](.env.example)):
 
 ```bash
-RESEND_API_KEY=re_...
-CONTACT_TO_EMAIL=pranav.senthilkumar79@gmail.com
+# Secret — server side only
+RESEND_API_KEY=re_...                      # resend.com/api-keys
+CONTACT_TO_EMAIL=you@example.com
 CONTACT_FROM_EMAIL="Portfolio Contact <contact@yourdomain.com>"
-CONTACT_ALLOWED_ORIGIN=https://pranav-s79.github.io
+CONTACT_ALLOWED_ORIGIN=https://your-domain.com
+TURNSTILE_SECRET_KEY=...                   # dash.cloudflare.com → Turnstile
+UPSTASH_REDIS_REST_URL=...                 # console.upstash.com
+UPSTASH_REDIS_REST_TOKEN=...
+
+# Public — inlined into the client bundle
+VITE_TURNSTILE_SITE_KEY=...
 ```
 
-Set `VITE_CONTACT_API_URL` for the frontend build to the deployed endpoint, for
-example `https://your-api-host.com/api/contact`. See [`.env.example`](.env.example).
+Until a domain is verified in Resend, the sandbox sender
+`onboarding@resend.dev` works but only delivers to your own Resend account
+email. Verify a domain to receive mail from arbitrary visitors.
+
+### Deploying elsewhere
+
+For a GitHub Pages *project site* under `/portfolio/`, build with
+`VITE_BASE_PATH=/portfolio/` and set `pathSegmentsToKeep = 1` in
+[`public/404.html`](public/404.html). Pages is static-only, so the contact API
+must be hosted separately and pointed at via `VITE_CONTACT_API_URL`.
 
 ### Project visuals
 
@@ -87,5 +98,6 @@ expected filenames.
 
 ### Custom domain (optional)
 
-To use a custom domain, add a `CNAME` file in `public/` containing the domain,
-configure DNS, and set it under Settings → Pages. The base path stays `/`.
+Add the domain under **Settings → Domains** in Vercel and point DNS at the
+records it shows. The base path stays `/`. Remember to update
+`CONTACT_ALLOWED_ORIGIN` to the new origin.

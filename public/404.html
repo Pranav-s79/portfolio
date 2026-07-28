@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pranav Senthilkumar</title>
     <!--
-      GitHub Pages SPA fallback. Pages serves this file for any unknown path
+      SPA fallback for static hosts that serve this file on an unknown path
       (e.g. a refresh on /projects). It rewrites the URL into a query the app
       can decode (see the inline script in index.html) and redirects to the
       app root, preserving the original path for the client-side router.
-      pathSegmentsToKeep = 1 keeps the '/portfolio' project-site base segment.
+
+      On Vercel this file is unused -- the rewrite in vercel.json serves
+      index.html directly. It is kept for GitHub Pages compatibility.
+      pathSegmentsToKeep = 0 matches a root deploy; use 1 with a
+      /portfolio/ project-site base.
     -->
     <script>
       (function () {
-        var pathSegmentsToKeep = 1
+        var pathSegmentsToKeep = 0
         var l = window.location
         l.replace(
           l.protocol +

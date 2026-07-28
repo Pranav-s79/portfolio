@@ -1003,6 +1003,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 14px;
+  padding-right: 38px;
 }
 
 .module__index {
@@ -1082,6 +1083,50 @@
   font-size: 11.5px;
   letter-spacing: 0.06em;
   color: var(--ink);
+}
+
+/* Repo badge sits above the card trigger so the link stays clickable. */
+.module__repo {
+  position: absolute;
+  z-index: 2;
+  top: clamp(18px, 2.2vw, 26px);
+  right: clamp(18px, 2.2vw, 26px);
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted, #6f6b63);
+  background: rgba(255, 255, 253, 0.75);
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity var(--micro) var(--ease-out), transform var(--micro) var(--ease-out),
+    color var(--micro) var(--ease-out), border-color var(--micro) var(--ease-out);
+}
+
+.module.is-hovered .module__repo,
+.module__repo:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.module__repo:hover {
+  color: var(--copper);
+  border-color: rgba(168, 112, 61, 0.45);
+}
+
+.module__repo:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 2px;
+}
+
+/* Touch devices have no hover, so keep the badge visible. */
+@media (hover: none) {
+  .module__repo {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .module__arrow {
@@ -1746,6 +1791,15 @@
 .send-status {
   font-size: 14px;
   color: var(--accent);
+}
+
+.send-status--error {
+  color: #b3261e;
+}
+
+.contact-captcha {
+  margin: 4px 0 2px;
+  min-height: 65px;
 }
 
 .send-btn:disabled {

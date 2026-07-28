@@ -1,10 +1,14 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { profile } from '../data/portfolio.js'
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/
 const MAX = { name: 80, email: 120, company: 100, message: 2000 }
+const MESSAGE_MIN = 10
 const COOLDOWN_MS = 8000
-const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || ''
+// Defaults to the same-origin serverless function on Vercel.
+const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || '/api/contact'
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || ''
+const TURNSTILE_SCRIPT = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
 
 function IconGitHub() {
   return (
@@ -46,27 +50,89 @@ function IconEmail() {
 
 const EMPTY_FORM = { name: '', email: '', company: '', message: '' }
 
+let turnstileScript = null
+
+// Loads the Turnstile script once per page and shares the promise.
+function loadTurnstile() {
+  if (!TURNSTILE_SITE_KEY) return Promise.resolve(null)
+  if (turnstileScript) return turnstileScript
+
+  turnstileScript = new Promise((resolve, reject) => {
+    if (window.turnstile) return resolve(window.turnstile)
+    const script = document.createElement('script')
+    script.src = TURNSTILE_SCRIPT
+    script.async = true
+    script.defer = true
+    script.onload = () => resolve(window.turnstile)
+    script.onerror = () => {
+      turnstileScript = null
+      reject(new Error('Turnstile failed to load'))
+    }
+    document.head.appendChild(script)
+  })
+  return turnstileScript
+}
+
+// Renders the widget and exposes the current token via a ref.
+function useTurnstile(containerRef, tokenRef) {
+  const widgetId = useRef(null)
+
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY) return undefined
+    let cancelled = false
+
+    loadTurnstile()
+      .then((turnstile) => {
+        if (cancelled || !turnstile || !containerRef.current) return
+        widgetId.current = turnstile.render(containerRef.current, {
+          sitekey: TURNSTILE_SITE_KEY,
+          theme: 'light',
+          callback: (token) => {
+            tokenRef.current = token
+          },
+          'expired-callback': () => {
+            tokenRef.current = ''
+          },
+          'error-callback': () => {
+            tokenRef.current = ''
+          },
+        })
+      })
+      .catch(() => {})
+
+    return () => {
+      cancelled = true
+      if (widgetId.current && window.turnstile) {
+        window.turnstile.remove(widgetId.current)
+        widgetId.current = null
+      }
+    }
+  }, [containerRef, tokenRef])
+
+  // Tokens are single-use; reset after each successful submit.
+  return () => {
+    tokenRef.current = ''
+    if (widgetId.current && window.turnstile) window.turnstile.reset(widgetId.current)
+  }
+}
+
 export default function Contact() {
   const [form, setForm] = useState(EMPTY_FORM)
   const [invalid, setInvalid] = useState({})
   const [status, setStatus] = useState('idle')
+  const [errorMsg, setErrorMsg] = useState('')
   const [cooling, setCooling] = useState(false)
   const honeypot = useRef('')
   const lastSent = useRef(0)
+  const turnstileRef = useRef(null)
+  const turnstileToken = useRef('')
+  const resetTurnstile = useTurnstile(turnstileRef, turnstileToken)
 
   const set = (k) => (e) => {
     setForm((f) => ({ ...f, [k]: e.target.value.slice(0, MAX[k]) }))
     if (invalid[k]) setInvalid((v) => ({ ...v, [k]: false }))
     setStatus('idle')
-  }
-
-  const openMailto = ({ name, company, message }) => {
-    const signoff = company ? `- ${name}\n- ${company}` : `- ${name}`
-    const body = encodeURIComponent(`${message}\n\n${signoff}`)
-    const href = `mailto:${profile.email}?subject=${encodeURIComponent(
-      `Portfolio message from ${name}`,
-    )}&body=${body}`
-    window.location.href = href
+    setErrorMsg('')
   }
 
   const submit = async (e) => {
@@ -88,40 +154,67 @@ export default function Contact() {
     const next = {
       name: name === '',
       email: !EMAIL_RE.test(email),
-      message: message === '',
+      message: message.length < MESSAGE_MIN,
     }
     setInvalid(next)
-    if (next.name || next.email || next.message) return
+    if (next.name || next.email || next.message) {
+      setErrorMsg(
+        next.message && message.length > 0
+          ? `Message must be at least ${MESSAGE_MIN} characters.`
+          : '',
+      )
+      return
+    }
+
+    if (TURNSTILE_SITE_KEY && !turnstileToken.current) {
+      setStatus('error')
+      setErrorMsg('Please complete the verification check.')
+      return
+    }
 
     setCooling(true)
     setStatus('sending')
+    setErrorMsg('')
 
-    if (CONTACT_API_URL) {
-      try {
-        const response = await fetch(CONTACT_API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name,
-            email,
-            company,
-            message,
-            website: honeypot.current,
-          }),
-        })
-        if (!response.ok) throw new Error('Contact send failed')
-      } catch {
+    try {
+      const response = await fetch(CONTACT_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          company,
+          message,
+          website: honeypot.current,
+          turnstileToken: turnstileToken.current,
+        }),
+      })
+
+      const payload = await response.json().catch(() => ({}))
+
+      if (!response.ok || payload.ok === false) {
         setStatus('error')
+        setErrorMsg(
+          response.status === 429
+            ? 'Too many messages sent. Please try again later.'
+            : payload.error || 'Could not send. Please email me directly.',
+        )
         setCooling(false)
+        resetTurnstile()
         return
       }
-    } else {
-      openMailto({ name, company, message })
+    } catch {
+      setStatus('error')
+      setErrorMsg('Network error. Please email me directly.')
+      setCooling(false)
+      resetTurnstile()
+      return
     }
 
     lastSent.current = now
     setStatus('sent')
     setForm(EMPTY_FORM)
+    resetTurnstile()
     window.setTimeout(() => setCooling(false), COOLDOWN_MS)
   }
 
@@ -207,12 +300,20 @@ export default function Contact() {
             />
           </div>
 
+          {TURNSTILE_SITE_KEY && (
+            <div className="contact-captcha" ref={turnstileRef} aria-label="Verification check" />
+          )}
+
           <div className="contact-actions">
             <button type="submit" className="send-btn" disabled={cooling}>
               {status === 'sending' ? 'sending...' : cooling ? 'sent' : 'send ->'}
             </button>
             {status === 'sent' && <span className="send-status">Sent.</span>}
-            {status === 'error' && <span className="send-status">Could not send.</span>}
+            {status === 'error' && (
+              <span className="send-status send-status--error" role="alert">
+                {errorMsg || 'Could not send.'}
+              </span>
+            )}
           </div>
 
           <div className="contact-socials">
