@@ -29,7 +29,6 @@ export const sections = {
 
 export const research = [
   {
-    year: '2024',
     title: 'Fine-tuning language models for ethical ambiguity',
     org: 'Algoverse AI Research',
     when: 'Jun-Oct 2024',
@@ -42,7 +41,6 @@ export const research = [
     linkLabel: 'arXiv:2410.07826',
   },
   {
-    year: '2026',
     title: 'Machine learning for atmospheric downscaling',
     org: 'LIVE Lab, Texas A&M University',
     when: 'Jun 2026-present',
@@ -81,9 +79,9 @@ export const projects = [
       },
     ],
     oneLine: 'A haptic telepresence system that turns depth into touch.',
-    skills: ['Computer vision', 'Real-time embedded control'],
+    skills: ['Computer vision', 'Embedded control'],
     awards: ['Best Presentation @ Aggies Create 2025, 2026'],
-    stack: ['Python', 'C++', 'DepthAI', 'MediaPipe', 'RPi Pico', 'Servo array'],
+    stack: ['Python', 'C++', 'DepthAI', 'MediaPipe'],
     what:
       'Maps camera depth and hand tracking into motor commands for a wearable haptic array, letting users feel nearby 3D space through touch. Compresses each depth frame into a 5x5 grid of normalized values, with temporal and median filtering to stabilize noisy readings.',
     repo: 'https://github.com/Pranav-s79/HapticPortal',
@@ -99,7 +97,7 @@ export const projects = [
     media: null,
     oneLine: 'Turns unfamiliar codebases into an interactive visual map.',
     skills: ['Graph algorithms', 'Developer tooling'],
-    stack: ['TypeScript', 'Node.js', 'React', 'SQLite', 'MCP', 'Vitest'],
+    stack: ['TypeScript', 'Node.js', 'SQLite', 'MCP'],
     what:
       'A local-first tool that maps how files, functions, tests, and features connect. Incremental re-indexing with transactional SQLite snapshots refreshes a 250K-line codebase in under 1.3 seconds, and six MCP tools expose the graph to AI coding agents. Validated by 178 tests across 25 files.',
     repo: 'https://github.com/Pranav-s79/Tadori',
@@ -114,7 +112,7 @@ export const projects = [
     media: null,
     oneLine: 'Blocks firmware-breaking register-map changes before merge.',
     skills: ['Firmware tooling', 'CI/CD automation'],
-    stack: ['Python', 'CMSIS-SVD', 'Click', 'pytest', 'mypy', 'GitHub Actions'],
+    stack: ['Python', 'CMSIS-SVD', 'GitHub Actions'],
     what:
       'A Python CLI and GitHub Action that catches 22 classes of breaking CMSIS-SVD changes, diffing inheritance, arrays, clusters, registers, fields, interrupts, and access semantics. Validated against 330 tests across 15 SVDs from STM32, Nordic, NXP, Atmel, and RP2040, and published to PyPI and the GitHub Marketplace.',
     repo: 'https://github.com/Pranav-s79/regdrift',
@@ -131,7 +129,7 @@ export const projects = [
     media: null,
     oneLine: 'A two-axis platform that rejects motion with closed-loop control.',
     skills: ['Control systems', 'Sensor fusion'],
-    stack: ['C++', 'Arduino Uno', 'GY-87', 'Servo motors'],
+    stack: ['C++', 'Arduino', 'GY-87 IMU'],
     what:
       'Reads GY-87 inertial data, estimates tilt, and drives two servo axes through a PID loop to keep the platform level under disturbance.',
     repo: 'https://github.com/Pranav-s79/Gimbal',
@@ -147,7 +145,7 @@ export const projects = [
     media: null,
     oneLine: 'Live webcam feedback for rep counting and form checks.',
     skills: ['Computer vision', 'Pose estimation'],
-    stack: ['Python', 'MediaPipe', 'OpenCV', 'NumPy'],
+    stack: ['Python', 'MediaPipe', 'OpenCV'],
     what:
       'Tracks body landmarks from a webcam, converts them into elbow and torso angles, counts reps, and flags depth or alignment issues in real time.',
     repo: 'https://github.com/Pranav-s79/Pushup_Form_Checker',
@@ -163,7 +161,7 @@ export const projects = [
     media: null,
     oneLine: 'A verified RV32I-style ALU with directed and randomized tests.',
     skills: ['Digital design', 'Hardware verification'],
-    stack: ['Verilog', 'Python', 'Icarus Verilog', 'GTKWave'],
+    stack: ['Verilog', 'Python', 'Icarus Verilog'],
     what:
       'A 32-bit combinational ALU and branch comparator for core RV32I operations, verified against edge cases with self-checking Verilog tests and Python-generated randomized reference vectors.',
     repo: 'https://github.com/Pranav-s79/RISCV-ALU',
@@ -178,7 +176,7 @@ export const projects = [
     media: null,
     oneLine: 'Predicts safe thermal limits for multi-core chips.',
     skills: ['Machine learning', 'Uncertainty quantification'],
-    stack: ['Python', 'PyTorch', 'scikit-learn', 'NumPy', 'Pandas'],
+    stack: ['Python', 'PyTorch', 'scikit-learn'],
     what:
       'Trains quantile regression models and applies conformal calibration to turn raw predictions into guaranteed upper bounds on chip temperature, then schedules tasks to avoid overheating. Hit 95% coverage against a 90% target across 5 seeds, with a multi-seed harness isolating where calibration holds under distribution shift.',
     repo: 'https://github.com/Pranav-s79/ThermGuard',
@@ -193,8 +191,8 @@ export const projects = [
     size: 'tall',
     media: null,
     oneLine: 'An event-driven C++ simulator for gate timing and signal traces.',
-    skills: ['C++', 'Discrete-event simulation'],
-    stack: ['C++', 'OOP', 'Priority queue', 'CSV trace export'],
+    skills: ['Discrete-event simulation', 'Data structures'],
+    stack: ['C++'],
     what:
       'An event-driven simulator for AND, OR, and multi-input gates with configurable delays, using a priority queue scheduler to model propagation and export waveform traces for timing analysis.',
     repo: null,
@@ -211,60 +209,42 @@ export const skillLevels = [
 
 export const skillNodes = [
   { id: 'verilog', label: 'Verilog', domain: 'Hardware', level: 'learning' },
-  { id: 'kicad', label: 'KiCad', domain: 'Hardware', level: 'learning' },
+  { id: 'digital', label: 'Digital design', domain: 'Hardware', level: 'learning' },
   { id: 'pcb', label: 'PCB design', domain: 'Hardware', level: 'learning' },
-  { id: 'cpp', label: 'C++', domain: 'Embedded', level: 'applied' },
   { id: 'c', label: 'C', domain: 'Embedded', level: 'learning' },
+  { id: 'cpp', label: 'C++', domain: 'Embedded', level: 'applied' },
+  { id: 'mcu', label: 'Microcontrollers', domain: 'Embedded', level: 'applied' },
   { id: 'linux', label: 'Linux', domain: 'Embedded', level: 'learning' },
-  { id: 'arduino', label: 'Arduino', domain: 'Embedded', level: 'applied' },
-  { id: 'pico', label: 'RPi Pico', domain: 'Embedded', level: 'applied' },
-  { id: 'i2c', label: 'I2C', domain: 'Embedded', level: 'applied' },
-  { id: 'pwm', label: 'PWM', domain: 'Embedded', level: 'applied' },
-  { id: 'pid', label: 'PID control', domain: 'Robotics', level: 'applied' },
-  { id: 'control', label: 'Control loops', domain: 'Robotics', level: 'applied' },
+  { id: 'control', label: 'Control systems', domain: 'Robotics', level: 'applied' },
   { id: 'fusion', label: 'Sensor fusion', domain: 'Robotics', level: 'applied' },
-  { id: 'servo', label: 'Servo motors', domain: 'Robotics', level: 'applied' },
+  { id: 'vision', label: 'Computer vision', domain: 'Robotics', level: 'applied' },
   { id: 'python', label: 'Python', domain: 'Software / ML', level: 'applied' },
   { id: 'pytorch', label: 'PyTorch', domain: 'Software / ML', level: 'applied' },
-  { id: 'mediapipe', label: 'MediaPipe', domain: 'Software / ML', level: 'applied' },
-  { id: 'opencv', label: 'OpenCV', domain: 'Software / ML', level: 'applied' },
-  { id: 'numpy', label: 'NumPy', domain: 'Software / ML', level: 'applied' },
-  { id: 'qlora', label: 'QLoRA', domain: 'Software / ML', level: 'applied' },
-  { id: 'nlp', label: 'NLP', domain: 'Software / ML', level: 'applied' },
+  { id: 'ml', label: 'Machine learning', domain: 'Software / ML', level: 'applied' },
+  { id: 'typescript', label: 'TypeScript', domain: 'Software / ML', level: 'applied' },
 ]
 
 export const skillEdges = [
-  ['verilog', 'kicad'],
-  ['kicad', 'pcb'],
-  ['pcb', 'pico'],
-  ['cpp', 'arduino'],
-  ['cpp', 'pico'],
+  ['verilog', 'digital'],
+  ['digital', 'pcb'],
+  ['pcb', 'mcu'],
   ['c', 'cpp'],
-  ['c', 'pico'],
+  ['cpp', 'mcu'],
   ['linux', 'c'],
   ['linux', 'python'],
-  ['arduino', 'i2c'],
-  ['arduino', 'pwm'],
-  ['i2c', 'fusion'],
-  ['pwm', 'servo'],
-  ['pid', 'control'],
+  ['mcu', 'control'],
   ['control', 'fusion'],
-  ['fusion', 'pid'],
-  ['servo', 'control'],
+  ['fusion', 'vision'],
+  ['vision', 'python'],
   ['python', 'pytorch'],
-  ['python', 'opencv'],
-  ['python', 'numpy'],
-  ['pytorch', 'qlora'],
-  ['qlora', 'nlp'],
-  ['nlp', 'pytorch'],
-  ['mediapipe', 'opencv'],
-  ['opencv', 'numpy'],
+  ['pytorch', 'ml'],
+  ['python', 'typescript'],
 ]
 
 export const resume = {
   downloads: [
-    { label: 'download resume-hardware.pdf', href: 'resumes/resume-hardware.pdf' },
-    { label: 'download resume-software.pdf', href: 'resumes/Software_Resume.pdf' },
+    { label: 'Software resume here!', href: 'resumes/Senthilkumar,Pranav - Resume.pdf' },
+    { label: 'Hardware resume here!', href: 'resumes/resume-hardware.pdf' },
   ],
   education: [
     {
@@ -276,6 +256,14 @@ export const resume = {
     },
   ],
   experience: [
+    {
+      head: 'Robotics Software Engineering Intern',
+      org: 'Nietzsche Labs',
+      when: 'Aug 2026-present',
+      note: 'Building perception and control software for autonomous robots.',
+      tags: ['Robotics', 'Python', 'C++'],
+      category: 'industry',
+    },
     {
       head: 'Research Team Lead',
       org: 'Algoverse AI Research',

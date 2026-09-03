@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { skillEdges, skillNodes } from '../data/portfolio.js'
 
+// Wide canvases get a 2x2 constellation; narrow ones stack the four domains in
+// a single column so long labels have the full width to breathe.
 const CLUSTERS = {
   Hardware: { x: 0.27, y: 0.3 },
   Embedded: { x: 0.73, y: 0.3 },
@@ -8,11 +10,20 @@ const CLUSTERS = {
   'Software / ML': { x: 0.27, y: 0.72 },
 }
 
+const CLUSTERS_NARROW = {
+  Hardware: { x: 0.5, y: 0.13 },
+  Embedded: { x: 0.5, y: 0.38 },
+  Robotics: { x: 0.5, y: 0.63 },
+  'Software / ML': { x: 0.5, y: 0.88 },
+}
+
 const INK = '#1c1c1e'
 const LINE = '#cfcdc4'
 const ACCENT = '#4a7fa5'
 const COPPER = '#a8703d'
 const MUTED = '#6f6e68'
+
+const clamp = (v, lo, hi) => (hi < lo ? (lo + hi) / 2 : Math.min(Math.max(v, lo), hi))
 
 export default function SkillGraph({ activeDomain = null }) {
   const canvasRef = useRef(null)
@@ -70,25 +81,46 @@ export default function SkillGraph({ activeDomain = null }) {
       frameId = requestAnimationFrame(draw)
       const t = (performance.now() - start) / 1000
       const active = activeRef.current
-      const ringR = Math.min(w, h) * 0.16
+
+      // Narrow canvases (phones) stack the clusters and use a wide, flat ring:
+      // horizontal room is what long labels need, vertical room is what is scarce.
+      const narrow = w < 620
+      const clusters = narrow ? CLUSTERS_NARROW : CLUSTERS
+      const fontSize = narrow ? 10 : 12
+      const ringRx = narrow ? w * 0.23 : Math.min(w, h) * 0.16
+      const ringRy = narrow ? h * 0.072 : Math.min(w, h) * 0.16
+      const driftScale = narrow ? 0.45 : 1
+      const labelLift = narrow ? 11 : 14
+      const pad = 6
+
+      ctx.font = `${fontSize}px "JetBrains Mono", monospace`
 
       Object.values(nodes).forEach((n) => {
-        const c = CLUSTERS[n.domain]
+        const c = clusters[n.domain]
         if (!c) return
         const cx = c.x * w
         const cy = c.y * h
         const isActive = !active || n.domain === active
         const spread = active && n.domain === active ? 1.3 : 1
         const frozen = active && n.domain !== active
-        const drift = frozen ? 0 : 1
-        n.x =
+        const drift = frozen ? 0 : driftScale
+        const x =
           cx +
-          Math.cos(n.ringAngle) * ringR * spread +
+          Math.cos(n.ringAngle) * ringRx * spread +
           Math.cos(t * 0.5 + n.phase) * n.driftR * drift
-        n.y =
+        const y =
           cy +
-          Math.sin(n.ringAngle) * ringR * spread +
+          Math.sin(n.ringAngle) * ringRy * spread +
           Math.sin(t * 0.4 + n.phase) * n.driftR * drift
+
+        // labels sit above nodes in the top half of a ring and below in the
+        // bottom half, which keeps same-cluster labels off each other
+        n._below = narrow && Math.sin(n.ringAngle) > 0.3
+
+        // keep the whole label inside the canvas, not just the node dot
+        const half = ctx.measureText(n.label).width / 2
+        n.x = clamp(x, half + pad, w - half - pad)
+        n.y = clamp(y, labelLift + fontSize + pad, h - labelLift - fontSize - pad)
         n._active = isActive
       })
 
@@ -121,7 +153,6 @@ export default function SkillGraph({ activeDomain = null }) {
 
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
-      ctx.font = '12px "JetBrains Mono", monospace'
       Object.values(nodes).forEach((n) => {
         const dim = active && !n._active
         const highlight = active && n._active
@@ -145,7 +176,7 @@ export default function SkillGraph({ activeDomain = null }) {
 
         ctx.fillStyle = highlight ? INK : MUTED
         ctx.globalAlpha = dim ? 0.1 : highlight ? 1 : 0.78
-        ctx.fillText(n.label, n.x, n.y - 14)
+        ctx.fillText(n.label, n.x, n.y + (n._below ? labelLift + 2 : -labelLift))
       })
       ctx.globalAlpha = 1
     }

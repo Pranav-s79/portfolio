@@ -40,7 +40,8 @@ function Entry({ head, org, when, note, tags }) {
 
 const resumeHref = (href) => {
   if (/^https?:\/\//.test(href)) return href
-  return toHref(`/${href.replace(/^\/+/, '')}`)
+  // encodeURI so filenames containing spaces/commas resolve on every host
+  return encodeURI(toHref(`/${href.replace(/^\/+/, '')}`))
 }
 
 export default function Resume({ navigate }) {
@@ -107,8 +108,8 @@ export default function Resume({ navigate }) {
         <Section name="Projects" open={open.projects} onToggle={() => toggle('projects')}>
           <div className="ds-entry">
             <p className="ds-entry__note">
-              Haptic Portal, ThermGuard, a 2DOF gimbal stabilizer, and a webcam push-up form
-              analyzer. Full write-ups on the{' '}
+              Haptic Portal, Tadori, Regdrift, ThermGuard, a 2DOF gimbal stabilizer, and a
+              verified RISC-V ALU. Full write-ups on the{' '}
               <a className="ds-inline-link" href={toHref('/projects')} onClick={(e) => goto(e, '/projects')}>
                 projects page
               </a>
@@ -120,8 +121,8 @@ export default function Resume({ navigate }) {
         <Section name="Skills" open={open.skills} onToggle={() => toggle('skills')}>
           <div className="ds-entry">
             <p className="ds-entry__note">
-              Embedded control, robotics, hardware design tools, and ML software. The focused graph
-              is on the{' '}
+              C/C++ and Python across embedded control, robotics, and ML, plus digital design in
+              Verilog. The full graph is on the{' '}
               <a className="ds-inline-link" href={toHref('/skills')} onClick={(e) => goto(e, '/skills')}>
                 skills page
               </a>

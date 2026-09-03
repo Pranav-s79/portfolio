@@ -1,6 +1,7 @@
-Place the resume files here:
+Resume PDFs served through the deploy base path (see `resume.downloads` in
+`src/data/portfolio.js`):
 
-- resume-hardware.pdf
-- Software_Resume.pdf
+- `Senthilkumar,Pranav - Resume.pdf` — linked as "Software resume here!"
+- `resume-hardware.pdf` — linked as "Hardware resume here!"
 
-The resume page links to these files through the GitHub Pages base path.
+Filenames are passed through `encodeURI`, so spaces and commas are safe.

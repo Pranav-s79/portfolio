@@ -14,9 +14,6 @@ export default function Skills() {
         <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
           Skills
         </h1>
-        <p className="page__lead rise" style={{ animationDelay: '180ms' }}>
-          Focused tools across embedded control, robotics, hardware, and ML software.
-        </p>
       </header>
 
       <div className="skills-stage">
@@ -34,12 +31,16 @@ export default function Skills() {
               return (
                 <button
                   key={d}
+                  type="button"
                   className={cls}
+                  aria-pressed={active === d}
                   style={{ animationDelay: `${260 + i * 80}ms` }}
                   onMouseEnter={() => setActive(d)}
                   onMouseLeave={() => setActive(null)}
                   onFocus={() => setActive(d)}
                   onBlur={() => setActive(null)}
+                  // touch has no hover: tapping pins a domain, tapping again clears it
+                  onClick={() => setActive((cur) => (cur === d ? null : d))}
                 >
                   <span className="domain__index">D0{i + 1}</span>
                   <span className="domain__label">{d}</span>

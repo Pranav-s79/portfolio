@@ -1617,19 +1617,36 @@
 }
 
 .download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 44px;
+  padding: 10px 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--surface-solid);
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--accent);
-  transition: opacity var(--micro) var(--ease-out);
+  transition: border-color var(--micro) var(--ease-out),
+    color var(--micro) var(--ease-out);
 }
 
-.download::before {
-  content: '$ ';
-  color: var(--muted);
+.download::after {
+  content: '->';
+  color: var(--copper);
 }
 
-.download:hover {
-  opacity: 0.7;
+.download:hover,
+.download:focus-visible {
+  border-color: var(--copper);
+  color: var(--ink);
+}
+
+.download:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
 }
 
 .ds-section {
@@ -1953,6 +1970,7 @@
   }
   .home__rail {
     position: static;
+    transform: none; /* drop the desktop centring offset once it is in flow */
     flex-wrap: wrap;
     gap: 18px 28px;
     padding: 12px 0 32px;
@@ -2117,6 +2135,143 @@
   .module--wide,
   .module--full {
     min-height: 0;
+  }
+}
+
+/* ---- Phones: nav off the robot, denser type, real tap targets ---- */
+@media (max-width: 640px) {
+  .page {
+    padding: 92px 18px 44px;
+  }
+  .page-head {
+    margin-bottom: 34px;
+  }
+  .page__title {
+    font-size: clamp(32px, 8.5vw, 44px);
+  }
+
+  /* Home: content-driven height, rail below the robot instead of across it */
+  .home {
+    min-height: 0;
+    padding: 84px 18px 36px;
+  }
+  .home__name {
+    font-size: clamp(30px, 9vw, 40px);
+  }
+  .home__eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .home__socials .social-link {
+    width: 44px;
+    height: 44px;
+  }
+  .home__robot {
+    height: 46vh;
+    min-height: 240px;
+    max-height: 360px;
+    margin: 4px -18px 0;
+  }
+  .home__rail {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    padding: 4px 0 8px;
+  }
+  .rail-item {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface-solid);
+  }
+  /* the white halo only reads over the robot, not over the page ground */
+  .rail-item__index,
+  .rail-item__label {
+    text-shadow: none;
+  }
+  .rail-item__label {
+    font-size: 15px;
+  }
+  .rail-item--active,
+  .rail-item--dim {
+    transform: none;
+    opacity: 1;
+  }
+  .rail-item--active {
+    border-color: var(--copper);
+  }
+  .model-credit {
+    margin-top: 18px;
+    font-size: 10px;
+  }
+
+  /* Cards */
+  .pane {
+    padding: 20px 18px;
+  }
+  .trace__title {
+    font-size: 20px;
+  }
+
+  /* Projects: filters scroll rather than wrap, so the marker stays aligned */
+  .filters {
+    gap: 10px;
+    margin-bottom: 26px;
+  }
+  .filters__row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filters__row::-webkit-scrollbar {
+    display: none;
+  }
+  .filters__btn {
+    white-space: nowrap;
+    padding-block: 6px 8px;
+  }
+  .module__repo,
+  .preview__action {
+    min-height: 44px;
+  }
+
+  /* Resume: full-width downloads, entry dates above the heading */
+  .datasheet__top {
+    gap: 14px;
+  }
+  .downloads {
+    width: 100%;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .ds-entry__row {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .ds-entry__when {
+    order: -1;
+  }
+  .ds-section__head {
+    min-height: 48px;
+  }
+
+  /* Skills: taller graph, two-up domain buttons */
+  .skill-graph {
+    height: 64vh;
+    min-height: 440px;
+  }
+  .domain {
+    flex: 1 1 calc(50% - 8px);
+    min-height: 46px;
   }
 }
 

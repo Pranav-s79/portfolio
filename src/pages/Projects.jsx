@@ -37,9 +37,6 @@ export default function Projects() {
         <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
           Projects
         </h1>
-        <p className="page__lead rise" style={{ animationDelay: '180ms' }}>
-          Hardware and software builds with clear inputs, logic, and output.
-        </p>
       </header>
 
       <div className="rise" style={{ animationDelay: '230ms' }}>

@@ -10,9 +10,6 @@ export default function Research() {
         <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
           Research
         </h1>
-        <p className="page__lead rise" style={{ animationDelay: '180ms' }}>
-          Applied work in model alignment, signal processing, and embedded sensing.
-        </p>
       </header>
 
       <div className="trace">
@@ -29,9 +26,7 @@ export default function Research() {
               <div className="trace__card pane">
                 <div className="pane__top">
                   <span className="pane__index">R0{i + 1}</span>
-                  <span className="trace__year">
-                    {item.year} - {item.when}
-                  </span>
+                  <span className="trace__year">{item.when}</span>
                 </div>
                 <h2 className="trace__title">{item.title}</h2>
                 <p className="trace__org">{item.org}</p>

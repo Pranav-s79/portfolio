@@ -12,9 +12,6 @@ export default function Experience() {
         <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
           Experience
         </h1>
-        <p className="page__lead rise" style={{ animationDelay: '180ms' }}>
-          Teaching and mentoring outside the classroom.
-        </p>
       </header>
 
       <div className="trace">
