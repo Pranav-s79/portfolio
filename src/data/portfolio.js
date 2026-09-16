@@ -251,42 +251,81 @@ export const resume = {
       head: 'B.S. Electrical Engineering, Honors',
       org: 'Texas A&M University',
       when: '2025-2029',
-      note: 'Focused on embedded systems, robotics, software, and digital hardware fundamentals.',
-      tags: ['Electrical engineering', 'Honors', 'Embedded systems'],
+      notes: ['Embedded systems, robotics, software, and digital hardware'],
     },
   ],
+  // Each note is one short line. Keep them terse - the pages render them as
+  // separate bullets, not as prose.
   experience: [
+    {
+      head: 'Engineering Intern',
+      org: 'Shallow Sports Boats',
+      when: 'Sep 2026-present',
+      notes: [
+        'Working to design autonomous sports boats',
+        'Building vision system and motor and sensor control stack',
+      ],
+      category: 'industry',
+    },
     {
       head: 'Robotics Software Engineering Intern',
       org: 'Nietzsche Labs',
-      when: 'Aug 2026-present',
-      note: 'Building perception and control software for autonomous robots.',
-      tags: ['Robotics', 'Python', 'C++'],
+      when: 'Aug-Sep 2026',
+      notes: [
+        'Built software for robotics teams to manage their fleets',
+        'Worked on the tooling behind modern robot deployments',
+      ],
       category: 'industry',
     },
     {
       head: 'Research Team Lead',
       org: 'Algoverse AI Research',
       when: 'Jun-Oct 2024',
-      note: 'Led QLoRA fine-tuning of three open-weight LLMs on moral-reasoning tasks. Post-fine-tune Mistral-7B matched GPT-4o on DILEMMAS and was accepted at NeurIPS 2024 SoLaR.',
-      tags: ['QLoRA', 'PyTorch', 'NeurIPS 2024'],
+      notes: [
+        'Led QLoRA fine-tuning of three open-weight LLMs on moral reasoning',
+        'Fine-tuned Mistral-7B matched GPT-4o, accepted at NeurIPS 2024 SoLaR',
+      ],
       category: 'research',
     },
     {
       head: 'Undergraduate Machine Learning Researcher',
       org: 'LIVE Lab, Texas A&M University',
       when: 'Jun 2026-present',
-      note: 'Converting mesoscale weather and terrain data into microscale predictions for high-resolution CFD.',
-      tags: ['XGBoost', 'Fourier Neural Operators', 'Gaussian Processes'],
+      notes: [
+        'Turning mesoscale weather and terrain data into microscale predictions',
+        'Benchmarking ML models against baselines for high-resolution CFD',
+      ],
       category: 'research',
     },
     {
       head: 'Coding Instructor',
       org: 'iCode',
       when: 'Mar-Jul 2025',
-      note: 'Taught Python, Java, and Lua to K-12 students and mentored a robotics team on sensor integration and autonomous control.',
-      tags: ['Python', 'Java', 'Lua', 'Robotics mentoring', 'Teaching'],
+      notes: [
+        'Taught Python, Java, and Lua to K-12 students',
+        'Mentored a robotics team on sensors and autonomous control',
+      ],
       category: 'teaching',
+    },
+    {
+      head: 'Webmaster',
+      org: 'Aggies Create',
+      when: '2025-present',
+      notes: [
+        'Building and maintaining the organization’s website',
+        'Keeping member projects and events current',
+      ],
+      category: 'leadership',
+    },
+    {
+      head: 'Treasurer and Project Contributor',
+      org: 'Rev Silicon',
+      when: '2026-present',
+      notes: [
+        'Managing the budget and funding requests',
+        'Contributing to the chip design projects',
+      ],
+      category: 'leadership',
     },
   ],
   awards: [
@@ -294,8 +333,7 @@ export const resume = {
       head: 'Best Presentation',
       org: 'Aggies Create',
       when: '2025, 2026',
-      note: 'Recognized for clear technical communication and project presentation.',
-      tags: ['Presentation', 'Engineering design'],
+      notes: ['Recognized for technical communication and project presentation'],
     },
   ],
 }
