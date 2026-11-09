@@ -1,20 +1,7 @@
-import { experience, research } from '../data/portfolio.js'
-
-const researchEntries = research.map((r) => ({
-  id: r.slug,
-  role: r.role,
-  org: r.org,
-  when: r.when,
-  where: r.where,
-  current: r.current,
-  summary: r.summary,
-  notes: r.work,
-  tech: r.tech,
-}))
+import { experience } from '../data/portfolio.js'
 
 const GROUPS = [
   { id: 'professional', label: 'Professional', items: experience.filter((e) => e.category === 'professional') },
-  { id: 'research', label: 'Research', items: researchEntries },
   { id: 'leadership', label: 'Leadership', items: experience.filter((e) => e.category === 'leadership') },
 ]
 

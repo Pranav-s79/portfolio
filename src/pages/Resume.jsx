@@ -101,7 +101,7 @@ export default function Resume({ navigate }) {
 
       <Section name="Research">
         {research.map((r) => (
-          <Entry key={r.slug} head={r.role} org={r.org} when={r.when} where={r.where} notes={[r.summary, ...r.work]} />
+          <Entry key={r.slug} head={r.role} org={r.org} when={r.period} notes={[r.line, r.metrics.map((m) => `${m.value} ${m.label}`).join(' · ')]} />
         ))}
       </Section>
 

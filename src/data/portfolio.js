@@ -56,46 +56,34 @@ export const routeMeta = {
 export const research = [
   {
     slug: 'live-lab',
-    title: 'Street-level wind for cities',
-    role: 'Undergraduate Machine Learning Researcher',
-    org: 'LIVE Lab, Texas A&M University',
-    when: 'Jun 2026 – Present',
-    where: 'College Station, TX',
+    title: 'Street-level wind',
+    org: 'LIVE Lab · Texas A&M',
+    role: 'Undergraduate ML Researcher',
+    when: '2026 —',
+    period: 'Jun 2026 – Present',
     current: true,
-    summary:
-      'Weather models forecast wind over kilometers. Buildings bend it block by block. I build models that take a regional forecast down to the street.',
+    line: 'LiDAR, terrain, and building data in. Street-scale wind fields out.',
     metrics: [
-      { value: '50%', label: 'lower near-ground error' },
-      { value: '~3 min → <1 s', label: 'per prediction' },
-      { value: '+59.9%', label: '4× resolution vs. interpolation' },
-    ],
-    work: [
-      'End-to-end pipeline that fuses LiDAR, terrain, and building data with a 3D model',
-      'Residual correction model that upsamples wind fields 4× beyond what interpolation recovers',
-      'Covers both dense urban blocks and open terrain',
+      { value: '50%', label: 'less near-ground error' },
+      { value: '<1 s', label: 'per prediction, down from ~3 min' },
+      { value: '+59.9%', label: '4× super-resolution over interpolation' },
     ],
     tech: ['Python', 'XGBoost', 'Neural operators', 'LiDAR'],
     link: null,
   },
   {
     slug: 'algoverse',
-    title: 'LLMs that disagree like people do',
-    role: 'Student Researcher',
+    title: 'Moral ambiguity in LLMs',
     org: 'Algoverse AI Research',
-    when: 'Jun – Oct 2024',
-    where: 'Remote',
+    role: 'Student Researcher',
+    when: '2024',
+    period: 'Jun – Oct 2024',
     current: false,
-    summary:
-      'Ask people a morally ambiguous question and you get a spread of answers. We tuned language models to reproduce that spread instead of collapsing to one verdict.',
+    line: 'Three open LLMs tuned to match the spread of human moral judgment, not a single verdict.',
     metrics: [
+      { value: '7B', label: 'open model, matched GPT-4o' },
       { value: '31%', label: 'less error vs. human responses' },
-      { value: '7B', label: 'open model matched GPT-4o' },
-      { value: '3', label: 'open-source LLMs fine-tuned' },
-    ],
-    work: [
-      'Calibrated models to reflect the spread of human opinion, using parameter-efficient fine-tuning',
-      'Matched GPT-4o on moral reasoning with a 7B open-source model',
-      'Published at the NeurIPS 2024 SoLaR workshop',
+      { value: 'NeurIPS', label: '2024 SoLaR workshop paper' },
     ],
     tech: ['PyTorch', 'Parameter-efficient fine-tuning'],
     link: 'https://arxiv.org/abs/2410.07826',
@@ -158,8 +146,8 @@ export const projects = [
       diagramCaption:
         'One tile moving through the chip. Weights stay put; activations stream in from the left; finished sums drain downward.',
       contribution: [
-        'Team project, split into three workstreams: the systolic array and dataflow; arithmetic, back end, and verification; and integration, control, and I/O.',
-        'I work on the architecture side: dataflow, memory, and the interface contracts between blocks.',
+        'Team project, three workstreams: array and dataflow; arithmetic and verification; integration and I/O.',
+        'Architecture: dataflow, memory, and the contracts between blocks.',
       ],
       decisions: [
         {
@@ -232,8 +220,8 @@ export const projects = [
       ],
       diagramCaption: 'Phase 1 datapath.',
       contribution: [
-        'Solo. I planned the phases, architecture, and verification, and wrote the first module drafts.',
-        'The Phase 1 RTL was finished with AI help, logged in the repo. The pipeline is mine to build.',
+        'Solo. Phase plan, architecture, verification strategy, Vivado flow, first module drafts.',
+        'Phase 1 RTL finished with AI assistance, logged in the repo. Pipeline RTL: hand-written.',
       ],
       decisions: [
         { title: 'Single-cycle first', body: 'A known-good baseline (CPI 1, ~58 MHz) to measure every later phase against.' },
@@ -424,7 +412,7 @@ export const projects = [
     demoLabel: 'Project site',
     diagram: null,
     caseStudy: {
-      problem: 'Telepresence carries sight and sound. We wanted it to carry touch.',
+      problem: 'Telepresence carries sight and sound. Not touch.',
       architecture: [
         'An OAK-D camera streams color and depth. MediaPipe finds the hand, and the depth around it is cropped into a 5×5 grid.',
         'Temporal and median filters calm the sensor noise, then the grid goes over UDP to a Pico W driving the motor array.',
@@ -643,11 +631,11 @@ export const experience = [
     where: 'College Station, TX',
     current: true,
     category: 'professional',
-    summary: 'Autonomous survey boat for a sponsor, built by a student consulting team.',
+    summary: 'An autonomous survey boat, sensors to navigation.',
     notes: [
-      'Implementing C++ firmware on an ESP32 that streams GPS, IMU, sonar, and propulsion telemetry to the navigation stack',
-      'Deploying a quantized vision model on a Raspberry Pi for real-time water segmentation and obstacle detection',
-      'Designing the C++ and ROS 2 navigation software that turns mission goals into autonomous survey runs',
+      'ESP32 firmware in C++: GPS, IMU, sonar, and propulsion telemetry',
+      'Quantized segmentation model on a Raspberry Pi, water and obstacles in real time',
+      'ROS 2 navigation that turns a mission into a survey run',
     ],
     tech: ['C++', 'ESP32', 'Raspberry Pi', 'ROS 2'],
   },
@@ -659,11 +647,11 @@ export const experience = [
     where: 'Remote',
     current: false,
     category: 'professional',
-    summary: 'Robot OS provisioning tool, from desktop app to cloud API.',
+    summary: 'Robot OS provisioning, desktop to cloud.',
     notes: [
-      'Shipped a cross-platform Electron app that flashes robot OS images onto SD cards, backed by an AWS serverless API',
-      'Added 8 pre-write safety checks with target-drive re-verification so it can never overwrite a host disk',
-      'Automated first-boot partition expansion on embedded Linux images, reclaiming 90–97% of storage stuck behind a fixed 2.75 GiB partition; zero failures across 10 card sizes from 2 to 256 GB',
+      'Electron flasher for robot SD cards on an AWS serverless backend',
+      '8 pre-write checks between the tool and a host disk',
+      '90–97% of stranded storage reclaimed on first boot, clean on all 10 card sizes tested',
     ],
     tech: ['Electron', 'AWS', 'Embedded Linux'],
   },
@@ -675,9 +663,9 @@ export const experience = [
     where: null,
     current: false,
     category: 'professional',
-    summary: 'Taught programming to K–12 students.',
-    notes: ['Covered Python, Java, and Lua', 'Mentored a student robotics team'],
-    tech: ['Python', 'Java', 'Lua'],
+    summary: 'K–12 programming.',
+    notes: ['Python, Java, and Lua', 'Mentor to a student robotics team'],
+    tech: [],
   },
   {
     id: 'rev-silicon',
@@ -687,21 +675,12 @@ export const experience = [
     where: 'College Station, TX',
     current: true,
     category: 'leadership',
-    summary: 'Student silicon design organization working toward its first fabrication on SKY130.',
+    summary: 'Student silicon design, headed for a first SKY130 fabrication.',
     groups: [
-      {
-        label: 'Treasurer',
-        notes: [
-          'Manage the budget and funding for fabrication',
-          'Coordinate hardware procurement and EDA tooling so members can take designs from concept to fab',
-        ],
-      },
+      { label: 'Treasurer', notes: ['Budget and funding for fabrication', 'EDA tooling and hardware procurement'] },
       {
         label: 'Architecture',
-        notes: [
-          'Work with the architecture team on ASIC concepts, including chips aimed at high-frequency trading',
-          'Explore low-latency datapaths, dataflow, memory, and RTL-level tradeoffs',
-        ],
+        notes: ['ASIC concepts for high-frequency trading', 'Low-latency dataflow, memory, and RTL tradeoffs'],
       },
     ],
   },
@@ -713,7 +692,7 @@ export const experience = [
     where: 'College Station, TX',
     current: true,
     category: 'leadership',
-    summary: 'Build and maintain the organization’s website.',
+    summary: 'The organization’s website, built and kept running.',
     notes: [],
   },
 ]

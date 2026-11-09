@@ -1,73 +1,68 @@
 import { publications, research } from '../data/portfolio.js'
 
-// Each study reads as a spread: the numbers on one side, the story on the other.
+// One study per band: the headline number does the talking.
 export default function Research() {
+  const paper = publications[0]
   return (
     <div className="page page--wide">
-      <header className="page-head">
+      <header className="page-head rx-head">
         <h1 className="page__title">Research</h1>
+        <span className="rx-head__count">{String(research.length).padStart(2, '0')}</span>
       </header>
 
-      <div className="studies">
-        {research.map((r, i) => (
-          <article className="study" key={r.slug}>
-            <div className="study__index" aria-hidden="true">
-              {String(i + 1).padStart(2, '0')}
-            </div>
+      {research.map((r, i) => {
+        const [hero, ...rest] = r.metrics
+        return (
+          <article className="rx" key={r.slug}>
+            <p className="rx__meta">
+              <span className="rx__no">{String(i + 1).padStart(2, '0')}</span>
+              <span className="rx__rule" aria-hidden="true" />
+              <span>{r.org}</span>
+              <span className="rx__when">
+                {r.current && <span className="rx__live" aria-label="ongoing" />}
+                {r.when}
+              </span>
+            </p>
 
-            <div className="study__main">
-              <p className="study__meta">
-                <span>{r.org}</span>
-                <span className="case__meta-sep" aria-hidden="true" />
-                <span>{r.when}</span>
-                {r.current && <span className="tl__now">Current</span>}
-              </p>
-              <h2 className="study__title">{r.title}</h2>
-              <p className="study__role">{r.role}</p>
-              <p className="study__summary">{r.summary}</p>
-
-              <ul className="study__work">
-                {r.work.map((w) => (
-                  <li key={w}>{w}</li>
-                ))}
-              </ul>
-
-              <p className="study__foot">
-                <span>{r.tech.join(' · ')}</span>
-                {r.link && (
-                  <a className="textlink" href={r.link} target="_blank" rel="noopener noreferrer">
-                    {r.linkLabel} →
-                  </a>
-                )}
+            <div className="rx__body">
+              <div>
+                <h2 className="rx__title">{r.title}</h2>
+                <p className="rx__line">{r.line}</p>
+              </div>
+              <p className="rx__hero">
+                <span className="rx__big">{hero.value}</span>
+                <span className="rx__big-label">{hero.label}</span>
               </p>
             </div>
 
-            <dl className="study__metrics">
-              {r.metrics.map((m) => (
+            <dl className="rx__rest">
+              {rest.map((m) => (
                 <div key={m.label}>
                   <dt>{m.label}</dt>
                   <dd>{m.value}</dd>
                 </div>
               ))}
             </dl>
-          </article>
-        ))}
-      </div>
 
-      <section className="paper" aria-labelledby="pubs">
-        <h2 className="paper__kicker" id="pubs">
-          Publication
-        </h2>
-        {publications.map((p) => (
-          <a className="paper__card" key={p.link} href={p.link} target="_blank" rel="noopener noreferrer">
-            <span className="paper__title">{p.title}</span>
-            <span className="paper__by">{p.authors}</span>
-            <span className="paper__venue">
-              {p.venue} <span aria-hidden="true">·</span> {p.linkLabel} →
-            </span>
-          </a>
-        ))}
-      </section>
+            <p className="rx__foot">
+              <span>{r.role}</span>
+              <span>{r.tech.join(' · ')}</span>
+              {r.link && (
+                <a className="rx__link" href={r.link} target="_blank" rel="noopener noreferrer">
+                  {r.linkLabel} ↗
+                </a>
+              )}
+            </p>
+          </article>
+        )
+      })}
+
+      {paper && (
+        <a className="rx-paper" href={paper.link} target="_blank" rel="noopener noreferrer">
+          <span className="rx-paper__venue">{paper.venue}</span>
+          <span className="rx-paper__title">{paper.title}</span>
+        </a>
+      )}
     </div>
   )
 }
