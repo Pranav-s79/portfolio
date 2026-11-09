@@ -14,8 +14,8 @@
   --soft: #4c4b46;
   --line: #e2dfd7;
   --line-strong: #cfccc2;
-  --accent: #4a7fa5;   /* steel blue */
-  --copper: #a8703d;   /* warm copper — indices, eyebrows, chips */
+  --accent: #427193;   /* steel blue, AA on the light grounds */
+  --copper: #936235;   /* warm copper, AA for small text — indices, eyebrows, chips */
   --surface: rgba(255, 255, 253, 0.6);
   --surface-solid: #fbfaf6;
 
@@ -94,6 +94,17 @@ ul {
 
 canvas {
   display: block;
+}
+
+/* one consistent, visible keyboard focus ring everywhere */
+:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
+}
+
+/* programmatic focus targets (page headings after navigation) */
+[tabindex='-1']:focus {
+  outline: none;
 }
 
 ::selection {

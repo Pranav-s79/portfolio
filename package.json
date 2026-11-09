@@ -7,7 +7,7 @@
     "dev": "vite",
     "prepare:robot": "node scripts/prepare_robot.mjs",
     "test": "node --test",
-    "build": "vite build",
+    "build": "vite build && node scripts/spa-routes.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -95,7 +95,7 @@ export default function AmbientBackground() {
           if (ln.y < -20) ln.y = h + 20
           if (ln.y > h + 20) ln.y = -20
         }
-        const cx = (0.5 + Math.sin(t * 0.15 + ln.xphase) * 0.16) * w
+        const cx = (0.5 + Math.sin((reduced ? 0 : t * 0.15) + ln.xphase) * 0.16) * w
         const half = (ln.len * w) / 2
         const yoff = (sy - 0.5) * 12
         const x0 = cx - half
@@ -120,7 +120,7 @@ export default function AmbientBackground() {
             m.x = Math.random() * w
           }
         }
-        const wob = Math.sin(t * 0.4 + m.phase) * m.wobble
+        const wob = reduced ? 0 : Math.sin(t * 0.4 + m.phase) * m.wobble
         const ox = (sx - 0.5) * 30 * m.depth
         const oy = (sy - 0.5) * 18 * m.depth
         const [r, g, b] = m.tint

@@ -1,4 +1,4 @@
-import { research } from '../data/portfolio.js'
+import { publications, research } from '../data/portfolio.js'
 
 export default function Research() {
   return (
@@ -12,52 +12,67 @@ export default function Research() {
         </h1>
       </header>
 
-      <div className="trace">
-        <div className="trace__line" aria-hidden="true" />
-        <div className="trace__track">
-          {research.map((item, i) => (
-            <article
-              className="trace__item rise"
-              style={{ animationDelay: `${260 + i * 120}ms` }}
-              key={item.title}
-              tabIndex={0}
-            >
-              <span className="trace__tick" aria-hidden="true" />
-              <div className="trace__card pane">
-                <div className="pane__top">
-                  <span className="pane__index">R0{i + 1}</span>
-                  <span className="trace__year">{item.when}</span>
-                </div>
-                <h2 className="trace__title">{item.title}</h2>
-                <p className="trace__org">{item.org}</p>
-                <div className="trace__more">
-                  <div className="trace__more-inner">
-                    <p className="trace__detail">{item.detail}</p>
-                    <p className="trace__result">{item.result}</p>
-                  </div>
-                </div>
-                <div className="chips">
-                  {item.tags.map((t) => (
-                    <span className="chip" key={t}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                {item.link && (
-                  <a
-                    className="pane__link"
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {item.linkLabel} -&gt;
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
+      <div className="rcards">
+        {research.map((item, i) => (
+          <article
+            className="rcard rise"
+            style={{ animationDelay: `${220 + i * 110}ms` }}
+            key={item.slug}
+          >
+            <div className="rcard__meta">
+              <span className="mono">{item.when}</span>
+              <span className="rcard__sep" aria-hidden="true" />
+              <span>{item.where}</span>
+              {item.current && <span className="badge mono">Current</span>}
+            </div>
+
+            <h2 className="rcard__title">{item.title}</h2>
+            <p className="rcard__role">
+              {item.role} <span className="rcard__at">at</span> {item.org}
+            </p>
+
+            <p className="rcard__overview">{item.overview}</p>
+
+            {item.result && (
+              <p className="stat">
+                <span className="stat__value">{item.result.value}</span>
+                <span className="stat__label">{item.result.label}</span>
+              </p>
+            )}
+
+            <div className="rcard__foot">
+              <ul className="tags" aria-label="Main technologies">
+                {item.tech.map((t) => (
+                  <li className="tag" key={t}>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              {item.link && (
+                <a className="textlink mono" href={item.link} target="_blank" rel="noopener noreferrer">
+                  {item.linkLabel} -&gt;
+                </a>
+              )}
+            </div>
+          </article>
+        ))}
       </div>
+
+      <section className="block rise" style={{ animationDelay: '480ms' }} aria-labelledby="pubs">
+        <div className="section-label">
+          <h2 id="pubs" className="section-label__name">
+            Publication
+          </h2>
+        </div>
+        {publications.map((p) => (
+          <a className="pub" key={p.link} href={p.link} target="_blank" rel="noopener noreferrer">
+            <span className="pub__venue mono">{p.venue}</span>
+            <span className="pub__title">“{p.title}”</span>
+            <span className="pub__authors">{p.authors}</span>
+            <span className="pub__link mono">{p.linkLabel} -&gt;</span>
+          </a>
+        ))}
+      </section>
     </div>
   )
 }

@@ -1,53 +1,56 @@
+import NoteList from '../NoteList.jsx'
+import { IconExternal, IconGitHub } from '../icons.jsx'
 import ProjectMedia from './ProjectMedia.jsx'
 
-export default function ExpandedPreview({ project }) {
-  const p = project
+export default function ExpandedPreview({ project: p }) {
+  const hasMedia = p.mediaGallery?.length > 0
+
   return (
-    <div className="preview">
-      <div className="preview__visual">
-        <ProjectMedia project={p} />
-      </div>
-
-      <div className="preview__body">
-        <p className="preview__overview">{p.what}</p>
-
-        <div className="preview__group">
-          <p className="preview__label mono">Main skills</p>
-          <p className="preview__line">{p.skills.join(' - ')}</p>
+    <div className={hasMedia ? 'pdetail pdetail--media' : 'pdetail'}>
+      {hasMedia && (
+        <div className="pdetail__media">
+          <ProjectMedia project={p} />
         </div>
+      )}
+
+      <div className="pdetail__body">
+        <p className="pdetail__one">{p.overview}</p>
+
+        {p.result && (
+          <p className="stat stat--lg">
+            <span className="stat__value">{p.result.value}</span>
+            <span className="stat__label">{p.result.label}</span>
+          </p>
+        )}
 
         {p.awards?.length > 0 && (
-          <div className="preview__group preview__group--awards">
-            <p className="preview__label mono">Awards</p>
-            <p className="preview__line">{p.awards.join(' - ')}</p>
+          <div className="pdetail__group">
+            <p className="pdetail__label mono">Awards</p>
+            <NoteList notes={p.awards} />
           </div>
         )}
 
-        <div className="preview__group">
-          <p className="preview__label mono">Tech stack</p>
-          <p className="preview__line mono">{p.stack.join(' - ')}</p>
+        <div className="pdetail__group">
+          <p className="pdetail__label mono">Built with</p>
+          <ul className="tags">
+            {p.stack.map((s) => (
+              <li className="tag" key={s}>
+                {s}
+              </li>
+            ))}
+          </ul>
         </div>
 
         {(p.repo || p.demo) && (
-          <div className="preview__actions">
+          <div className="pdetail__actions">
             {p.repo && (
-              <a
-                className="preview__action preview__action--primary mono"
-                href={p.repo}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub -&gt;
+              <a className="btn btn--primary" href={p.repo} target="_blank" rel="noopener noreferrer">
+                <IconGitHub size={15} /> View source
               </a>
             )}
             {p.demo && (
-              <a
-                className="preview__action mono"
-                href={p.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {p.demoLabel || 'Website'} -&gt;
+              <a className="btn" href={p.demo} target="_blank" rel="noopener noreferrer">
+                <IconExternal size={14} /> {p.demoLabel || 'Website'}
               </a>
             )}
           </div>

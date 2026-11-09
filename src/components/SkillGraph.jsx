@@ -38,6 +38,7 @@ export default function SkillGraph({ activeDomain = null }) {
     const parent = canvas.parentElement
     const ctx = canvas.getContext('2d')
 
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     let w = 0
     let h = 0
     let dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -89,7 +90,7 @@ export default function SkillGraph({ activeDomain = null }) {
       const fontSize = narrow ? 10 : 12
       const ringRx = narrow ? w * 0.23 : Math.min(w, h) * 0.16
       const ringRy = narrow ? h * 0.072 : Math.min(w, h) * 0.16
-      const driftScale = narrow ? 0.45 : 1
+      const driftScale = reduced ? 0 : narrow ? 0.45 : 1
       const labelLift = narrow ? 11 : 14
       const pad = 6
 
@@ -175,7 +176,7 @@ export default function SkillGraph({ activeDomain = null }) {
         }
 
         ctx.fillStyle = highlight ? INK : MUTED
-        ctx.globalAlpha = dim ? 0.1 : highlight ? 1 : 0.78
+        ctx.globalAlpha = dim ? 0.1 : 1
         ctx.fillText(n.label, n.x, n.y + (n._below ? labelLift + 2 : -labelLift))
       })
       ctx.globalAlpha = 1

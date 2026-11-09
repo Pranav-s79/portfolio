@@ -5,3 +5,4 @@ Resume PDFs served through the deploy base path (see `resume.downloads` in
 - `resume-hardware.pdf` — linked as "Hardware resume here!"
 
 Filenames are passed through `encodeURI`, so spaces and commas are safe.
+Everything in this folder is public, so keep only current resumes here.

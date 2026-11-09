@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
+import { projectThemes } from '../../data/portfolio.js'
 import ExpandedPreview from './ExpandedPreview.jsx'
 
-export default function ProjectModal({ project, index, onClose, onPrev, onNext, hasPrev = false, hasNext = false }) {
+export default function ProjectModal({ project, onClose, onPrev, onNext, hasPrev = false, hasNext = false }) {
   const p = project
   const cardRef = useRef(null)
   const closeRef = useRef(null)
-  const num = `P${String(index + 1).padStart(2, '0')}`
+  const theme = projectThemes.find((t) => t.id === p.theme)
+  const hasMedia = p.mediaGallery?.length > 0
 
   useEffect(() => {
     const opener = document.activeElement
@@ -52,7 +55,9 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
     }
   }, [hasNext, hasPrev, onClose, onNext, onPrev])
 
-  return (
+  // Portal to <body>: .route creates a stacking context that would otherwise
+  // keep the modal underneath the fixed breadcrumb bar.
+  return createPortal(
     <div
       className="project-modal"
       role="presentation"
@@ -61,7 +66,7 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
       }}
     >
       <div
-        className="project-modal__card"
+        className={hasMedia ? 'project-modal__card' : 'project-modal__card project-modal__card--narrow'}
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-modal-title"
@@ -87,14 +92,17 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
             &rarr;
           </button>
         )}
-        <div className="module__expanded-head">
-          <div className="module__expanded-titles">
-            <h2 id="project-modal-title" className="module__title module__title--expanded">
+        <div className="pmodal__head">
+          <div>
+            <p className="pmodal__meta">
+              <span className="mono">{theme?.label}</span>
+              <span className="rcard__sep" aria-hidden="true" />
+              <span className="mono">{p.when}</span>
+              {p.status && <span className="badge mono">{p.status}</span>}
+            </p>
+            <h2 id="project-modal-title" className="pmodal__title">
               {p.title}
             </h2>
-            <span className="module__cat mono">
-              <span className="module__index mono">{num}</span> - {p.category} - {p.year}
-            </span>
           </div>
           <button
             type="button"
@@ -109,6 +117,7 @@ export default function ProjectModal({ project, index, onClose, onPrev, onNext, 
 
         <ExpandedPreview project={p} />
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

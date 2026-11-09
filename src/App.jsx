@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import AmbientBackground from './components/AmbientBackground.jsx'
 import Breadcrumb from './components/Breadcrumb.jsx'
 import Home from './pages/Home.jsx'
@@ -8,6 +8,7 @@ import Projects from './pages/Projects.jsx'
 import Skills from './pages/Skills.jsx'
 import Resume from './pages/Resume.jsx'
 import { toHref, normalizePath } from './routing.js'
+import { profile, sections } from './data/portfolio.js'
 import './App.css'
 
 // Tiny history-based router. GitHub Pages serves a 404.html SPA fallback
@@ -63,6 +64,27 @@ export default function App() {
   else page = <NotFound navigate={navigate} />
 
   const isHome = path === '/'
+  const known = isHome || Boolean(sections[path])
+  const firstRender = useRef(true)
+
+  // Per-route tab title, and move focus to the new page's heading so
+  // keyboard and screen-reader users land on the content after navigating.
+  useEffect(() => {
+    document.title = sections[path]
+      ? `${sections[path]} · ${profile.name}`
+      : known
+        ? profile.name
+        : `Not found · ${profile.name}`
+    if (firstRender.current) {
+      firstRender.current = false
+      return
+    }
+    const heading = document.querySelector('.route h1')
+    if (heading) {
+      heading.setAttribute('tabindex', '-1')
+      heading.focus({ preventScroll: true })
+    }
+  }, [path, known])
 
   return (
     <>
@@ -70,9 +92,9 @@ export default function App() {
       <Breadcrumb path={path} navigate={navigate} />
 
       {/* key forces a remount per route so the cross-fade replays */}
-      <div className="route" key={path}>
+      <main className="route" key={path}>
         {page}
-        {!isHome && (
+        {known && !isHome && (
           <div className="home-return">
             <a
               href={toHref('/')}
@@ -86,7 +108,7 @@ export default function App() {
             </a>
           </div>
         )}
-      </div>
+      </main>
 
     </>
   )

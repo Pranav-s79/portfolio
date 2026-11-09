@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import SkillGraph from '../components/SkillGraph.jsx'
-import { skillDomains, skillLevels } from '../data/portfolio.js'
+import { skillDomains, skillLevels, skillNodes } from '../data/portfolio.js'
 
 export default function Skills() {
   const [active, setActive] = useState(null)
@@ -18,7 +18,7 @@ export default function Skills() {
 
       <div className="skills-stage">
         <div className="skills-side">
-          <div className="domains" role="list">
+          <div className="domains">
             {skillDomains.map((d, i) => {
               const cls = [
                 'domain',
@@ -65,6 +65,19 @@ export default function Skills() {
         <div className="skill-graph rise" style={{ animationDelay: '340ms' }}>
           <SkillGraph activeDomain={active} />
         </div>
+
+        {/* the canvas is decorative to assistive tech; this is its text version */}
+        <ul className="sr-only">
+          {skillDomains.map((d) => (
+            <li key={d}>
+              {d}:{' '}
+              {skillNodes
+                .filter((n) => n.domain === d)
+                .map((n) => `${n.label} (${n.level})`)
+                .join(', ')}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   )
