@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import AmbientBackground from './components/AmbientBackground.jsx'
 import SiteNav from './components/SiteNav.jsx'
 import Home from './pages/Home.jsx'
 import Experience from './pages/Experience.jsx'
@@ -115,7 +116,7 @@ export default function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <div className="grid-bg" aria-hidden="true" />
+      <AmbientBackground />
       <SiteNav path={path} navigate={navigate} />
 
       {/* key forces a remount per route so the entrance fade replays */}

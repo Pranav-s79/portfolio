@@ -6,14 +6,15 @@ import StatusMark from '../components/projects/StatusMark.jsx'
 import { IconExternal, IconGitHub } from '../components/icons.jsx'
 
 const SECTIONS = [
-  ['problem', 'Problem'],
-  ['architecture', 'Architecture'],
-  ['contribution', 'My contribution'],
-  ['decisions', 'Decisions and tradeoffs'],
-  ['verification', 'Verification'],
+  ['problem', 'Why'],
+  ['architecture', 'How it works'],
+  ['contribution', 'My part'],
+  ['decisions', 'Decisions'],
+  ['verification', 'Testing'],
   ['results', 'Results'],
-  ['status', 'Status and next steps'],
+  ['status', 'Status'],
 ]
+const TITLE = Object.fromEntries(SECTIONS)
 
 function Section({ id, title, children }) {
   return (
@@ -81,7 +82,7 @@ export default function ProjectDetail({ project: p, navigate }) {
 
       <div className="case__layout">
         <nav className="case__toc" aria-label="On this page">
-          <p className="case__toc-title">On this page</p>
+          <p className="case__toc-title">Contents</p>
           <ol>
             {SECTIONS.map(([id, label]) => (
               <li key={id}>
@@ -96,11 +97,11 @@ export default function ProjectDetail({ project: p, navigate }) {
         </nav>
 
         <div className="case__content">
-          <Section id="problem" title="Problem">
+          <Section id="problem" title={TITLE.problem}>
             <p className="case__p">{cs.problem}</p>
           </Section>
 
-          <Section id="architecture" title="Architecture">
+          <Section id="architecture" title={TITLE.architecture}>
             {cs.architecture.map((t) => (
               <p className="case__p" key={t}>
                 {t}
@@ -119,7 +120,7 @@ export default function ProjectDetail({ project: p, navigate }) {
             )}
           </Section>
 
-          <Section id="contribution" title="My contribution">
+          <Section id="contribution" title={TITLE.contribution}>
             {cs.contribution.length === 1 ? (
               <p className="case__p">{cs.contribution[0]}</p>
             ) : (
@@ -131,7 +132,7 @@ export default function ProjectDetail({ project: p, navigate }) {
             )}
           </Section>
 
-          <Section id="decisions" title="Decisions and tradeoffs">
+          <Section id="decisions" title={TITLE.decisions}>
             <dl className="decisions">
               {cs.decisions.map((d) => (
                 <div className="decision" key={d.title}>
@@ -142,7 +143,7 @@ export default function ProjectDetail({ project: p, navigate }) {
             </dl>
           </Section>
 
-          <Section id="verification" title="Verification">
+          <Section id="verification" title={TITLE.verification}>
             {cs.verificationIntro && <p className="case__p">{cs.verificationIntro}</p>}
             <ul className="case__list">
               {cs.verification.map((t) => (
@@ -172,7 +173,7 @@ export default function ProjectDetail({ project: p, navigate }) {
             )}
           </Section>
 
-          <Section id="results" title="Results">
+          <Section id="results" title={TITLE.results}>
             <p className="case__p">{cs.results.text}</p>
             {cs.results.table && (
               <table className="spec">
@@ -195,7 +196,7 @@ export default function ProjectDetail({ project: p, navigate }) {
             )}
           </Section>
 
-          <Section id="status" title="Status and next steps">
+          <Section id="status" title={TITLE.status}>
             <p className="case__p">
               <strong className="case__state">{STATUS_LABEL[p.status]}.</strong> {cs.now}
             </p>

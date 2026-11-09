@@ -12,11 +12,10 @@ import {
   sections,
 } from '../src/data/portfolio.js'
 
-test('featured set is exactly the six selected projects, in order', () => {
+test('featured set is the selected projects, in order, with POLITE held back', () => {
   assert.deepEqual(
     featuredProjects.map((p) => p.title),
     [
-      'POLITE AI Inference Accelerator',
       'RV32I RISC-V Processor',
       'CrossLayer',
       'Regdrift',
@@ -51,6 +50,13 @@ test('every featured project has a complete case study', () => {
     assert.ok(p.facts?.length >= 2, `${p.slug} needs at least two key facts`)
     assert.ok(p.statusNote, `${p.slug} status note`)
   }
+})
+
+test('POLITE stays in the data but is never shown or routed', () => {
+  const polite = projects.find((p) => p.slug === 'polite-accelerator')
+  assert.ok(polite?.hidden)
+  assert.equal(projectBySlug('polite-accelerator'), null)
+  assert.ok(!additionalProjects.includes(polite))
 })
 
 test('only featured projects resolve to a case-study route', () => {

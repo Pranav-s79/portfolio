@@ -1,8 +1,5 @@
 import { experience, research } from '../data/portfolio.js'
-import { toHref } from '../routing.js'
 
-// Three kinds of commitment, kept visibly separate: paid work, research,
-// and student engineering organizations.
 const researchEntries = research.map((r) => ({
   id: r.slug,
   role: r.role,
@@ -10,24 +7,21 @@ const researchEntries = research.map((r) => ({
   when: r.when,
   where: r.where,
   current: r.current,
-  summary: r.overview,
-  notes: [],
+  summary: r.summary,
+  notes: r.work,
+  tech: r.tech,
 }))
 
 const GROUPS = [
-  { id: 'employment', label: 'Employment', items: experience.filter((e) => e.category === 'employment') },
+  { id: 'professional', label: 'Professional', items: experience.filter((e) => e.category === 'professional') },
   { id: 'research', label: 'Research', items: researchEntries },
-  {
-    id: 'organizations',
-    label: 'Student engineering organizations',
-    items: experience.filter((e) => e.category === 'organization'),
-  },
+  { id: 'leadership', label: 'Leadership', items: experience.filter((e) => e.category === 'leadership') },
 ]
 
 function Notes({ notes }) {
   if (!notes?.length) return null
   return (
-    <ul className="xp__notes">
+    <ul className="tl__notes">
       {notes.map((n) => (
         <li key={n}>{n}</li>
       ))}
@@ -35,38 +29,7 @@ function Notes({ notes }) {
   )
 }
 
-function Entry({ item }) {
-  return (
-    <li className="xp">
-      <div className="xp__when">
-        <span className="xp__date">{item.when}</span>
-        {item.current && <span className="xp__current">Current</span>}
-      </div>
-      <div className="xp__body">
-        <h3 className="xp__role">{item.role}</h3>
-        <p className="xp__org">
-          {item.org}
-          {item.client && <span className="xp__client"> · for {item.client}</span>}
-          {item.where && <span className="xp__where"> · {item.where}</span>}
-        </p>
-        <p className="xp__summary">{item.summary}</p>
-        <Notes notes={item.notes} />
-        {item.groups && (
-          <div className="xp__groups">
-            {item.groups.map((g) => (
-              <div className="xp__group" key={g.label}>
-                <h4 className="xp__group-label">{g.label}</h4>
-                <Notes notes={g.notes} />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </li>
-  )
-}
-
-export default function Experience({ navigate }) {
+export default function Experience() {
   return (
     <div className="page">
       <header className="page-head">
@@ -74,28 +37,44 @@ export default function Experience({ navigate }) {
       </header>
 
       {GROUPS.map((group) => (
-        <section className="xp-group" key={group.id} aria-labelledby={`xp-${group.id}`}>
-          <h2 className="section-title" id={`xp-${group.id}`}>
-            {group.label}
-          </h2>
-          <ol className="xp-list">
+        <section className="tl-group" key={group.id} aria-labelledby={`exp-${group.id}`}>
+          <div className="tl-group__head">
+            <h2 id={`exp-${group.id}`}>{group.label}</h2>
+            <span>{String(group.items.length).padStart(2, '0')}</span>
+          </div>
+
+          <ol className="timeline">
             {group.items.map((item) => (
-              <Entry key={item.id} item={item} />
+              <li className={item.current ? 'tl tl--current' : 'tl'} key={item.id}>
+                <div className="tl__when">
+                  <span className="tl__date">{item.when}</span>
+                  {item.where && <span className="tl__where">{item.where}</span>}
+                </div>
+                <span className="tl__rail" aria-hidden="true">
+                  <span className="tl__dot" />
+                </span>
+                <article className="tl__card">
+                  <div className="tl__head">
+                    <h3 className="tl__role">{item.role}</h3>
+                    {item.current && <span className="tl__now">Current</span>}
+                  </div>
+                  <p className="tl__org">
+                    {item.org}
+                    {item.client && <span className="tl__client"> · {item.client}</span>}
+                  </p>
+                  {item.summary && <p className="tl__summary">{item.summary}</p>}
+                  <Notes notes={item.notes} />
+                  {item.groups?.map((g) => (
+                    <div className="tl__sub" key={g.label}>
+                      <h4>{g.label}</h4>
+                      <Notes notes={g.notes} />
+                    </div>
+                  ))}
+                  {item.tech?.length > 0 && <p className="tl__tech">{item.tech.join(' · ')}</p>}
+                </article>
+              </li>
             ))}
           </ol>
-          {group.id === 'research' && (
-            <a
-              className="textlink xp-group__more"
-              href={toHref('/research')}
-              onClick={(e) => {
-                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
-                e.preventDefault()
-                navigate('/research')
-              }}
-            >
-              Research details and publication →
-            </a>
-          )}
         </section>
       ))}
     </div>

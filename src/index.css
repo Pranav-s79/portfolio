@@ -22,7 +22,12 @@
   --accent: #987047;
   --accent-text: #83603b;
   --accent-soft: rgba(152, 112, 71, 0.1);
-  --grid: rgba(35, 35, 35, 0.055);
+  --wash: radial-gradient(1200px 760px at 80% 8%, rgba(74, 110, 165, 0.1), transparent 68%),
+    radial-gradient(1000px 720px at 14% 92%, rgba(28, 36, 58, 0.12), transparent 70%),
+    radial-gradient(700px 520px at 18% 84%, rgba(168, 112, 61, 0.05), transparent 70%),
+    radial-gradient(1500px 1000px at 50% 42%, rgba(255, 255, 252, 0.55), transparent 76%);
+  --blob-a: rgba(74, 127, 165, 0.1);
+  --blob-b: rgba(168, 112, 61, 0.1);
   --hover: rgba(35, 35, 35, 0.045);
   --nav-bg: rgba(245, 242, 236, 0.88);
   --overlay: rgba(25, 28, 29, 0.4);
@@ -43,7 +48,12 @@
   --accent: #c3a17d;
   --accent-text: #c9a883;
   --accent-soft: rgba(195, 161, 125, 0.12);
-  --grid: rgba(242, 238, 231, 0.04);
+  --wash: radial-gradient(1200px 760px at 80% 8%, rgba(90, 125, 175, 0.12), transparent 68%),
+    radial-gradient(1000px 720px at 14% 92%, rgba(0, 0, 0, 0.35), transparent 70%),
+    radial-gradient(700px 520px at 18% 84%, rgba(195, 161, 125, 0.06), transparent 70%),
+    radial-gradient(1500px 1000px at 50% 42%, rgba(242, 238, 231, 0.025), transparent 76%);
+  --blob-a: rgba(90, 130, 175, 0.12);
+  --blob-b: rgba(195, 161, 125, 0.08);
   --hover: rgba(242, 238, 231, 0.06);
   --nav-bg: rgba(25, 28, 29, 0.86);
   --overlay: rgba(8, 9, 10, 0.6);
@@ -93,6 +103,8 @@ html.theme-switching *::after {
 body {
   min-height: 100vh;
   background-color: var(--bg);
+  background-image: var(--wash);
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 16px;

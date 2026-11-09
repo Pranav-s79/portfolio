@@ -47,8 +47,8 @@ const linesFor = (e) =>
 const orgFor = (e) => (e.client ? `${e.org} · for ${e.client}` : e.org)
 
 export default function Resume({ navigate }) {
-  const work = experience.filter((e) => e.category === 'employment')
-  const orgs = experience.filter((e) => e.category === 'organization')
+  const work = experience.filter((e) => e.category === 'professional')
+  const orgs = experience.filter((e) => e.category === 'leadership')
 
   const goto = (path) => (e) => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
@@ -101,7 +101,7 @@ export default function Resume({ navigate }) {
 
       <Section name="Research">
         {research.map((r) => (
-          <Entry key={r.slug} head={r.role} org={r.org} when={r.when} where={r.where} notes={[r.overview]} />
+          <Entry key={r.slug} head={r.role} org={r.org} when={r.when} where={r.where} notes={[r.summary, ...r.work]} />
         ))}
       </Section>
 
@@ -118,7 +118,7 @@ export default function Resume({ navigate }) {
         ))}
       </Section>
 
-      <Section name="Student organizations">
+      <Section name="Leadership">
         {orgs.map((e) => (
           <Entry key={e.id} head={e.role} org={orgFor(e)} when={e.when} where={e.where} notes={linesFor(e)} />
         ))}

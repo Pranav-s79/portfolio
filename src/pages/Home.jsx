@@ -1,7 +1,7 @@
 import { Suspense, lazy, useRef, useState } from 'react'
 import RobotFallback from '../components/robot/RobotFallback.jsx'
-import { IconFile, IconGitHub, IconLinkedIn, IconMail } from '../components/icons.jsx'
-import { STATUS_LABEL, featuredProjects, profile, shelfItems } from '../data/portfolio.js'
+import { IconGitHub, IconLinkedIn, IconMail } from '../components/icons.jsx'
+import { profile, shelfItems } from '../data/portfolio.js'
 import { toHref } from '../routing.js'
 
 const RobotScene = lazy(() => import('../components/robot/RobotScene.jsx'))
@@ -13,9 +13,6 @@ const HOME_ARM_TARGETS = [
   { side: 'right', pose: 'skills' },
   { side: 'right', pose: 'resume' },
 ]
-
-// The three projects that best show the direction: architecture, silicon, verification.
-const CURRENT = featuredProjects.slice(0, 3)
 
 export default function Home({ navigate }) {
   const robotRef = useRef(null)
@@ -75,57 +72,28 @@ export default function Home({ navigate }) {
   return (
     <section className={exiting ? 'home home--exiting' : 'home'} aria-labelledby="home-name">
       <div className="home__intro rise">
-        <p className="home__focus">{profile.focus}</p>
+        <p className="home__eyebrow">[ {profile.focus} ]</p>
         <h1 className="home__name" id="home-name">
           Pranav
           <br />
           Senthilkumar
         </h1>
-        <p className="home__tagline">{profile.tagline}</p>
-        <p className="home__text">{profile.intro}</p>
         <p className="home__meta">{profile.degree}</p>
-        <ul className="home__links" aria-label="Links">
-          <li>
-            <a href={profile.github} target="_blank" rel="noopener noreferrer">
-              <IconGitHub size={16} /> GitHub
-            </a>
-          </li>
-          <li>
-            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
-              <IconLinkedIn size={16} /> LinkedIn
-            </a>
-          </li>
-          <li>
-            <a href={toHref('/resume')} onClick={link('/resume')}>
-              <IconFile size={16} /> Resume
-            </a>
-          </li>
-          <li>
-            <a href={`mailto:${profile.email}`} aria-label={`Email ${profile.email}`}>
-              <IconMail size={16} /> Email
-            </a>
-          </li>
-        </ul>
+        <div className="home__socials">
+          <a className="social-link" href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+            <IconGitHub size={18} />
+          </a>
+          <a className="social-link" href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+            <IconLinkedIn size={18} />
+          </a>
+          <a className="social-link" href={`mailto:${profile.email}`} aria-label={`Email ${profile.email}`} title="Email">
+            <IconMail size={18} />
+          </a>
+          <a className="social-link social-link--text" href={toHref('/resume')} onClick={link('/resume')}>
+            Resume
+          </a>
+        </div>
       </div>
-
-      <aside className="home__now rise" aria-labelledby="now-title">
-        <h2 className="home__now-title" id="now-title">
-          Current work
-        </h2>
-        <ol className="home__now-list">
-          {CURRENT.map((p) => (
-            <li key={p.slug}>
-              <a href={toHref(`/projects/${p.slug}`)} onClick={link(`/projects/${p.slug}`)}>
-                <span className="home__now-name">{p.title}</span>
-                <span className="home__now-note">{p.statusNote || STATUS_LABEL[p.status]}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
-        <a className="home__now-all" href={toHref('/projects')} onClick={link('/projects')}>
-          All projects →
-        </a>
-      </aside>
 
       <div className="home__robot">
         <Suspense fallback={<RobotFallback />}>
@@ -154,7 +122,10 @@ export default function Home({ navigate }) {
               onBlur={unaim}
               onClick={go(item.path, i)}
             >
-              {item.label}
+              <span className="rail-item__index" aria-hidden="true">
+                0{i + 1}
+              </span>
+              <span className="rail-item__label">{item.label}</span>
             </button>
           )
         })}

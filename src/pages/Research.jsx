@@ -1,58 +1,70 @@
 import { publications, research } from '../data/portfolio.js'
 
+// Each study reads as a spread: the numbers on one side, the story on the other.
 export default function Research() {
   return (
-    <div className="page">
+    <div className="page page--wide">
       <header className="page-head">
         <h1 className="page__title">Research</h1>
       </header>
 
-      <div className="rcards">
-        {research.map((item) => (
-          <article className="rcard" key={item.slug}>
-            <p className="rcard__meta">
-              <span>{item.when}</span>
-              <span className="case__meta-sep" aria-hidden="true" />
-              <span>{item.where}</span>
-              {item.current && <span className="xp__current">Current</span>}
-            </p>
+      <div className="studies">
+        {research.map((r, i) => (
+          <article className="study" key={r.slug}>
+            <div className="study__index" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </div>
 
-            <h2 className="rcard__title">{item.title}</h2>
-            <p className="rcard__role">
-              {item.role} <span className="rcard__at">·</span> {item.org}
-            </p>
-
-            <p className="rcard__overview">{item.overview}</p>
-
-            {item.result && (
-              <p className="stat">
-                <span className="stat__value">{item.result.value}</span>
-                <span className="stat__label">{item.result.label}</span>
+            <div className="study__main">
+              <p className="study__meta">
+                <span>{r.org}</span>
+                <span className="case__meta-sep" aria-hidden="true" />
+                <span>{r.when}</span>
+                {r.current && <span className="tl__now">Current</span>}
               </p>
-            )}
+              <h2 className="study__title">{r.title}</h2>
+              <p className="study__role">{r.role}</p>
+              <p className="study__summary">{r.summary}</p>
 
-            <p className="rcard__foot">
-              <span className="rcard__tech">{item.tech.join(' · ')}</span>
-              {item.link && (
-                <a className="textlink" href={item.link} target="_blank" rel="noopener noreferrer">
-                  {item.linkLabel} →
-                </a>
-              )}
-            </p>
+              <ul className="study__work">
+                {r.work.map((w) => (
+                  <li key={w}>{w}</li>
+                ))}
+              </ul>
+
+              <p className="study__foot">
+                <span>{r.tech.join(' · ')}</span>
+                {r.link && (
+                  <a className="textlink" href={r.link} target="_blank" rel="noopener noreferrer">
+                    {r.linkLabel} →
+                  </a>
+                )}
+              </p>
+            </div>
+
+            <dl className="study__metrics">
+              {r.metrics.map((m) => (
+                <div key={m.label}>
+                  <dt>{m.label}</dt>
+                  <dd>{m.value}</dd>
+                </div>
+              ))}
+            </dl>
           </article>
         ))}
       </div>
 
-      <section className="rsec" aria-labelledby="pubs">
-        <h2 className="section-title" id="pubs">
+      <section className="paper" aria-labelledby="pubs">
+        <h2 className="paper__kicker" id="pubs">
           Publication
         </h2>
         {publications.map((p) => (
-          <a className="pub" key={p.link} href={p.link} target="_blank" rel="noopener noreferrer">
-            <span className="pub__venue">{p.venue}</span>
-            <span className="pub__title">“{p.title}”</span>
-            <span className="pub__authors">{p.authors}</span>
-            <span className="pub__link">{p.linkLabel} →</span>
+          <a className="paper__card" key={p.link} href={p.link} target="_blank" rel="noopener noreferrer">
+            <span className="paper__title">{p.title}</span>
+            <span className="paper__by">{p.authors}</span>
+            <span className="paper__venue">
+              {p.venue} <span aria-hidden="true">·</span> {p.linkLabel} →
+            </span>
           </a>
         ))}
       </section>

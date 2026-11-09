@@ -3,12 +3,20 @@ import { additionalProjects, featuredProjects } from '../data/portfolio.js'
 import { toHref } from '../routing.js'
 import ProjectModal from '../components/projects/ProjectModal.jsx'
 import StatusMark from '../components/projects/StatusMark.jsx'
-import { DatapathGlyph, PeArrayGlyph } from '../components/diagrams/Diagrams.jsx'
+import { DatapathGlyph } from '../components/diagrams/Diagrams.jsx'
 import { IconExternal, IconGitHub } from '../components/icons.jsx'
 
 const VISUALS = {
-  'polite-accelerator': <PeArrayGlyph />,
   'riscv-processor': <DatapathGlyph />,
+  regdrift: (
+    <pre className="term term--card" aria-hidden="true">
+      <span className="term__dim">$ regdrift check v1.svd v2.svd</span>
+      {'\n'}<span className="term__bad">BREAKING (4)</span>
+      {'\n'}  RD001  STATUS moved 0x8 → 0xC
+      {'\n'}  RD005  CTRL.EN renamed
+      {'\n'}<span className="term__dim">exit 1</span>
+    </pre>
+  ),
   crosslayer: (
     <pre className="term term--card" aria-hidden="true">
       <span className="term__dim">$ crosslayer suite reference</span>
@@ -135,9 +143,6 @@ export default function Projects({ navigate }) {
     <div className="page page--wide">
       <header className="page-head">
         <h1 className="page__title">Projects</h1>
-        <p className="page__lead">
-          Processors and accelerators, the tools that check them, and the boards and firmware underneath.
-        </p>
       </header>
 
       <section className="featured" aria-labelledby="featured-title">
