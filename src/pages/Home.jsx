@@ -1,46 +1,10 @@
 import { Suspense, lazy, useRef, useState } from 'react'
 import RobotFallback from '../components/robot/RobotFallback.jsx'
-import { profile, shelfItems } from '../data/portfolio.js'
+import { IconFile, IconGitHub, IconLinkedIn, IconMail } from '../components/icons.jsx'
+import { STATUS_LABEL, featuredProjects, profile, shelfItems } from '../data/portfolio.js'
+import { toHref } from '../routing.js'
 
 const RobotScene = lazy(() => import('../components/robot/RobotScene.jsx'))
-
-function IconGitHub() {
-  return (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true" focusable="false">
-      <path
-        d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12 12 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-function IconLinkedIn() {
-  return (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true" focusable="false">
-      <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path
-        d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-function IconEmail() {
-  return (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true" focusable="false">
-      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="m4 7 8 6 8-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
 
 const HOME_ARM_TARGETS = [
   { side: 'left', pose: 'experience' },
@@ -50,7 +14,9 @@ const HOME_ARM_TARGETS = [
   { side: 'right', pose: 'resume' },
 ]
 
-// x in [-1,1] left to right, y in [-1,1] bottom to top.
+// The three projects that best show the direction: architecture, silicon, verification.
+const CURRENT = featuredProjects.slice(0, 3)
+
 export default function Home({ navigate }) {
   const robotRef = useRef(null)
   const activeArm = useRef(null)
@@ -100,51 +66,66 @@ export default function Home({ navigate }) {
     }
   }
 
+  const link = (to) => (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
+    e.preventDefault()
+    navigate(to)
+  }
+
   return (
-    <section className={exiting ? 'home home--exiting' : 'home'}>
-      <div className="home__intro">
-        <p className="home__eyebrow rise" style={{ animationDelay: '60ms' }}>
-          [ {profile.line3} ]
-        </p>
-        <h1 className="home__name rise" style={{ animationDelay: '140ms' }}>
+    <section className={exiting ? 'home home--exiting' : 'home'} aria-labelledby="home-name">
+      <div className="home__intro rise">
+        <p className="home__focus">{profile.focus}</p>
+        <h1 className="home__name" id="home-name">
           Pranav
           <br />
           Senthilkumar
         </h1>
-        <p className="home__meta rise" style={{ animationDelay: '240ms' }}>
-          {profile.line2}
-        </p>
-        <div className="home__socials rise" style={{ animationDelay: '300ms' }}>
-          <a
-            className="social-link"
-            href={profile.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            title="GitHub"
-          >
-            <IconGitHub />
-          </a>
-          <a
-            className="social-link"
-            href={profile.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            title="LinkedIn"
-          >
-            <IconLinkedIn />
-          </a>
-          <a
-            className="social-link"
-            href={`mailto:${profile.email}`}
-            aria-label={`Email ${profile.email}`}
-            title="Email"
-          >
-            <IconEmail />
-          </a>
-        </div>
+        <p className="home__tagline">{profile.tagline}</p>
+        <p className="home__text">{profile.intro}</p>
+        <p className="home__meta">{profile.degree}</p>
+        <ul className="home__links" aria-label="Links">
+          <li>
+            <a href={profile.github} target="_blank" rel="noopener noreferrer">
+              <IconGitHub size={16} /> GitHub
+            </a>
+          </li>
+          <li>
+            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
+              <IconLinkedIn size={16} /> LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href={toHref('/resume')} onClick={link('/resume')}>
+              <IconFile size={16} /> Resume
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${profile.email}`} aria-label={`Email ${profile.email}`}>
+              <IconMail size={16} /> Email
+            </a>
+          </li>
+        </ul>
       </div>
+
+      <aside className="home__now rise" aria-labelledby="now-title">
+        <h2 className="home__now-title" id="now-title">
+          Current work
+        </h2>
+        <ol className="home__now-list">
+          {CURRENT.map((p) => (
+            <li key={p.slug}>
+              <a href={toHref(`/projects/${p.slug}`)} onClick={link(`/projects/${p.slug}`)}>
+                <span className="home__now-name">{p.title}</span>
+                <span className="home__now-note">{p.statusNote || STATUS_LABEL[p.status]}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        <a className="home__now-all" href={toHref('/projects')} onClick={link('/projects')}>
+          All projects →
+        </a>
+      </aside>
 
       <div className="home__robot">
         <Suspense fallback={<RobotFallback />}>
@@ -156,7 +137,6 @@ export default function Home({ navigate }) {
         {shelfItems.map((item, i) => {
           const cls = [
             'rail-item',
-            'rise',
             hovered === i ? 'rail-item--active' : '',
             slamming === i ? 'rail-item--slamming' : '',
             hovered != null && hovered !== i ? 'rail-item--dim' : '',
@@ -166,24 +146,21 @@ export default function Home({ navigate }) {
           return (
             <button
               key={item.path}
+              type="button"
               className={cls}
-              style={{ animationDelay: `${380 + i * 90}ms` }}
               onMouseEnter={aim(i)}
               onMouseLeave={unaim}
               onFocus={aim(i)}
               onBlur={unaim}
               onClick={go(item.path, i)}
             >
-              <span className="rail-item__index">0{i + 1}</span>
-              <span className="rail-item__label">{item.label}</span>
+              {item.label}
             </button>
           )
         })}
       </nav>
 
-      <p className="model-credit rise" style={{ animationDelay: '980ms' }}>
-        Robot model: Low Poly Humanoid Robot by Denys Almaral
-      </p>
+      <p className="model-credit">Robot model: Low Poly Humanoid Robot by Denys Almaral</p>
     </section>
   )
 }

@@ -1,34 +1,71 @@
 /* ============================================================
    Global tokens + resets. Component styling lives in App.css.
 
-   Ambient warm-light system:
-   - layered warm off-white, never flat white
-   - ink near-black, steel-blue + copper accents
-   - Space Grotesk display / Inter body / JetBrains Mono labels
+   Two themes share one set of token names. index.html sets
+   <html data-theme="light|dark"> before first paint; src/theme.js
+   keeps it in sync with the toggle and the OS preference.
+
+   Copper is the only accent. --accent is for marks, rules and icons;
+   --accent-text is the AA-safe version for small copper text.
    ============================================================ */
 
-:root {
-  --bg: #f6f4ef;
-  --ink: #1b1b1e;
-  --muted: #6d6c66;
-  --soft: #4c4b46;
-  --line: #e2dfd7;
-  --line-strong: #cfccc2;
-  --accent: #427193;   /* steel blue, AA on the light grounds */
-  --copper: #936235;   /* warm copper, AA for small text — indices, eyebrows, chips */
-  --surface: rgba(255, 255, 253, 0.6);
-  --surface-solid: #fbfaf6;
-
-  --font-display: 'Space Grotesk', 'Inter', sans-serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-
-  /* Motion — mass + follow-through */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --micro: 220ms;
-  --transition: 520ms;
-
+:root,
+:root[data-theme='light'] {
+  --bg: #f5f2ec;
+  --surface: #fffefa;
+  --surface-sunk: #ede9e1;
+  --ink: #232323;
+  --text: #3d3a35;
+  --muted: #666158;
+  --line: #e2ddd3;
+  --line-strong: #cfc7b9;
+  --accent: #987047;
+  --accent-text: #83603b;
+  --accent-soft: rgba(152, 112, 71, 0.1);
+  --grid: rgba(35, 35, 35, 0.055);
+  --hover: rgba(35, 35, 35, 0.045);
+  --nav-bg: rgba(245, 242, 236, 0.88);
+  --overlay: rgba(25, 28, 29, 0.4);
+  --shadow: 0 1px 2px rgba(35, 35, 35, 0.04), 0 10px 28px rgba(35, 35, 35, 0.07);
+  --halo: rgba(245, 242, 236, 0.92);
   color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #191c1d;
+  --surface: #232627;
+  --surface-sunk: #151819;
+  --ink: #f2eee7;
+  --text: #d6d2cb;
+  --muted: #aba7a0;
+  --line: #2e3233;
+  --line-strong: #434849;
+  --accent: #c3a17d;
+  --accent-text: #c9a883;
+  --accent-soft: rgba(195, 161, 125, 0.12);
+  --grid: rgba(242, 238, 231, 0.04);
+  --hover: rgba(242, 238, 231, 0.06);
+  --nav-bg: rgba(25, 28, 29, 0.86);
+  --overlay: rgba(8, 9, 10, 0.6);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.35);
+  --halo: rgba(25, 28, 29, 0.9);
+  color-scheme: dark;
+}
+
+:root {
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
+
+  --radius: 6px;
+  --radius-lg: 10px;
+  --measure: 66ch;
+  --page-max: 1080px;
+  --nav-h: 60px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --micro: 180ms;
+  --transition: 420ms;
 }
 
 *,
@@ -41,29 +78,30 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  background-color: var(--bg);
 }
 
-html,
-body {
-  background-color: #f6f4ef;
-  color: #1b1b1e;
+/* Theme switch: one short color cross-fade, only while switching. */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, fill 220ms ease,
+    stroke 220ms ease !important;
 }
 
 body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
+  font-size: 16px;
   font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: -0.003em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  line-height: 1.55;
-  letter-spacing: -0.005em;
-  min-height: 100vh;
-  /* ambient wash — cool blue glow upper-right, ink-blue pool lower, copper hint */
-  background-image:
-    radial-gradient(1200px 760px at 80% 8%, rgba(74, 110, 165, 0.1), transparent 68%),
-    radial-gradient(1000px 720px at 14% 92%, rgba(28, 36, 58, 0.12), transparent 70%),
-    radial-gradient(700px 520px at 18% 84%, rgba(168, 112, 61, 0.05), transparent 70%),
-    radial-gradient(1500px 1000px at 50% 42%, rgba(255, 255, 252, 0.55), transparent 76%);
-  background-attachment: fixed;
+  overflow-x: hidden;
 }
 
 h1,
@@ -73,6 +111,12 @@ h4 {
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 a {
@@ -81,25 +125,32 @@ a {
 }
 
 button {
-  font-family: inherit;
+  font: inherit;
   cursor: pointer;
   border: none;
   background: none;
   color: inherit;
 }
 
-ul {
+ul,
+ol {
   list-style: none;
+}
+
+img,
+svg {
+  max-width: 100%;
 }
 
 canvas {
   display: block;
 }
 
-/* one consistent, visible keyboard focus ring everywhere */
+/* One consistent, visible keyboard focus ring everywhere. */
 :focus-visible {
-  outline: 2px solid var(--copper);
+  outline: 2px solid var(--accent-text);
   outline-offset: 3px;
+  border-radius: 2px;
 }
 
 /* programmatic focus targets (page headings after navigation) */
@@ -108,7 +159,8 @@ canvas {
 }
 
 ::selection {
-  background: rgba(168, 112, 61, 0.2);
+  background: var(--accent-soft);
+  color: var(--ink);
 }
 
 @media (prefers-reduced-motion: reduce) {

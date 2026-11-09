@@ -2,33 +2,24 @@ import { publications, research } from '../data/portfolio.js'
 
 export default function Research() {
   return (
-    <div className="page fade-in">
+    <div className="page">
       <header className="page-head">
-        <p className="eyebrow rise" style={{ animationDelay: '40ms' }}>
-          02 - research
-        </p>
-        <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
-          Research
-        </h1>
+        <h1 className="page__title">Research</h1>
       </header>
 
       <div className="rcards">
-        {research.map((item, i) => (
-          <article
-            className="rcard rise"
-            style={{ animationDelay: `${220 + i * 110}ms` }}
-            key={item.slug}
-          >
-            <div className="rcard__meta">
-              <span className="mono">{item.when}</span>
-              <span className="rcard__sep" aria-hidden="true" />
+        {research.map((item) => (
+          <article className="rcard" key={item.slug}>
+            <p className="rcard__meta">
+              <span>{item.when}</span>
+              <span className="case__meta-sep" aria-hidden="true" />
               <span>{item.where}</span>
-              {item.current && <span className="badge mono">Current</span>}
-            </div>
+              {item.current && <span className="xp__current">Current</span>}
+            </p>
 
             <h2 className="rcard__title">{item.title}</h2>
             <p className="rcard__role">
-              {item.role} <span className="rcard__at">at</span> {item.org}
+              {item.role} <span className="rcard__at">·</span> {item.org}
             </p>
 
             <p className="rcard__overview">{item.overview}</p>
@@ -40,36 +31,28 @@ export default function Research() {
               </p>
             )}
 
-            <div className="rcard__foot">
-              <ul className="tags" aria-label="Main technologies">
-                {item.tech.map((t) => (
-                  <li className="tag" key={t}>
-                    {t}
-                  </li>
-                ))}
-              </ul>
+            <p className="rcard__foot">
+              <span className="rcard__tech">{item.tech.join(' · ')}</span>
               {item.link && (
-                <a className="textlink mono" href={item.link} target="_blank" rel="noopener noreferrer">
-                  {item.linkLabel} -&gt;
+                <a className="textlink" href={item.link} target="_blank" rel="noopener noreferrer">
+                  {item.linkLabel} →
                 </a>
               )}
-            </div>
+            </p>
           </article>
         ))}
       </div>
 
-      <section className="block rise" style={{ animationDelay: '480ms' }} aria-labelledby="pubs">
-        <div className="section-label">
-          <h2 id="pubs" className="section-label__name">
-            Publication
-          </h2>
-        </div>
+      <section className="rsec" aria-labelledby="pubs">
+        <h2 className="section-title" id="pubs">
+          Publication
+        </h2>
         {publications.map((p) => (
           <a className="pub" key={p.link} href={p.link} target="_blank" rel="noopener noreferrer">
-            <span className="pub__venue mono">{p.venue}</span>
+            <span className="pub__venue">{p.venue}</span>
             <span className="pub__title">“{p.title}”</span>
             <span className="pub__authors">{p.authors}</span>
-            <span className="pub__link mono">{p.linkLabel} -&gt;</span>
+            <span className="pub__link">{p.linkLabel} →</span>
           </a>
         ))}
       </section>

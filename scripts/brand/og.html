@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;600&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      * { margin: 0; box-sizing: border-box; }
+      body {
+        width: 1200px;
+        height: 630px;
+        background-color: #f5f2ec;
+        background-image: linear-gradient(rgba(35, 35, 35, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(35, 35, 35, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+        background-position: -1px -1px;
+        font-family: Inter, sans-serif;
+        color: #232323;
+        position: relative;
+        overflow: hidden;
+      }
+      .wrap { position: absolute; inset: 0; padding: 84px 96px; display: flex; flex-direction: column; }
+      .top { display: flex; align-items: center; gap: 40px; }
+      .tile { width: 132px; height: 132px; border-radius: 29px; background: #232323; display: grid; place-items: center; flex-shrink: 0; }
+      .tile svg { width: 104px; height: 104px; fill: #c3a17d; }
+      .focus { font: 500 22px Inter, sans-serif; color: #83603b; letter-spacing: 0.01em; margin-bottom: 14px; }
+      h1 { font: 600 76px/1 'Space Grotesk', sans-serif; letter-spacing: -0.035em; }
+      .tag { margin-top: 44px; max-width: 900px; font: 500 30px/1.35 'Space Grotesk', sans-serif; letter-spacing: -0.01em; color: #3d3a35; }
+      .work { margin-top: 18px; font: 400 22px Inter, sans-serif; color: #666158; }
+      .foot { margin-top: auto; padding-top: 22px; border-top: 1px solid #cfc7b9; display: flex; justify-content: space-between; font: 400 21px Inter, sans-serif; color: #666158; }
+      .foot b { font-weight: 500; color: #232323; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top">
+        <div class="tile"><svg viewBox="0 0 32 32">%MARK%</svg></div>
+        <div>
+          <p class="focus">Computer architecture · Silicon design · Embedded systems</p>
+          <h1>Pranav Senthilkumar</h1>
+        </div>
+      </div>
+      <p class="tag">Processors and accelerators, and the firmware and verification tools around them.</p>
+      <p class="work">RV32I processor · 4×4 INT8 accelerator · CrossLayer · Regdrift</p>
+      <div class="foot">
+        <b>pranavsen.dev</b>
+        <span>Electrical Engineering · Texas A&amp;M</span>
+      </div>
+    </div>
+  </body>
+</html>

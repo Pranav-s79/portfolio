@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { skillEdges, skillNodes } from '../data/portfolio.js'
+import { useTheme } from '../theme.js'
 
 // Wide canvases get a 2x2 constellation; narrow ones stack the four domains in
 // a single column so long labels have the full width to breathe.
@@ -17,17 +18,25 @@ const CLUSTERS_NARROW = {
   'Software / ML': { x: 0.5, y: 0.88 },
 }
 
-const INK = '#1c1c1e'
-const LINE = '#cfcdc4'
-const ACCENT = '#4a7fa5'
-const COPPER = '#a8703d'
-const MUTED = '#6f6e68'
+// Canvas can't read CSS variables directly, so pull the theme tokens once
+// per theme change and draw with those.
+function readPalette() {
+  const css = getComputedStyle(document.documentElement)
+  const v = (name) => css.getPropertyValue(name).trim()
+  return { INK: v('--ink'), LINE: v('--line-strong'), ACCENT: v('--accent'), MUTED: v('--muted') }
+}
 
 const clamp = (v, lo, hi) => (hi < lo ? (lo + hi) / 2 : Math.min(Math.max(v, lo), hi))
 
 export default function SkillGraph({ activeDomain = null }) {
   const canvasRef = useRef(null)
   const activeRef = useRef(activeDomain)
+  const theme = useTheme()
+  const paletteRef = useRef(null)
+
+  useEffect(() => {
+    paletteRef.current = readPalette()
+  }, [theme])
 
   useEffect(() => {
     activeRef.current = activeDomain
@@ -82,6 +91,8 @@ export default function SkillGraph({ activeDomain = null }) {
       frameId = requestAnimationFrame(draw)
       const t = (performance.now() - start) / 1000
       const active = activeRef.current
+      const { INK, LINE, ACCENT, MUTED } = paletteRef.current || readPalette()
+      const COPPER = ACCENT
 
       // Narrow canvases (phones) stack the clusters and use a wide, flat ring:
       // horizontal room is what long labels need, vertical room is what is scarce.

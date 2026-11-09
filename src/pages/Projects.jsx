@@ -1,108 +1,217 @@
-import { useRef, useState } from 'react'
-import { projects, projectThemes } from '../data/portfolio.js'
-import ProjectCard from '../components/projects/ProjectCard.jsx'
+import { useEffect, useRef, useState } from 'react'
+import { additionalProjects, featuredProjects } from '../data/portfolio.js'
+import { toHref } from '../routing.js'
 import ProjectModal from '../components/projects/ProjectModal.jsx'
+import StatusMark from '../components/projects/StatusMark.jsx'
+import { DatapathGlyph, PeArrayGlyph } from '../components/diagrams/Diagrams.jsx'
+import { IconExternal, IconGitHub } from '../components/icons.jsx'
 
-const TABS = [{ id: 'all', label: 'All' }, ...projectThemes]
+const VISUALS = {
+  'polite-accelerator': <PeArrayGlyph />,
+  'riscv-processor': <DatapathGlyph />,
+  crosslayer: (
+    <pre className="term term--card" aria-hidden="true">
+      <span className="term__dim">$ crosslayer suite reference</span>
+      {'\n'}  MET  baseline     PASS
+      {'\n'}  MET  silent_drop  FAIL
+      {'\n'}  MET  reorder      FAIL
+      {'\n'}<span className="term__ok">result    PASSED</span>
+    </pre>
+  ),
+}
 
-const inTheme = (id) => projects.filter((p) => p.theme === id)
+function useLink(navigate) {
+  return (to) => (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
+    e.preventDefault()
+    navigate(to)
+  }
+}
 
-export default function Projects() {
-  const [tab, setTab] = useState('all')
+function Facts({ facts, className }) {
+  if (!facts?.length) return null
+  return (
+    <dl className={className}>
+      {facts.map((f) => (
+        <div key={f.label}>
+          <dt>{f.label}</dt>
+          <dd>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+function Feature({ project: p, lead, onLink }) {
+  const href = `/projects/${p.slug}`
+  return (
+    <article className={lead ? 'feature feature--lead' : 'feature'}>
+      <div className="feature__visual">{VISUALS[p.slug]}</div>
+      <div className="feature__body">
+        <p className="feature__meta">
+          <StatusMark status={p.status} />
+          <span>{p.statusNote}</span>
+        </p>
+        <h3 className="feature__title">
+          <a href={toHref(href)} onClick={onLink(href)} className="stretch">
+            {p.title}
+          </a>
+        </h3>
+        <p className="feature__one">{p.oneLine}</p>
+        <Facts facts={lead ? p.facts : p.facts.slice(0, 2)} className="facts" />
+        <p className="feature__foot">
+          <span className="feature__stack">{p.stack.join(' · ')}</span>
+          <span className="feature__when">{p.when}</span>
+        </p>
+      </div>
+    </article>
+  )
+}
+
+function Compact({ project: p, onLink }) {
+  const href = `/projects/${p.slug}`
+  return (
+    <article className="compact">
+      <p className="feature__meta">
+        <StatusMark status={p.status} />
+        <span>{p.statusNote}</span>
+      </p>
+      <h3 className="compact__title">
+        <a href={toHref(href)} onClick={onLink(href)} className="stretch">
+          {p.title}
+        </a>
+      </h3>
+      <p className="compact__one">{p.oneLine}</p>
+      <p className="compact__fact">
+        <span className="compact__value">{p.facts[0].value}</span> {p.facts[0].label}
+      </p>
+      <p className="feature__foot">
+        <span className="feature__stack">{p.stack.slice(0, 2).join(' · ')}</span>
+        <span className="feature__when">{p.when}</span>
+      </p>
+    </article>
+  )
+}
+
+export default function Projects({ navigate }) {
+  const onLink = useLink(navigate)
+  const [showMore, setShowMore] = useState(() => window.location.hash === '#additional')
   const [openSlug, setOpenSlug] = useState(null)
-  const tabRefs = useRef({})
+  const moreHeading = useRef(null)
+  const justOpened = useRef(false)
 
-  const themes = tab === 'all' ? projectThemes : projectThemes.filter((t) => t.id === tab)
-  // modal prev/next walks the projects in the order they are shown
-  const visible = themes.flatMap((t) => inTheme(t.id))
-  const open = visible.find((p) => p.slug === openSlug) || null
-  const openIndex = open ? visible.indexOf(open) : -1
+  const primary = featuredProjects.slice(0, 3)
+  const secondary = featuredProjects.slice(3)
+
+  const open = additionalProjects.find((p) => p.slug === openSlug) || null
+  const openIndex = open ? additionalProjects.indexOf(open) : -1
   const step = (d) => {
-    const next = visible[openIndex + d]
+    const next = additionalProjects[openIndex + d]
     if (next) setOpenSlug(next.slug)
   }
 
-  const count = (id) => (id === 'all' ? projects.length : inTheme(id).length)
-
-  const onTabKey = (e) => {
-    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
-    e.preventDefault()
-    const i = TABS.findIndex((t) => t.id === tab)
-    const next = TABS[(i + (e.key === 'ArrowRight' ? 1 : -1) + TABS.length) % TABS.length]
-    setTab(next.id)
-    tabRefs.current[next.id]?.focus()
+  const toggleMore = () => {
+    const next = !showMore
+    setShowMore(next)
+    justOpened.current = next
+    // keep the state in the URL so the expanded list survives a refresh
+    window.history.replaceState(window.history.state, '', next ? '#additional' : window.location.pathname)
   }
 
-  let delay = 260
+  // arriving at /projects#additional (e.g. from a case study's "More" link)
+  useEffect(() => {
+    if (window.location.hash === '#additional') moreHeading.current?.scrollIntoView({ block: 'start' })
+  }, [])
+
+  useEffect(() => {
+    if (showMore && justOpened.current) {
+      justOpened.current = false
+      moreHeading.current?.focus({ preventScroll: true })
+      moreHeading.current?.scrollIntoView({ block: 'start' })
+    }
+  }, [showMore])
 
   return (
-    <div className="page fade-in">
+    <div className="page page--wide">
       <header className="page-head">
-        <p className="eyebrow rise" style={{ animationDelay: '40ms' }}>
-          03 - projects
+        <h1 className="page__title">Projects</h1>
+        <p className="page__lead">
+          Processors and accelerators, the tools that check them, and the boards and firmware underneath.
         </p>
-        <h1 className="page__title rise" style={{ animationDelay: '110ms' }}>
-          Projects
-        </h1>
       </header>
 
-      <div
-        className="seg rise"
-        style={{ animationDelay: '180ms' }}
-        role="tablist"
-        aria-label="Project theme"
-        onKeyDown={onTabKey}
-      >
-        {TABS.map((t) => {
-          const selected = t.id === tab
-          return (
-            <button
-              key={t.id}
-              ref={(n) => (tabRefs.current[t.id] = n)}
-              type="button"
-              role="tab"
-              id={`tab-${t.id}`}
-              aria-selected={selected}
-              aria-controls="project-panel"
-              tabIndex={selected ? 0 : -1}
-              className="seg__tab"
-              onClick={() => setTab(t.id)}
-            >
-              <span className="seg__label">{t.label}</span>
-              {t.short && (
-                <span className="seg__short" aria-hidden="true">
-                  {t.short}
-                </span>
-              )}
-              <span className="seg__count">{count(t.id)}</span>
-            </button>
-          )
-        })}
-      </div>
+      <section className="featured" aria-labelledby="featured-title">
+        <h2 className="section-title" id="featured-title">
+          Featured
+        </h2>
 
-      {/* keyed on the tab so the entrance animation replays on switch */}
-      <div id="project-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} key={tab}>
-        {themes.map((theme) => (
-          <section className="block" key={theme.id} aria-labelledby={`theme-${theme.id}`}>
-            <div className="section-label">
-              <h2 id={`theme-${theme.id}`} className="section-label__name">
-                {theme.label}
-              </h2>
-              <span className="section-label__count mono">{theme.blurb}</span>
-            </div>
-            <div className="pgrid">
-              {inTheme(theme.id).map((p) => (
-                <ProjectCard
-                  key={p.slug}
-                  project={p}
-                  onOpen={setOpenSlug}
-                  style={{ animationDelay: `${(delay += 60)}ms` }}
-                />
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
+        <div className="featured__primary">
+          {primary.map((p, i) => (
+            <Feature key={p.slug} project={p} lead={i === 0} onLink={onLink} />
+          ))}
+        </div>
+
+        <div className="featured__secondary">
+          {secondary.map((p) => (
+            <Compact key={p.slug} project={p} onLink={onLink} />
+          ))}
+        </div>
+
+        <div className="featured__more">
+          <button
+            type="button"
+            className="more-btn"
+            aria-expanded={showMore}
+            aria-controls="additional"
+            onClick={toggleMore}
+          >
+            {showMore ? 'Hide additional projects' : 'Additional projects'}
+            <span className="more-btn__arrow" aria-hidden="true">
+              →
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section className="additional" id="additional" hidden={!showMore} aria-labelledby="additional-title">
+        <h2 className="section-title" id="additional-title" tabIndex={-1} ref={moreHeading}>
+          Additional projects
+        </h2>
+        <ul className="plist">
+          {additionalProjects.map((p) => (
+            <li className="plist__row" key={p.slug}>
+              <span className="plist__when">{p.when}</span>
+              <div className="plist__main">
+                <h3 className="plist__title">
+                  <button type="button" className="stretch" aria-haspopup="dialog" onClick={() => setOpenSlug(p.slug)}>
+                    {p.title}
+                  </button>
+                </h3>
+                <p className="plist__one">{p.oneLine}</p>
+              </div>
+              <span className="plist__links">
+                {p.status === 'in-progress' && <StatusMark status={p.status} withLabel />}
+                {p.repo && (
+                  <a
+                    className="icon-btn"
+                    href={p.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${p.title} source on GitHub`}
+                  >
+                    <IconGitHub size={16} />
+                  </a>
+                )}
+                {p.demo && (
+                  <a className="icon-btn" href={p.demo} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} website`}>
+                    <IconExternal size={15} />
+                  </a>
+                )}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {open && (
         <ProjectModal
@@ -111,7 +220,7 @@ export default function Projects() {
           onPrev={() => step(-1)}
           onNext={() => step(1)}
           hasPrev={openIndex > 0}
-          hasNext={openIndex >= 0 && openIndex < visible.length - 1}
+          hasNext={openIndex >= 0 && openIndex < additionalProjects.length - 1}
         />
       )}
     </div>

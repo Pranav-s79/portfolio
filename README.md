@@ -1,8 +1,26 @@
 # Pranav Senthilkumar — Portfolio
 
-A minimal, warm-light engineering portfolio. React 18 + Vite, with a
-`@react-three/fiber` robot on the landing page and an interactive,
-filterable projects page.
+An engineering portfolio focused on computer architecture, silicon design, and
+embedded systems. React 18 + Vite, with a Three.js robot on the landing page,
+light and dark themes, and case-study pages for the featured projects.
+
+## Where things live
+
+- **Content:** [`src/data/portfolio.js`](src/data/portfolio.js) holds every
+  page's copy: profile, experience, research, projects, and per-route metadata.
+  Featured projects (`featured: 1–6`) get a case-study page at
+  `/projects/<slug>`; the rest appear under "Additional projects".
+  Numbers there come from each project's own repo; keep targets labeled as targets.
+- **Diagrams:** [`src/components/diagrams/Diagrams.jsx`](src/components/diagrams/Diagrams.jsx),
+  inline SVG drawn from each project's docs or schematic, styled by theme tokens.
+- **Themes:** tokens for both themes are in [`src/index.css`](src/index.css).
+  An inline script in `index.html` sets `data-theme` before first paint;
+  [`src/theme.js`](src/theme.js) handles the toggle, saved choice, and OS changes.
+- **Mark and icons:** the sword mark's geometry is in
+  [`scripts/brand/mark.mjs`](scripts/brand/mark.mjs) (mirrored in
+  `src/components/SiteMark.jsx`). `node scripts/brand/build-icons.mjs`
+  regenerates `favicon.svg`, `favicon.ico`, the PNG icons, `brand/*.svg`, and
+  `og-image.png`.
 
 ## Live site
 
@@ -105,10 +123,10 @@ static-only, so the contact API must be hosted separately and pointed at via
 
 ### Project visuals
 
-The expanded project card loads a real image from
-[`public/project-media/`](public/project-media/) (`<slug>.jpg`) and falls back to a clean
-neutral placeholder until the file exists. See that folder's README for
-expected filenames.
+Real photos and renders go in [`public/project-media/`](public/project-media/)
+and are listed in a project's `mediaGallery` (with width and height, so the
+page reserves space). Projects without real visuals show none; never add
+generated stand-ins.
 
 ### Custom domain
 

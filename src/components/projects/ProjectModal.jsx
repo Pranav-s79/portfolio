@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { projectThemes } from '../../data/portfolio.js'
+import { STATUS_LABEL } from '../../data/portfolio.js'
 import ExpandedPreview from './ExpandedPreview.jsx'
+import { IconClose } from '../icons.jsx'
 
 export default function ProjectModal({ project, onClose, onPrev, onNext, hasPrev = false, hasNext = false }) {
   const p = project
   const cardRef = useRef(null)
   const closeRef = useRef(null)
-  const theme = projectThemes.find((t) => t.id === p.theme)
   const hasMedia = p.mediaGallery?.length > 0
 
   useEffect(() => {
@@ -95,10 +95,9 @@ export default function ProjectModal({ project, onClose, onPrev, onNext, hasPrev
         <div className="pmodal__head">
           <div>
             <p className="pmodal__meta">
-              <span className="mono">{theme?.label}</span>
-              <span className="rcard__sep" aria-hidden="true" />
-              <span className="mono">{p.when}</span>
-              {p.status && <span className="badge mono">{p.status}</span>}
+              <span>{p.when}</span>
+              <span className="case__meta-sep" aria-hidden="true" />
+              <span>{STATUS_LABEL[p.status]}</span>
             </p>
             <h2 id="project-modal-title" className="pmodal__title">
               {p.title}
@@ -111,7 +110,7 @@ export default function ProjectModal({ project, onClose, onPrev, onNext, hasPrev
             onClick={onClose}
             ref={closeRef}
           >
-            x
+            <IconClose size={18} />
           </button>
         </div>
 
