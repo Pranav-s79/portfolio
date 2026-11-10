@@ -2078,21 +2078,6 @@
 /* ============================================================
    RESEARCH: academic record, not a product landing page
    ============================================================ */
-.research-head {
-  display: grid;
-  grid-template-columns: minmax(0, 0.7fr) minmax(280px, 1fr);
-  align-items: end;
-  gap: 24px 64px;
-}
-
-.research-head__intro {
-  max-width: 56ch;
-  padding-bottom: 5px;
-  color: var(--text);
-  font-size: 16px;
-  line-height: 1.65;
-}
-
 .research-entry {
   padding: 34px 0 42px;
   border-top: 1px solid var(--line-strong);
@@ -2610,13 +2595,9 @@
 }
 
 @media (max-width: 900px) {
-  .research-head,
   .research-entry__head,
   .research-entry__body {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .research-head {
-    gap: 14px;
   }
   .research-entry__head {
     gap: 12px;

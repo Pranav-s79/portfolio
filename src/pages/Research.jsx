@@ -4,11 +4,8 @@ export default function Research() {
   const paper = publications[0]
   return (
     <div className="page page--wide">
-      <header className="page-head research-head">
+      <header className="page-head">
         <h1 className="page__title">Research</h1>
-        <p className="research-head__intro">
-          Machine learning work on physical systems and human judgment, with an emphasis on what was measured and how.
-        </p>
       </header>
 
       {research.map((r, i) => {

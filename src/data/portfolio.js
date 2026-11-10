@@ -55,18 +55,19 @@ export const routeMeta = {
 export const research = [
   {
     slug: 'live-lab',
-    title: 'Street-level atmospheric modeling',
+    title: 'Urban Atmospheric Modeling',
     org: 'LIVE Lab · Texas A&M',
     role: 'Undergraduate ML Researcher',
     when: '2026 —',
     period: 'Jun 2026 – Present',
     current: true,
-    line: 'Using LiDAR, terrain, and building geometry to turn coarse atmospheric data into local predictions.',
+    line: 'Downscaling atmospheric data for faster, more accurate predictions at neighborhood scale.',
     about:
-      'Regional forecasts do not capture the way a building corner or a change in terrain affects wind at street level. I am working on a model that fills in that local detail without the runtime of a full simulation.',
+      'How can coarse atmospheric data be downscaled into a model that is both faster and more accurate for specific areas? I am currently focusing on urban environments, where buildings can create sharp local changes that regional forecasts do not resolve.',
     how: [
       'Built a pipeline that combines LiDAR scans with terrain and building geometry',
-      'Used a residual correction model to recover wind fields at four times the input resolution',
+      'Currently using Fourier neural operators to learn the local structure in urban atmospheric data',
+      'Used a residual correction model to recover atmospheric fields at four times the input resolution',
       'Reduced inference time from about three minutes to under one second',
     ],
     metrics: [
@@ -74,7 +75,7 @@ export const research = [
       { value: '<1 s', label: 'per prediction, down from ~3 min' },
       { value: '+59.9%', label: '4× super-resolution over interpolation' },
     ],
-    tech: ['Python', 'XGBoost', 'Neural operators', 'LiDAR'],
+    tech: ['Python', 'XGBoost', 'Fourier neural operators', 'LiDAR'],
     link: null,
   },
   {
@@ -85,9 +86,9 @@ export const research = [
     when: '2024',
     period: 'Jun – Oct 2024',
     current: false,
-    line: 'Studied whether open language models can reflect disagreement in human moral judgments.',
+    line: 'We calibrated open models to better reflect the spectrum of human ethics.',
     about:
-      'People often disagree on morally ambiguous questions, while language models tend to return one confident answer. We fine-tuned open models against human response data and measured how closely their output matched the distribution of those responses.',
+      'People often disagree on morally ambiguous questions, while language models tend to return one confident answer. We calibrated open models against human response data and measured how closely their answers reflected the full distribution of those responses.',
     how: [
       'Fine-tuned three open models with parameter-efficient training',
       'Compared each model with human responses and GPT-4o',
