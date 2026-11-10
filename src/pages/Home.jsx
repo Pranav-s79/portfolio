@@ -83,14 +83,22 @@ export default function Home({ navigate }) {
             <IconLinkedIn size={18} />
           </a>
         </div>
-        <div className="home__resumes" aria-label="Resume downloads">
-          {resumeDownloads.map((resume) => (
-            <a key={resume.label} className="home-resume" href={resumeHref(resume.href)} target="_blank" rel="noopener noreferrer">
-              <IconFile size={14} />
-              {resume.label}
-              <span>PDF</span>
-            </a>
-          ))}
+        <div className="home__resumes">
+          <p className="home__resumes-label">Resumes</p>
+          <div className="home__resume-links">
+            {resumeDownloads.map((resume) => (
+              <a key={resume.label} className="home-resume" href={resumeHref(resume.href)} target="_blank" rel="noopener noreferrer">
+                <span className="home-resume__icon" aria-hidden="true">
+                  <IconFile size={15} />
+                </span>
+                <span className="home-resume__copy">
+                  <strong>{resume.label.replace(' resume', '')}</strong>
+                  <small>PDF document</small>
+                </span>
+                <span className="home-resume__arrow" aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
