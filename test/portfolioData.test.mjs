@@ -9,6 +9,7 @@ import {
   profile,
   projectBySlug,
   projects,
+  resumeDownloads,
   routeMeta,
   sections,
   shelfItems,
@@ -21,6 +22,12 @@ test('home profile uses the current focus and contact details', () => {
     shelfItems.map((item) => item.label),
     ['Experience', 'Research', 'Projects', 'Skills'],
   )
+  assert.deepEqual(resumeDownloads, [
+    { label: 'Hardware resume', href: 'resumes/resume-hardware.pdf' },
+    { label: 'Software resume', href: 'resumes/resume-software.pdf' },
+  ])
+  assert.equal(sections['/resume'], undefined)
+  assert.equal(routeMeta['/resume'], undefined)
 })
 
 test('featured set is the selected projects, in order, with POLITE held back', () => {

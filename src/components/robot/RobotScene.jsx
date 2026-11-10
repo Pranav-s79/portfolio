@@ -131,12 +131,12 @@ function recolorMaterial(mat) {
 
 const LOGICAL_BONE_FOR = { left: 'right', right: 'left' }
 
+// Four evenly spaced targets matching the four desktop rail items.
 const HOME_ARM_POSES = {
-  experience: { world: [-0.26, 0.4, 0.22], bend: 0.08, clavicle: 0.02, slamY: -0.07 },
-  research: { world: [-0.13, 0.38, 0.23], bend: 0.08, clavicle: 0.015, slamY: -0.07 },
-  projects: { world: [0, 0.38, 0.23], bend: 0.08, clavicle: 0.012, slamY: -0.07 },
-  skills: { world: [0.13, 0.38, 0.23], bend: 0.08, clavicle: 0.015, slamY: -0.07 },
-  resume: { world: [0.26, 0.4, 0.22], bend: 0.08, clavicle: 0.02, slamY: -0.07 },
+  experience: { world: [-0.2, 0.4, 0.22], bend: 0.08, clavicle: 0.02, slamY: -0.07 },
+  research: { world: [-0.07, 0.38, 0.23], bend: 0.08, clavicle: 0.015, slamY: -0.07 },
+  projects: { world: [0.07, 0.38, 0.23], bend: 0.08, clavicle: 0.012, slamY: -0.07 },
+  skills: { world: [0.2, 0.4, 0.22], bend: 0.08, clavicle: 0.02, slamY: -0.07 },
 }
 
 function getHomeArmPose(pose) {
@@ -206,11 +206,11 @@ const RobotScene = forwardRef(function RobotScene({ variant = 'hero' }, ref) {
         },
         right: {
           active: false,
-          pose: 'resume',
+          pose: 'skills',
           weight: 0,
           intensity: 1,
-          world: new THREE.Vector3(...HOME_ARM_POSES.resume.world),
-          smoothedWorld: new THREE.Vector3(...HOME_ARM_POSES.resume.world),
+          world: new THREE.Vector3(...HOME_ARM_POSES.skills.world),
+          smoothedWorld: new THREE.Vector3(...HOME_ARM_POSES.skills.world),
         },
       },
       slam: {

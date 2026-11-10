@@ -1,8 +1,7 @@
-Resume PDFs served through the deploy base path (see `resume.downloads` in
-`src/data/portfolio.js`):
+Resume PDFs linked from the home page through `resumeDownloads` in
+`src/data/portfolio.js`:
 
-- `Senthilkumar,Pranav - Resume.pdf` — linked as "Software resume here!"
-- `resume-hardware.pdf` — linked as "Hardware resume here!"
+- `resume-software.pdf` — software resume
+- `resume-hardware.pdf` — hardware resume
 
-Filenames are passed through `encodeURI`, so spaces and commas are safe.
 Everything in this folder is public, so keep only current resumes here.

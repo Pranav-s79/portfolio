@@ -25,7 +25,6 @@ export const sections = {
   '/research': 'Research',
   '/projects': 'Projects',
   '/skills': 'Skills',
-  '/resume': 'Resume',
 }
 
 // Per-route copy for <title>, meta description, and link previews.
@@ -48,10 +47,14 @@ export const routeMeta = {
     description: 'An RV32I processor, cross-layer verification tooling, a register-map CI gate, and embedded hardware.',
   },
   '/skills': { title: 'Skills', description: 'Hardware, embedded, robotics, and software skills, mapped by domain.' },
-  '/resume': { title: 'Resume', description: 'Hardware and software resumes as PDFs, plus the full record.' },
 }
 
-// ---- Research: shared by the Research, Experience, and Resume pages ----
+export const resumeDownloads = [
+  { label: 'Hardware resume', href: 'resumes/resume-hardware.pdf' },
+  { label: 'Software resume', href: 'resumes/resume-software.pdf' },
+]
+
+// ---- Research ----
 export const research = [
   {
     slug: 'live-lab',
@@ -632,7 +635,7 @@ export const skillEdges = [
   ['python', 'aws'],
 ]
 
-// ---- Experience: shared by the Experience and Resume pages ----
+// ---- Experience ----
 // category: 'employment' | 'organization'. Research entries come from `research`.
 // notes: short lines. groups: labeled note lists when one role has distinct parts.
 export const experience = [
@@ -716,48 +719,3 @@ export const experience = [
     notes: [],
   },
 ]
-
-// ---- Resume page ----
-export const resume = {
-  downloads: [
-    { label: 'Hardware resume', href: 'resumes/resume-hardware.pdf' },
-    { label: 'Software resume', href: 'resumes/Senthilkumar,Pranav - Resume.pdf' },
-  ],
-  education: [
-    {
-      head: 'B.S. Electrical Engineering, Engineering Honors',
-      org: 'Texas A&M University',
-      when: 'Expected May 2028',
-      where: 'College Station, TX',
-      notes: [],
-      coursework: [
-        'Digital Logic Design',
-        'Machine Learning',
-        'Data Structures & Algorithms',
-        'Multivariable Calculus',
-        'Differential Equations',
-      ],
-    },
-  ],
-  skills: [
-    { group: 'Languages', items: ['C++', 'Python', 'SystemVerilog', 'Verilog', 'Java', 'JavaScript', 'SQL'] },
-    { group: 'Hardware', items: ['Digital logic design', 'Computer architecture', 'Vivado', 'FPGA', 'KiCad'] },
-    { group: 'Embedded', items: ['ESP32', 'Raspberry Pi', 'Arduino', 'Linux', 'ROS 2'] },
-    { group: 'ML & Vision', items: ['PyTorch', 'TensorFlow', 'ONNX Runtime', 'scikit-learn', 'OpenCV', 'MediaPipe'] },
-    { group: 'Tools', items: ['Git', 'GitHub Actions', 'Docker', 'AWS', 'Electron'] },
-  ],
-  awards: [
-    {
-      head: 'Best Presentation',
-      org: 'Aggies Create',
-      when: '2025, 2026',
-      notes: ['Recognized for technical communication and project presentation'],
-    },
-    {
-      head: 'Best Pitch, $250',
-      org: 'Haptic Portal',
-      when: '2026',
-      notes: ['Awarded for the haptic telepresence prototype'],
-    },
-  ],
-}

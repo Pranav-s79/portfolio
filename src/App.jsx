@@ -7,7 +7,6 @@ import Research from './pages/Research.jsx'
 import Projects from './pages/Projects.jsx'
 import ProjectDetail from './pages/ProjectDetail.jsx'
 import Skills from './pages/Skills.jsx'
-import Resume from './pages/Resume.jsx'
 import { toHref, normalizePath } from './routing.js'
 import { profile, projectBySlug, routeMeta } from './data/portfolio.js'
 import './App.css'
@@ -53,7 +52,6 @@ function resolve(path, navigate) {
     '/research': <Research />,
     '/projects': <Projects navigate={navigate} />,
     '/skills': <Skills />,
-    '/resume': <Resume navigate={navigate} />,
   }
   if (pages[path]) return { page: pages[path], meta: routeMeta[path], known: true }
   return { page: <NotFound navigate={navigate} />, meta: { title: 'Not found' }, known: false }

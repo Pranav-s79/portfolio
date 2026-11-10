@@ -1,9 +1,12 @@
 import { Suspense, lazy, useRef, useState } from 'react'
 import RobotFallback from '../components/robot/RobotFallback.jsx'
-import { IconGitHub, IconLinkedIn } from '../components/icons.jsx'
-import { profile, shelfItems } from '../data/portfolio.js'
+import { IconFile, IconGitHub, IconLinkedIn } from '../components/icons.jsx'
+import { profile, resumeDownloads, shelfItems } from '../data/portfolio.js'
+import { toHref } from '../routing.js'
 
 const RobotScene = lazy(() => import('../components/robot/RobotScene.jsx'))
+
+const resumeHref = (href) => encodeURI(toHref(`/${href.replace(/^\/+/, '')}`))
 
 const HOME_ARM_TARGETS = [
   { side: 'left', pose: 'experience' },
@@ -79,6 +82,15 @@ export default function Home({ navigate }) {
           <a className="social-link" href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
             <IconLinkedIn size={18} />
           </a>
+        </div>
+        <div className="home__resumes" aria-label="Resume downloads">
+          {resumeDownloads.map((resume) => (
+            <a key={resume.label} className="home-resume" href={resumeHref(resume.href)} target="_blank" rel="noopener noreferrer">
+              <IconFile size={14} />
+              {resume.label}
+              <span>PDF</span>
+            </a>
+          ))}
         </div>
       </div>
 
