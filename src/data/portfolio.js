@@ -63,6 +63,13 @@ export const research = [
     period: 'Jun 2026 – Present',
     current: true,
     line: 'LiDAR, terrain, and building data in. Street-scale wind fields out.',
+    about:
+      'Regional weather forecasts resolve wind at kilometer scale, but buildings and terrain reshape it street by street. This project turns those coarse forecasts into fast, street-level wind predictions for both dense city blocks and open terrain.',
+    how: [
+      'A pipeline merges LiDAR scans, terrain, and building data with a 3D model of the area',
+      'A residual correction model sharpens wind fields to 4× resolution, well past what interpolation recovers',
+      'Predictions that took about 3 minutes now run in under a second',
+    ],
     metrics: [
       { value: '50%', label: 'less near-ground error' },
       { value: '<1 s', label: 'per prediction, down from ~3 min' },
@@ -80,6 +87,13 @@ export const research = [
     period: 'Jun – Oct 2024',
     current: false,
     line: 'Three open LLMs tuned to match the spread of human moral judgment, not a single verdict.',
+    about:
+      'Morally ambiguous questions split people; there is no single right answer. Language models still tend to answer with one confident verdict. This study fine-tuned open-source models so their answers reflect how human responses are actually distributed.',
+    how: [
+      'Three open-source LLMs fine-tuned with parameter-efficient training against human response data',
+      'Measured against human answers and compared with GPT-4o',
+      'Published at the NeurIPS 2024 SoLaR workshop',
+    ],
     metrics: [
       { value: '7B', label: 'open model, matched GPT-4o' },
       { value: '31%', label: 'less error vs. human responses' },
@@ -632,6 +646,8 @@ export const experience = [
     current: true,
     category: 'professional',
     summary: 'An autonomous survey boat, sensors to navigation.',
+    about:
+      'A student consulting team building a boat for Shallow Sports Boats that runs surveys on its own. An ESP32 reads the sensors and drives propulsion, a Raspberry Pi handles vision, and a ROS 2 stack plans the route.',
     notes: [
       'ESP32 firmware in C++: GPS, IMU, sonar, and propulsion telemetry',
       'Quantized segmentation model on a Raspberry Pi, water and obstacles in real time',
@@ -648,8 +664,9 @@ export const experience = [
     current: false,
     category: 'professional',
     summary: 'Robot OS provisioning, desktop to cloud.',
+    about:
+      'A cross-platform desktop app that writes robot OS images onto SD cards, backed by an AWS serverless API. Writing raw disks is risky, so the target drive is re-verified before every write, and a first-boot script grows the partition to use the whole card.',
     notes: [
-      'Electron flasher for robot SD cards on an AWS serverless backend',
       '8 pre-write checks between the tool and a host disk',
       '90–97% of stranded storage reclaimed on first boot, clean on all 10 card sizes tested',
     ],
@@ -664,7 +681,8 @@ export const experience = [
     current: false,
     category: 'professional',
     summary: 'K–12 programming.',
-    notes: ['Python, Java, and Lua', 'Mentor to a student robotics team'],
+    about: 'Coding classes for K–12 students in Python, Java, and Lua, plus mentoring a student robotics team.',
+    notes: [],
     tech: [],
   },
   {
@@ -676,6 +694,8 @@ export const experience = [
     current: true,
     category: 'leadership',
     summary: 'Student silicon design, headed for a first SKY130 fabrication.',
+    about:
+      'A Texas A&M student organization designing chips, working toward its first fabrication on the open-source SKY130 process. Two hats: running the money behind fabrication and tools, and contributing to the architecture team, including ASIC concepts for high-frequency trading where every cycle of latency counts.',
     groups: [
       { label: 'Treasurer', notes: ['Budget and funding for fabrication', 'EDA tooling and hardware procurement'] },
       {

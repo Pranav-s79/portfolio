@@ -35,6 +35,18 @@ export default function Research() {
               </p>
             </div>
 
+            <div className="rx__context">
+              <p className="rx__about">{r.about}</p>
+              <ol className="rx__how">
+                {r.how.map((h, n) => (
+                  <li key={h}>
+                    <span aria-hidden="true">{String(n + 1).padStart(2, '0')}</span>
+                    {h}
+                  </li>
+                ))}
+              </ol>
+            </div>
+
             <dl className="rx__rest">
               {rest.map((m) => (
                 <div key={m.label}>

@@ -50,6 +50,7 @@ export default function Experience() {
                     {item.client && <span className="tl__client"> · {item.client}</span>}
                   </p>
                   {item.summary && <p className="tl__summary">{item.summary}</p>}
+                  {item.about && <p className="tl__about">{item.about}</p>}
                   <Notes notes={item.notes} />
                   {item.groups?.map((g) => (
                     <div className="tl__sub" key={g.label}>
