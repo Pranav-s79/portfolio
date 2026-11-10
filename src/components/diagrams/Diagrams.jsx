@@ -69,19 +69,32 @@ function Frame({ viewBox, title, desc, minWidth = 620, children }) {
   const id = `dg${raw}`
   return (
     <MarkerCtx.Provider value={id}>
-      <div className="dg-scroll" tabIndex={0} aria-label={`${title} (scrollable)`}>
-        <svg
-          className="dg"
-          viewBox={viewBox}
-          style={{ minWidth }}
-          role="img"
-          aria-labelledby={`${id}-t ${id}-d`}
-        >
-          <title id={`${id}-t`}>{title}</title>
-          <desc id={`${id}-d`}>{desc}</desc>
-          <Defs />
-          {children}
-        </svg>
+      <div className="dg-shell">
+        <header className="dg-head">
+          <p className="dg-head__title">
+            <span>System diagram</span>
+            {title}
+          </p>
+          <ul className="dg-legend" aria-label="Diagram legend">
+            <li><span className="dg-legend__swatch dg-legend__swatch--accent" />Key logic</li>
+            <li><span className="dg-legend__line" />Data or control flow</li>
+            <li><span className="dg-legend__swatch dg-legend__swatch--boundary" />Boundary or external block</li>
+          </ul>
+        </header>
+        <div className="dg-scroll" tabIndex={0} aria-label={`${title} (scrollable)`}>
+          <svg
+            className="dg"
+            viewBox={viewBox}
+            style={{ minWidth }}
+            role="img"
+            aria-labelledby={`${id}-t ${id}-d`}
+          >
+            <title id={`${id}-t`}>{title}</title>
+            <desc id={`${id}-d`}>{desc}</desc>
+            <Defs />
+            {children}
+          </svg>
+        </div>
       </div>
       <p className="dg-hint" aria-hidden="true">
         Scroll sideways to see the whole diagram →

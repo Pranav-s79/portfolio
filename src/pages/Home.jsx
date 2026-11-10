@@ -1,8 +1,7 @@
 import { Suspense, lazy, useRef, useState } from 'react'
 import RobotFallback from '../components/robot/RobotFallback.jsx'
-import { IconGitHub, IconLinkedIn, IconMail } from '../components/icons.jsx'
+import { IconGitHub, IconLinkedIn } from '../components/icons.jsx'
 import { profile, shelfItems } from '../data/portfolio.js'
-import { toHref } from '../routing.js'
 
 const RobotScene = lazy(() => import('../components/robot/RobotScene.jsx'))
 
@@ -11,7 +10,6 @@ const HOME_ARM_TARGETS = [
   { side: 'left', pose: 'research' },
   { side: 'left', pose: 'projects' },
   { side: 'right', pose: 'skills' },
-  { side: 'right', pose: 'resume' },
 ]
 
 export default function Home({ navigate }) {
@@ -63,12 +61,6 @@ export default function Home({ navigate }) {
     }
   }
 
-  const link = (to) => (e) => {
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
-    e.preventDefault()
-    navigate(to)
-  }
-
   return (
     <section className={exiting ? 'home home--exiting' : 'home'} aria-labelledby="home-name">
       <div className="home__intro rise">
@@ -79,18 +71,13 @@ export default function Home({ navigate }) {
           Senthilkumar
         </h1>
         <p className="home__meta">{profile.degree}</p>
+        <p className="home__email">pranav.senthilkumar79[at]gmail.com</p>
         <div className="home__socials">
           <a className="social-link" href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
             <IconGitHub size={18} />
           </a>
           <a className="social-link" href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
             <IconLinkedIn size={18} />
-          </a>
-          <a className="social-link" href={`mailto:${profile.email}`} aria-label={`Email ${profile.email}`} title="Email">
-            <IconMail size={18} />
-          </a>
-          <a className="social-link social-link--text" href={toHref('/resume')} onClick={link('/resume')}>
-            Resume
           </a>
         </div>
       </div>

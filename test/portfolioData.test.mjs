@@ -6,11 +6,22 @@ import {
   additionalProjects,
   experience,
   featuredProjects,
+  profile,
   projectBySlug,
   projects,
   routeMeta,
   sections,
+  shelfItems,
 } from '../src/data/portfolio.js'
+
+test('home profile uses the current focus and contact details', () => {
+  assert.equal(profile.focus, 'Silicon · AI/ML · Infrastructure')
+  assert.equal(profile.email, 'pranav.senthilkumar79@gmail.com')
+  assert.deepEqual(
+    shelfItems.map((item) => item.label),
+    ['Experience', 'Research', 'Projects', 'Skills'],
+  )
+})
 
 test('featured set is the selected projects, in order, with POLITE held back', () => {
   assert.deepEqual(

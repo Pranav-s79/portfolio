@@ -7,7 +7,7 @@
 export const profile = {
   name: 'Pranav Senthilkumar',
   degree: 'B.S. Electrical Engineering (Honors) · Texas A&M · May 2028',
-  focus: 'Computer architecture · Silicon · Embedded',
+  focus: 'Silicon · AI/ML · Infrastructure',
   email: 'pranav.senthilkumar79@gmail.com',
   linkedin: 'https://linkedin.com/in/pranavsen',
   github: 'https://github.com/Pranav-s79',
@@ -18,7 +18,6 @@ export const shelfItems = [
   { label: 'Research', path: '/research' },
   { label: 'Projects', path: '/projects' },
   { label: 'Skills', path: '/skills' },
-  { label: 'Resume', path: '/resume' },
 ]
 
 export const sections = {
@@ -34,7 +33,7 @@ export const routeMeta = {
   '/': {
     title: 'Pranav Senthilkumar',
     description:
-      'Electrical engineering student at Texas A&M working on computer architecture, silicon design, embedded systems, and low-level software.',
+      'Electrical engineering student at Texas A&M working across silicon, AI/ML, and infrastructure.',
   },
   '/experience': {
     title: 'Experience',
@@ -56,19 +55,19 @@ export const routeMeta = {
 export const research = [
   {
     slug: 'live-lab',
-    title: 'Street-level wind',
+    title: 'Street-level atmospheric modeling',
     org: 'LIVE Lab · Texas A&M',
     role: 'Undergraduate ML Researcher',
     when: '2026 —',
     period: 'Jun 2026 – Present',
     current: true,
-    line: 'LiDAR, terrain, and building data in. Street-scale wind fields out.',
+    line: 'Using LiDAR, terrain, and building geometry to turn coarse atmospheric data into local predictions.',
     about:
-      'Regional weather forecasts resolve wind at kilometer scale, but buildings and terrain reshape it street by street. This project turns those coarse forecasts into fast, street-level wind predictions for both dense city blocks and open terrain.',
+      'Regional forecasts do not capture the way a building corner or a change in terrain affects wind at street level. I am working on a model that fills in that local detail without the runtime of a full simulation.',
     how: [
-      'A pipeline merges LiDAR scans, terrain, and building data with a 3D model of the area',
-      'A residual correction model sharpens wind fields to 4× resolution, well past what interpolation recovers',
-      'Predictions that took about 3 minutes now run in under a second',
+      'Built a pipeline that combines LiDAR scans with terrain and building geometry',
+      'Used a residual correction model to recover wind fields at four times the input resolution',
+      'Reduced inference time from about three minutes to under one second',
     ],
     metrics: [
       { value: '50%', label: 'less near-ground error' },
@@ -86,13 +85,13 @@ export const research = [
     when: '2024',
     period: 'Jun – Oct 2024',
     current: false,
-    line: 'Three open LLMs tuned to match the spread of human moral judgment, not a single verdict.',
+    line: 'Studied whether open language models can reflect disagreement in human moral judgments.',
     about:
-      'Morally ambiguous questions split people; there is no single right answer. Language models still tend to answer with one confident verdict. This study fine-tuned open-source models so their answers reflect how human responses are actually distributed.',
+      'People often disagree on morally ambiguous questions, while language models tend to return one confident answer. We fine-tuned open models against human response data and measured how closely their output matched the distribution of those responses.',
     how: [
-      'Three open-source LLMs fine-tuned with parameter-efficient training against human response data',
-      'Measured against human answers and compared with GPT-4o',
-      'Published at the NeurIPS 2024 SoLaR workshop',
+      'Fine-tuned three open models with parameter-efficient training',
+      'Compared each model with human responses and GPT-4o',
+      'Published the results at the NeurIPS 2024 SoLaR workshop',
     ],
     metrics: [
       { value: '7B', label: 'open model, matched GPT-4o' },
@@ -140,7 +139,7 @@ export const projects = [
     status: 'in-progress',
     statusNote: 'Architecture defined; RTL and verification in progress',
     role: 'Student chip-design team',
-    oneLine: 'A small INT8 matrix-multiply accelerator sized for the open SkyWater 130 nm process.',
+    oneLine: 'We are designing a compact INT8 matrix-multiply accelerator for the open SkyWater 130 nm process.',
     stack: ['Verilog', 'SKY130', 'OpenLane'],
     facts: [
       { value: '4×4', label: 'weight-stationary PE array' },
@@ -152,7 +151,7 @@ export const projects = [
     diagram: 'polite',
     caseStudy: {
       problem:
-        'Neural-network inference is mostly matrix multiplication. A chip on an open 130 nm shuttle has little area, little on-chip memory, and a narrow pin interface, so the design has to spend silicon on reusable multiply-accumulate hardware and leave everything else to the host.',
+        'Neural-network inference spends much of its time on matrix multiplication, but an open 130 nm shuttle leaves little room for memory or a wide host interface. We therefore use the available area for reusable multiply-accumulate hardware and keep the rest of the workload on the host.',
       architecture: [
         'The host sends commands and data over an SPI-style interface. A loader places one INT8 weight in each of the 16 processing elements, one column per cycle. Activations enter four at a time through a skew stage that lines each row up with the right cycle.',
         'Each PE multiplies its activation by its stored weight and adds the product into its own 32-bit accumulator. When the inner dimension is finished, the accumulators turn into a shift register and drain one row per cycle into an output collector, an optional residual-add and ReLU stage, and back to the host.',
@@ -160,8 +159,8 @@ export const projects = [
       diagramCaption:
         'One tile moving through the chip. Weights stay put; activations stream in from the left; finished sums drain downward.',
       contribution: [
-        'Team project, three workstreams: array and dataflow; arithmetic and verification; integration and I/O.',
-        'Architecture: dataflow, memory, and the contracts between blocks.',
+        'The team is split across array and dataflow, arithmetic and verification, and integration and I/O.',
+        'My work focuses on the dataflow, memory organization, and interfaces between blocks.',
       ],
       decisions: [
         {
@@ -215,7 +214,7 @@ export const projects = [
     status: 'in-progress',
     statusNote: 'Single-cycle core verified · pipeline next',
     role: 'Solo project',
-    oneLine: 'A 32-bit RISC-V core in SystemVerilog, built phase by phase for a Zybo Z7-10 FPGA.',
+    oneLine: 'I am building a 32-bit RISC-V core in SystemVerilog and taking it from a verified single-cycle design to a pipelined FPGA implementation.',
     stack: ['SystemVerilog', 'Icarus Verilog', 'Vivado', 'Python'],
     facts: [
       { value: '11 / 11', label: 'programs match the reference model' },
@@ -227,20 +226,20 @@ export const projects = [
     diagram: 'rv32i',
     caseStudy: {
       problem:
-        'Get every RV32I instruction exactly right, corner cases included, then make it fast. Each phase is verified and measured before the next one starts.',
+        'The first goal is to implement the full RV32I instruction set correctly, including its corner cases. Once that baseline is verified and measured, I can pipeline the design without guessing whether a later failure came from the ISA logic or the optimization.',
       architecture: [
         'Phase 1 is single-cycle: fetch through writeback in one clock. The memories live outside the core, so the core synthesizes and gets measured on its own.',
         'Illegal instructions, misaligned or out-of-range accesses, ECALL, and EBREAK halt the core with a cause code.',
       ],
       diagramCaption: 'Phase 1 datapath.',
       contribution: [
-        'Solo. Phase plan, architecture, verification strategy, Vivado flow, first module drafts.',
-        'Phase 1 RTL finished with AI assistance, logged in the repo. Pipeline RTL: hand-written.',
+        'This is a solo project. I defined the phase plan, architecture, verification strategy, Vivado flow, and initial module designs.',
+        'I finished the Phase 1 RTL with AI assistance documented in the repository. I am writing the pipeline RTL myself.',
       ],
       decisions: [
-        { title: 'Single-cycle first', body: 'A known-good baseline (CPI 1, ~58 MHz) to measure every later phase against.' },
-        { title: 'Branches skip the ALU', body: 'One extra adder buys a shorter branch path and a simpler ALU.' },
-        { title: 'Traps just halt', body: 'Cause and value registers are enough to verify against. CSRs come later.' },
+        { title: 'Single-cycle first', body: 'The single-cycle core provides a known-good CPI 1 baseline at about 58 MHz. Every later phase can be compared against it.' },
+        { title: 'Branches skip the ALU', body: 'A separate adder shortens the branch path and keeps the ALU simpler.' },
+        { title: 'Traps just halt', body: 'Cause and value registers provide enough state for verification. Full CSR support can come later.' },
       ],
       verification: [
         '8 self-checking testbenches, ~36k checks, including 5,000 random ALU vectors',
@@ -273,7 +272,7 @@ export const projects = [
           ['Latches', '0'],
         ],
       },
-      now: 'Phase 1 passes in simulation. Not on the board yet.',
+      now: 'Phase 1 passes in simulation, but I have not run it on the board yet.',
       next: ['5-stage pipeline', 'Hazard detection and forwarding', 'Board bring-up and a clock sweep'],
     },
   },
@@ -287,7 +286,7 @@ export const projects = [
     status: 'in-progress',
     statusNote: 'Phase 3 of 15 · RTL verification working',
     role: 'Solo project',
-    oneLine: 'Contracts for the seams between hardware and software, checked against real runs.',
+    oneLine: 'CrossLayer checks timing, ordering, and data-loss contracts across hardware and software using evidence from real runs.',
     stack: ['Python', 'Icarus Verilog', 'PicoRV32'],
     facts: [
       { value: '6', label: 'contract rule kinds' },
@@ -298,17 +297,17 @@ export const projects = [
     demo: null,
     diagram: 'crosslayer',
     caseStudy: {
-      problem: 'Parts pass their own tests and still break together. CrossLayer tests the seams: deadlines, dropped data, ordering.',
+      problem: 'Hardware and software can pass their own tests and still fail when they interact. CrossLayer checks the timing, data-loss, and ordering assumptions that sit between those components.',
       architecture: [
         'Adapters turn raw logs from a target, like an RTL sim or firmware, into normalized events. The core never imports a target.',
         'A contract engine checks those events against YAML contracts and writes a run bundle: verdicts, evidence linked to the exact log line, and replay data.',
       ],
       diagramCaption: 'Adapters on the left of the line, the core on the right.',
-      contribution: ['Solo. Contract language, engine, adapters, CLI, reports, tests.'],
+      contribution: ['I built the contract language, engine, adapters, CLI, reports, and test suite as a solo project.'],
       decisions: [
-        { title: 'No evidence, no pass', body: 'Verdicts are PASS, FAIL, or INCONCLUSIVE. A truncated log can’t pass.' },
-        { title: 'The core knows no targets', body: 'RTL support shipped as an adapter, with zero core changes.' },
-        { title: 'Real RTL', body: 'Unmodified PicoRV32 under Icarus, in lockstep with an ISA model.' },
+        { title: 'No evidence, no pass', body: 'Verdicts are PASS, FAIL, or INCONCLUSIVE. A run with a truncated log cannot pass.' },
+        { title: 'The core knows no targets', body: 'RTL support lives in an adapter, so adding it required no changes to the core engine.' },
+        { title: 'Real RTL', body: 'The reference target runs an unmodified PicoRV32 under Icarus in lockstep with an ISA model.' },
       ],
       verification: [
         'Every injected fault has to trip exactly its target contracts; the baseline has to pass all of them',
@@ -349,7 +348,7 @@ export const projects = [
     status: 'complete',
     statusNote: 'Public alpha on PyPI',
     role: 'Solo project',
-    oneLine: 'Catches firmware-breaking register-map changes in CI, before they merge.',
+    oneLine: 'Regdrift compares two register maps in CI and flags changes that would break existing firmware before they merge.',
     stack: ['Python', 'CMSIS-SVD', 'GitHub Actions'],
     facts: [
       { value: '22', label: 'classes of breaking change' },
@@ -361,17 +360,17 @@ export const projects = [
     demoLabel: 'PyPI',
     diagram: 'regdrift',
     caseStudy: {
-      problem: 'Move a register and the driver still compiles. Every write just lands in the wrong place.',
+      problem: 'A driver can still compile after a register moves, even though every write now reaches the wrong address. Regdrift catches that kind of interface break before it reaches firmware.',
       architecture: [
         'Parses two CMSIS-SVD revisions into one resolved model, matches peripherals, registers, and fields, and classifies every difference.',
         'Output is text, JSON, or GitHub annotations, and the exit code gates the merge. Ships as a CLI and a GitHub Action.',
       ],
       diagramCaption: 'Two revisions in, one verdict out.',
-      contribution: ['Solo. Parser, matcher, rules, CLI, Action, and the PyPI release.'],
+      contribution: ['I built the parser, matcher, rule engine, CLI, GitHub Action, and PyPI release as a solo project.'],
       decisions: [
-        { title: 'Careful with renames', body: 'Only exact structural matches count as renames. Anything else is a remove plus an add.' },
-        { title: 'Rules with IDs', body: 'Every verdict points to one of 22 published rules.' },
-        { title: 'Allow by path', body: 'Intentional breaks get approved one register at a time, never a whole rule.' },
+        { title: 'Careful with renames', body: 'Only exact structural matches count as renames. Anything less certain is reported as a removal and an addition.' },
+        { title: 'Rules with IDs', body: 'Every verdict points back to one of 22 published rules, which makes CI output traceable.' },
+        { title: 'Allow by path', body: 'Intentional breaks are approved one register at a time rather than disabling an entire rule.' },
       ],
       verification: [
         '330 automated tests: unit, CLI, fuzz, and golden output',
@@ -408,7 +407,7 @@ export const projects = [
     status: 'complete',
     statusNote: 'Built, demoed, and won Best Pitch',
     role: 'Five-person team',
-    oneLine: 'Feel what a camera sees: hand depth becomes a 5×5 grid of vibration.',
+    oneLine: 'We turned hand-depth data from a stereo camera into a 5×5 grid of vibration that updates at 30 Hz.',
     stack: ['Python', 'OAK-D', 'MediaPipe', 'MicroPython'],
     facts: [
       { value: '30 Hz', label: 'feedback updates' },
@@ -426,7 +425,7 @@ export const projects = [
     demoLabel: 'Project site',
     diagram: null,
     caseStudy: {
-      problem: 'Telepresence carries sight and sound. Not touch.',
+      problem: 'Most telepresence systems carry sight and sound but provide no sense of touch. We built a prototype that maps the depth around a remote hand onto a wearable vibration array.',
       architecture: [
         'An OAK-D camera streams color and depth. MediaPipe finds the hand, and the depth around it is cropped into a 5×5 grid.',
         'Temporal and median filters calm the sensor noise, then the grid goes over UDP to a Pico W driving the motor array.',
@@ -437,13 +436,13 @@ export const projects = [
         'The MicroPython UDP receiver on the Pico W',
       ],
       decisions: [
-        { title: 'MediaPipe over YOLO', body: 'Hand landmarks beat a box detector for cropping depth right around the hand.' },
-        { title: 'Only 25 zones', body: 'Small enough to send every frame and map one-to-one onto the motors.' },
-        { title: 'Filter before the motors', body: 'A little latency for vibration that doesn’t jitter.' },
+        { title: 'MediaPipe over YOLO', body: 'Hand landmarks let us crop depth around the hand more precisely than a bounding-box detector.' },
+        { title: 'A 25-zone grid', body: 'The grid is small enough to transmit every frame and maps directly to the 25 motors.' },
+        { title: 'Filter before the motors', body: 'We accepted a small amount of latency to prevent noisy depth readings from making the vibration jitter.' },
       ],
       verification: ['Live FPS profiling against the 30 Hz target', 'A depth-matrix check script and baseline measurements', 'Header and size checks on every packet the Pico receives'],
       results: { text: 'Best Pitch ($250), and Best Presentation at Aggies Create.' },
-      now: 'Done. Built and demoed in spring 2026.',
+      now: 'We completed and demonstrated the prototype in spring 2026.',
       next: [],
     },
   },
@@ -457,7 +456,7 @@ export const projects = [
     status: 'design',
     statusNote: 'Schematic done · layout next',
     role: 'Solo project',
-    oneLine: 'A standalone ATmega328P logger with a battery-backed clock and 256 KB of I²C EEPROM.',
+    oneLine: 'I designed a standalone ATmega328P data logger with a battery-backed clock and 256 KB of I²C EEPROM.',
     stack: ['KiCad 9', 'ATmega328P', 'I²C'],
     facts: [
       { value: '256 KB', label: 'EEPROM across two 24LC1025s' },
@@ -467,21 +466,21 @@ export const projects = [
     demo: null,
     diagram: 'datalogger',
     caseStudy: {
-      problem: 'Log sensor data for days with no computer attached, and keep real timestamps through power loss.',
+      problem: 'The logger needs to collect sensor data for days without a computer attached and preserve accurate timestamps through a power loss.',
       architecture: [
         'An ATmega328P on a 16 MHz crystal. A DS1337 clock keeps time on its own 32.768 kHz crystal and a backup battery.',
         'Two 24LC1025 EEPROMs share the clock’s I²C bus. A 2×3 ISP header programs the chip, and two LEDs show status.',
       ],
       diagramCaption: 'Drawn from the KiCad schematic.',
-      contribution: ['Solo. Part selection, footprints, and schematic capture in KiCad 9.'],
+      contribution: ['I selected the parts and created the footprints and schematic in KiCad 9 as a solo project.'],
       decisions: [
-        { title: 'EEPROM, no SD card', body: 'Everything rides one I²C bus. The cost is 256 KB and finite write cycles.' },
-        { title: 'Battery-backed clock', body: 'Timestamps survive power loss without the MCU keeping time.' },
-        { title: 'ISP header', body: 'Programs the bare chip. No USB bridge, no bootloader.' },
+        { title: 'EEPROM instead of an SD card', body: 'The clock and storage share one I²C bus, which keeps the design simple. The tradeoff is a 256 KB capacity and finite write endurance.' },
+        { title: 'Battery-backed clock', body: 'The separate clock keeps timestamps valid through a power loss without relying on the MCU.' },
+        { title: 'ISP header', body: 'The header programs the bare chip directly, so the board does not need a USB bridge or bootloader.' },
       ],
       verification: ['ERC in KiCad before layout', 'Bring-up: I²C scan, clock set and read, EEPROM write and read-back'],
-      results: { text: 'No boards yet, so nothing measured.' },
-      now: 'Schematic captured. Layout hasn’t started.',
+      results: { text: 'The board has not been fabricated yet, so there are no measured results.' },
+      now: 'The schematic is complete. Layout has not started yet.',
       next: ['Footprints and ERC', 'Two-layer layout', 'Fab and bring-up'],
     },
   },
@@ -493,9 +492,9 @@ export const projects = [
     theme: 'hardware',
     when: 'Jun 2026',
     status: 'complete',
-    oneLine: 'The arithmetic core of a RISC-V processor, built and verified in Verilog.',
+    oneLine: 'I built and verified the arithmetic and branch logic for an RV32I processor in Verilog.',
     overview:
-      'A 32-bit arithmetic logic unit and branch comparator for the RISC-V instruction set. It is checked against a Python reference model with directed and randomized tests.',
+      'The design implements a 32-bit arithmetic logic unit and branch comparator for RV32I. Directed and randomized tests compare the Verilog output with a Python reference model.',
     result: { value: '10', label: 'operations supported' },
     stack: ['Verilog', 'Python'],
     repo: 'https://github.com/Pranav-s79/RISCV-ALU',
@@ -507,9 +506,9 @@ export const projects = [
     theme: 'hardware',
     when: 'Dec 2025',
     status: 'complete',
-    oneLine: 'A C++ program that simulates logic gates, their timing, and their waveforms.',
+    oneLine: 'I wrote a C++ simulator for basic logic gates, including propagation delays and signal waveforms.',
     overview:
-      'Simulates six basic logic gates with per-gate timing delays. It plots input and output signals over time so timing behavior is easy to see.',
+      'The simulator models six gate types with a separate delay for each gate. It plots the input and output signals over time so propagation behavior is visible.',
     result: { value: '6', label: 'gate types' },
     stack: ['C++'],
     repo: null,
@@ -521,9 +520,9 @@ export const projects = [
     theme: 'software',
     when: 'May 2026 – Present',
     status: 'in-progress',
-    oneLine: 'A camera mount that keeps itself level using motion sensors and feedback control.',
+    oneLine: 'I am building a two-axis camera mount that uses IMU feedback to hold itself level.',
     overview:
-      'Reads orientation from an IMU and drives two servos to hold the platform steady. Camera-based object tracking is being added next.',
+      'The controller reads orientation from an IMU and drives two servos to stabilize the platform. I am adding camera-based object tracking next.',
     result: { value: '20%', label: 'less heading error' },
     stack: ['C++', 'Arduino'],
     repo: 'https://github.com/Pranav-s79/Gimbal',
@@ -535,9 +534,9 @@ export const projects = [
     theme: 'software',
     when: 'May – Jun 2026',
     status: 'complete',
-    oneLine: 'Predicts processor temperatures to schedule work without overheating.',
+    oneLine: 'ThermGuard predicts per-core temperature limits and uses them when scheduling work.',
     overview:
-      'Uses machine learning to predict a safe temperature limit for each processor core, then assigns work to stay under it. Calibration keeps those limits reliable.',
+      'A machine-learning model predicts a safe temperature limit for each processor core, and the scheduler assigns work within those limits. A calibration step keeps the limits reliable.',
     result: { value: '95%', label: 'safety limits held (target: 90%)' },
     stack: ['Python', 'PyTorch'],
     repo: 'https://github.com/Pranav-s79/ThermGuard',
@@ -549,9 +548,9 @@ export const projects = [
     theme: 'software',
     when: '2026 – Present',
     status: 'in-progress',
-    oneLine: 'Turns an unfamiliar codebase into an interactive map of how it fits together.',
+    oneLine: 'Tadori indexes an unfamiliar codebase into an interactive graph of its files, functions, and tests.',
     overview:
-      'Indexes a codebase into a graph of files, functions, and tests that you can explore visually. AI coding agents can query the same graph.',
+      'The index can be explored visually or queried by an AI coding agent. Re-indexing 250,000 lines takes 1.3 seconds.',
     result: { value: '1.3 s', label: 'to re-index 250K lines' },
     stack: ['TypeScript', 'Node.js'],
     repo: 'https://github.com/Pranav-s79/Tadori',
@@ -563,9 +562,9 @@ export const projects = [
     theme: 'software',
     when: '2025',
     status: 'complete',
-    oneLine: 'A webcam app that counts push-ups and flags bad form in real time.',
+    oneLine: 'I built a webcam app that counts push-ups and flags depth or alignment problems in real time.',
     overview:
-      'Tracks body position from a webcam and measures joint angles. It counts reps and calls out depth or alignment problems as they happen.',
+      'The app tracks body position from a webcam and measures joint angles. It uses those measurements to count repetitions and report form problems as they happen.',
     result: null,
     stack: ['Python', 'MediaPipe'],
     repo: 'https://github.com/Pranav-s79/Pushup_Form_Checker',
@@ -712,7 +711,7 @@ export const experience = [
     where: 'College Station, TX',
     current: true,
     category: 'leadership',
-    summary: 'The organization’s website, built and kept running.',
+    summary: 'I build and maintain the organization’s website.',
     notes: [],
   },
 ]
